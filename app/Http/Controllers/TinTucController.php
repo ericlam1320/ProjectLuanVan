@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 class TinTucController extends Controller
 {
     public function getDanhSach(){
-    	return view('admin.pages.admin.tintuc.danhsach');
+    	return view('admin.pages.tintuc.danhsach');
     }
 
     public function getThem(){
-    	return view('admin.pages.admin.tintuc.them');
+    	return view('admin.pages.tintuc.them');
     }
 
     public function getSua(){
-    	return view('admin.pages.admin.tintuc.sua');
+    	return view('admin.pages.tintuc.sua');
     }
 }

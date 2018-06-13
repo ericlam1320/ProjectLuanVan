@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     public function getIndex(){
-    	return view('admin.pages.admin.trangchu');
+    	return view('admin.pages.trangchu');
     }
 
-    public function getDanhSach_BangXepHang(){
-    	return view('admin.pages.admin.bangxephang.danhsach');
-    }
+    
 }

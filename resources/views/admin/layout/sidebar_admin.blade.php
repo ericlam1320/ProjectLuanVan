@@ -3,7 +3,7 @@
 				<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
 					<ul class="nav" id="side-menu">
 						<li>
-							<a href="{{route('TrangChu')}}"><i class="fa fa-home nav_icon"></i>Trang chủ</a>
+							<a href="{{route('TrangChu_Admin')}}"><i class="fa fa-home nav_icon"></i>Trang chủ</a>
 						</li>
 
 						<li>
@@ -14,6 +14,18 @@
 								</li>
 								<li>
 									<a href="{{route('ThemBangXepHang')}}">Thêm bảng xếp hạng</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#"><i class="fa fa-bookmark nav_icon"></i> Giải đấu <span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<a href="{{route('DanhSachGiaiDau')}}">Danh sách giải đấu</a>
+								</li>
+								<li>
+									<a href="{{route('ThemGiaiDau')}}">Thêm giải đấu</a>
 								</li>
 							</ul>
 						</li>

@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 class BangXepHangController extends Controller
 {
     public function getDanhSach(){
-    	return view('admin.pages.admin.bangxephang.danhsach');
+    	return view('admin.pages.bangxephang.danhsach');
     }
 
     public function getThem(){
-    	return view('admin.pages.admin.bangxephang.them');
+    	return view('admin.pages.bangxephang.them');
     }
 
     public function getSua(){
-    	return view('admin.pages.admin.bangxephang.sua');
+    	return view('admin.pages.bangxephang.sua');
     }
 }

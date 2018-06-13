@@ -35,7 +35,7 @@
 										<td>Stuttgart</td> 
 										<td>Hình1</td>
 										<td><a href="#">Xoá</a></td>
-										<td><a href="{{route('SuaNguoiDung')}}">Sửa</a></td>
+										<td><a href="{{route('SuaChanThuong')}}">Sửa</a></td>
 								</tr> 
 
 								<tr class="active"> 

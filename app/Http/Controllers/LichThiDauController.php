@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 class LichThiDauController extends Controller
 {
     public function getDanhSach(){
-    	return view('admin.pages.admin.lichthidau.danhsach');
+    	return view('admin.pages.lichthidau.danhsach');
     }
 
     public function getThem(){
-    	return view('admin.pages.admin.lichthidau.them');
+    	return view('admin.pages.lichthidau.them');
     }
 
     public function getSua(){
-    	return view('admin.pages.admin.lichthidau.sua');
+    	return view('admin.pages.lichthidau.sua');
     }
 }
