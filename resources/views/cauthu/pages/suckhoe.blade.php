@@ -167,7 +167,7 @@ Liverpool F.C - {{ $tenCauThu }}
 
 										</div>
 										<div class="modal-footer ">
-											<button id="OK" type="button" class="btn btn-success btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> OK!</button>
+											<button type="button" class="btn btn-success btn-lg" data-dismiss="modal" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> OK!</button>
 										</div>
 									</div>
 									<!-- /.modal-content --> 

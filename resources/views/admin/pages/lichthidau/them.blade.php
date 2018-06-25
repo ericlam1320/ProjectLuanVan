@@ -5,52 +5,105 @@
 	<div id="page-wrapper">
 				
 			<div class="main-page">
-				<h3 class="title1">Thêm lịch thi đấu</h3>
-				
 
-				<div class="widget-shadow" data-example-id="basic-forms"> 
-							<div class="form-title">
-								<h4>Form :</h4>
-							</div>
-							<div class="form-body">
+				<div class="row">
+						<h3 class="title1">Thêm lịch thi đấu :</h3>
+
+						@if(session('success'))
+						<div class="alert alert-success">
+							{{ session('success') }}
+						</div>
+	                  	@endif
+	                  	
+	                  	@if(session('error'))
+						<div class="alert alert-danger">
+							{{ session('error') }}
+						</div>
+	                  	@endif
+
+						<div class="form-three widget-shadow">
+							<form method="POST" class="form-horizontal" action="admin/lich-thi-dau/them" enctype="multipart/form-data">
+								<input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+								<div class="form-group">
+									<label for="txtarea1" class="col-sm-2 control-label">Vòng đấu:</label>
+									<div class="col-sm-6">
+										<input class="form-control1" type="number" name="vongdau" value="{{($vongdau->VongDau)+1}}">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="selector1" class="col-md-2 control-label">Chọn đội A:</label>
+									<div class="col-md-6">
+										<select name="doia" id="selector1"  class="form-control1">
+											<option value="macdinh">Chọn đội bóng</option>
+											@foreach($caulacbo as $clb)
+											<option value="{{$clb->id}}">{{$clb->TenDayDu}}</option>
+											@endforeach
+										</select>
+									</div>
+									<!-- <div class="col-md-4">
+										<p class="help-block">4rsenal không bao giờ vô địch C1</p>
+									</div> -->
+								</div>
+
+								<div class="form-group">
+									<label for="selector1" class="col-md-2 control-label">Chọn đội B:</label>
+									<div class="col-md-6">
+										<select name="doib" id="selector1" class="form-control1">
+											<option value="macdinh">Chọn đội bóng</option>
+											@foreach($caulacbo as $clb)
+											<option value="{{$clb->id}}">{{$clb->TenDayDu}}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="selector1" class="col-md-2 control-label">Chọn giờ thi đấu:</label>
+									<div class="col-md-6">
+										<input class="form-control" type="time" name="giothidau" value="17:00">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="selector1" class="col-md-2 control-label">Chọn ngày thi đấu:</label>
+									<div class="col-md-6">
+										<input class="form-control" type="date" name="ngaythidau" value="{{date('Y-m-d')}}">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="selector1" class="col-md-2 control-label">Chọn địa điểm thi đấu:</label>
+									<div class="col-md-6">
+										<select name="diadiem" id="selector1" class="form-control1">
+											<option value="macdinh">Chọn sân vận động</option>
+											@foreach($caulacbo as $clb)
+											<option value="{{$clb->SanVanDong}}">{{$clb->SanVanDong}}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="selector1" class="col-md-2 control-label">Chọn giải đấu:</label>
+									<div class="col-md-6">
+										<select name="giaidau" id="selector1" class="form-control1">
+											<option value="macdinh">Chọn giải đấu</option>
+											@foreach($giaidau as $gd)
+											<option value="{{$gd->id}}">{{$gd->TenGiaiDau}} {{  date('Y',strtotime($gd->NamBatDauMuaGiai)) }}-{{  date('Y',strtotime($gd->NamKetThucMuaGiai)) }}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
 								
-								<form class="form-horizontal" action="/action_page.php">
-
-									<div class="form-group">
-										<label class="control-label col-sm-2">Tên câu lạc bộ A:</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" placeholder="Nhập tên câu lạc bộ A" name="leaguetable">
-										</div>
-				    				</div>
-
-				    				<div class="form-group">
-										<label class="control-label col-sm-2">Tên câu lạc bộ B:</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" placeholder="Nhập tên câu lạc bộ B" name="leaguetable">
-										</div>
-				    				</div>
-
-								    <div class="form-group">
-								    	<label class="control-label col-sm-2" for="pwd">Giờ thi đấu:</label>
-								    	<div class="col-sm-6">          
-								        	<input type="datetime-local" name="startyear">
-								      	</div>
-								    </div>
-
-								    <div class="form-group">
-										<label class="control-label col-sm-2">Sân vận động:</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" placeholder="Nhập tên sân vận động" name="stadium">
-										</div>
-				    				</div>
-
-								    <div class="form-group">        
-								      	<div class="col-sm-offset-2 col-sm-10">
-								        	<button type="submit" class="btn btn-default">Thêm</button>
-								      	</div>
-								    </div>
-
-								</form>
+								<div class="form-group">
+									<div  style="margin-bottom: -50px !important" class="col-md-8 ">
+										<button type="submit" class="btn btn-danger pull-right">Thêm</button>
+									</div>
+								</div>
+								
+							</form>
 						</div>
 				</div>
 
@@ -63,7 +116,8 @@
 	</div>
 @endsection
 
-
-	
-
-
+@section('script')
+<script type="text/javascript">
+	$('.alert').delay(5000).slideUp()
+</script>
+@endsection

@@ -39,7 +39,7 @@ Liverpool FC - {{  $tenCauThu  }}
 						<div class="ftb-result-wrap">
 							<div class="ftb-result1">
 								<div class="ftb-result-logo">
-									<a><img src="./Client/images/logos/Liverpool_big.png" alt=""></a>
+									<a><img src="./Client/images/logos/{{ $TranDauTiepTheo[0]->HinhAnhCauLacBo_lon }}" alt=""></a>
 								</div>
 								<div class="text">
 									<h6><a>{{ $TranDauTiepTheo[0]->TenDayDu }}</a></h6>
@@ -53,7 +53,7 @@ Liverpool FC - {{  $tenCauThu  }}
 
 							<div class="ftb-result1 ftb-result2">
 								<div class="ftb-result-logo">
-									<a><img src="./Client/images/logos/RealMadrid_big.png" alt="""></a>
+									<a><img src="./Client/images/logos/{{ $TranDauTiepTheo[1]->HinhAnhCauLacBo_lon }}" alt="""></a>
 								</div>
 								<div class="text">
 									<h6><a>{{ $TranDauTiepTheo[1]->TenDayDu }}</a></h6>

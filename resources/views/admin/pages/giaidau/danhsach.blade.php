@@ -25,29 +25,25 @@
 							<thead> 
 								<tr> 
 									<th>#</th> 
-									<th>Tên giải đấu</th> 
-									<th>Năm bắt đầu mùa giải</th> 
-									<th>Năm kết thúc mùa giải</th>
-									<th>Thuộc tính</th>
+									<th class="text-center">Tên giải đấu</th> 
+									<th class="text-center">Năm bắt đầu mùa giải</th> 
+									<th class="text-center">Năm kết thúc mùa giải</th>
+									<th class="text-center">Hành động</th>
 								</tr> 
 							</thead> 
 
 							<tbody> 
-
 								<?php $stt = 1; ?>
 								@foreach ($giaidau as $giaidau)
 								<tr class="odd gradeX">
 										<td>{{ 	$stt }}</td>
 										<td>{{ 	$giaidau->TenGiaiDau  }}</td> 
-										<td>{{	$giaidau->NamBatDauMuaGiai  }}</td> 
-										<td>{{	$giaidau->NamKetThucMuaGiai  }}</td> 
-										<td width="80px" style="font-size: 25px" class="text-center">
-											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="admin/giai-dau/xoa/{{ $giaidau->id }}">
-												<i class="fa fa-trash-o fa-fw"></i>
-											</a>
-											<a href="admin/giai-dau/sua/{{ $giaidau->id }}">
-												<i class="fa fa-pencil fa-fw"></i>
-											</a>
+										<td class="text-center">{{  date('Y',strtotime($giaidau->NamBatDauMuaGiai)) }}</td> 
+										<td class="text-center">{{  date('Y',strtotime($giaidau->NamKetThucMuaGiai)) }}</td> 
+										<td class="text-center" style="width: 135px">
+											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="admin/giai-dau/xoa/{{ $giaidau->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
+
+											<a href="admin/giai-dau/sua/{{ $giaidau->id }}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
 										</td>
 								</tr> 
 								<?php $stt++; ?>
@@ -81,8 +77,29 @@
 <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
-            responsive: true
+            responsive: true,
+            "language": {
+					"sProcessing":   "Đang xử lý...",
+					"sLengthMenu":   "Xem _MENU_ mục",
+					"sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
+					"sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+					"sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
+					"sInfoFiltered": "(được lọc từ _MAX_ mục)",
+					"sInfoPostFix":  "",
+					"sSearch":       "Tìm kiếm ",
+					"sUrl":          "",
+					"oPaginate": {
+						"sFirst":    "Đầu",
+						"sPrevious": "Trước",
+						"sNext":     "Tiếp",
+						"sLast":     "Cuối"
+					}
+				}
         });
     });
+</script>
+
+<script type="text/javascript">
+	$('.alert').delay(5000).slideUp()
 </script>
 @endsection

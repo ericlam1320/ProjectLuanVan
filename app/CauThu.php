@@ -18,5 +18,8 @@ class CauThu extends Model
     public function ThongTinCauThuChanThuong(){
     	return $this->hasMany('App\ThongTinCauThuChanThuong', 'idCauThu', 'id');
     }
+    public function GiaoTrinh_LuyenTap_CauThu(){
+        return $this->hasMany('App\GiaoTrinh_LuyenTap_CauThu', 'idCauThu', 'id');
+    }
 
 }

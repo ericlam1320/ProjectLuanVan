@@ -62,7 +62,7 @@
 
 	<div class="container">
 		<div class="heading5 black b_2">
-			<h4>Thống kê đội bóng mùa giải  <span>{{ $GiaiDau->NamBatDauMuaGiai }} - {{ $GiaiDau->NamKetThucMuaGiai }}</span></h4>
+			<h4>Thống kê đội bóng mùa giải  <span>{{ date('Y',strtotime($GiaiDau->NamBatDauMuaGiai)) }} - {{ date('Y',strtotime($GiaiDau->NamKetThucMuaGiai)) }}</span></h4>
 		</div>
 		<div class="charts">
 			<div class="col-md-4 charts-grids widgetChart">

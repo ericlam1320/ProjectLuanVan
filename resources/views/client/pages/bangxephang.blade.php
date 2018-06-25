@@ -22,7 +22,7 @@
 				<div class="kode_ply_gallery">
 						<div class="container">
 							<div class="heading5 black b_2">
-							  <h4>Bảng xếp hạng mùa  <span>{{ $GiaiDau->NamBatDauMuaGiai }} - {{ $GiaiDau->NamKetThucMuaGiai }}</span></h4>
+							  <h4>Bảng xếp hạng <span>{{ $GiaiDau->TenGiaiDau }} {{ date('Y',strtotime($GiaiDau->NamBatDauMuaGiai)) }} - {{ date('Y',strtotime($GiaiDau->NamKetThucMuaGiai)) }}</span></h4>
 							</div>
 
 							@if (!empty($BangXepHang))
@@ -42,11 +42,11 @@
 
 								<?php $stt=0; ?>
 								@foreach ($BangXepHang as $bxh)
-								<tr class="kode_ply_two {{ $bxh->caulacbo[0]->TenDayDu==='Liverpool'?'three':'' }}">
+								<tr class="kode_ply_two {{ $bxh->caulacbo->TenDayDu==='Liverpool'?'three':'' }}">
 									<td>{{ ++$stt }}</td>
 									<td style="text-align: left">
-										<img height="30" style="margin:0px 5px 0px 15px" src="Client/images/logos/MU.png" alt="">
-										{{ $bxh->caulacbo[0]->TenDayDu }}
+										<img height="30" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $bxh->caulacbo->HinhAnhCauLacBo }}" alt="">
+										{{ $bxh->caulacbo->TenDayDu }}
 									</td>
 									<td>{{ $bxh->SoTran }}</td>
 									<td>{{ $bxh->SoTranThang }}</td>

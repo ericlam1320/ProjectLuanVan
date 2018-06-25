@@ -5,47 +5,124 @@
 	<div id="page-wrapper">
 				
 			<div class="main-page">
-				<h3 class="title1">Thêm bảng xếp hạng</h3>
+				
 				
 
-				<div class="widget-shadow" data-example-id="basic-forms"> 
-							<div class="form-title">
-								<h4>Form :</h4>
-							</div>
-							<div class="form-body">
-								
-								<form class="form-horizontal" action="/action_page.php">
+				<div class="row">
+						<h3 class="title1">Thêm bảng xếp hạng :</h3>
 
-									<div class="form-group">
-										<label class="control-label col-sm-2">Tên bảng xếp hạng:</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" placeholder="Nhập tên bảng xếp hạng" name="leaguetable">
+						@if(session('success'))
+								<div class="alert alert-success">
+									{{ session('success') }}
+								</div>
+			            @endif
+			                  	
+			            @if(session('error'))
+								<div class="alert alert-danger">
+									{{ session('error') }}
+								</div>
+			            @endif
+
+
+						<div class="form-three widget-shadow">
+							<form method="POST" class="form-horizontal" action="admin/bang-xep-hang/them" enctype="multipart/form-data">
+								<input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+							
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group {{ $errors->has('caulacbo') ? 'has-error' : '' }}">
+
+											<label for="selector1" class="col-md-4 control-label">Chọn câu lạc bộ:</label>
+											<div class="col-md-3">
+												<select style="height: 30px; width: 170px" name="caulacbo" id="selector1"  class="form-control1">
+													<option value="macdinh">Chọn câu lạc bộ</option>
+													@foreach($caulacbo as $clb)
+													<option value="{{$clb->id}}">{{$clb->TenDayDu}}</option>
+													@endforeach
+												</select>
+											</div>
+
+											<div class="col-md-4">
+						                      @if ($errors->has('caulacbo'))
+						                        <span class="help-block">
+						                          <strong style="color:#E01A22">
+						                            {{ $errors->first('caulacbo') }}
+						                          </strong>
+						                        </span>
+						                      @endif
+						                    </div>
+
 										</div>
-				    				</div>
+									</div>
+								</div>
 
-								    <div class="form-group">
-								    	<label class="control-label col-sm-2" for="pwd">Năm bắt đầu :</label>
-								    	<div class="col-sm-6">          
-								        	<input type="month" name="startyear">
-								      	</div>
-								    </div>
+								
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group {{ $errors->has('diem') ? 'has-error' : '' }}">
 
-								    <div class="form-group">
-								    	<label class="control-label col-sm-2" for="pwd">Năm kết thúc :</label>
-								    	<div class="col-sm-6">          
-								        	<input type="month" name="endyear">
-								      	</div>
-								    </div>
+											<label for="selector1" class="col-md-4 control-label">Điểm câu lạc bộ:</label>
+											<div class="col-md-4">
+												<input type="number" min="0" name="diem" value="0">
+											</div>
 
-								    <div class="form-group">        
-								      	<div class="col-sm-offset-2 col-sm-10">
-								        	<button type="submit" class="btn btn-default">Thêm</button>
-								      	</div>
-								    </div>
+											<div class="col-md-4">
+						                      @if ($errors->has('diem'))
+						                        <span class="help-block">
+						                          <strong style="color:#E01A22">
+						                            {{ $errors->first('diem') }}
+						                          </strong>
+						                        </span>
+						                      @endif
+						                    </div>
 
-								</form>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group {{ $errors->has('hangcaulacbo') ? 'has-error' : '' }}">
+
+											<label for="selector1" class="col-md-4 control-label">Hạng câu lạc bộ:</label>
+											<div class="col-md-4">
+												<input type="number" min="1" name="hangcaulacbo" value="0">
+											</div>
+
+											<div class="col-md-4">
+						                      @if ($errors->has('hangcaulacbo'))
+						                        <span class="help-block">
+						                          <strong style="color:#E01A22">
+						                            {{ $errors->first('hangcaulacbo') }}
+						                          </strong>
+						                        </span>
+						                      @endif
+						                    </div>
+
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-9">
+										<div class="form-group">
+											<div  style="margin-bottom: -50px !important" class="col-md-8 ">
+												<button type="submit" class="btn btn-danger pull-right">Thêm</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</form>
 						</div>
-				</div>
+					</div>
+
+
+
+
+
+					
 
 				
 
@@ -56,7 +133,9 @@
 	</div>
 @endsection
 
-
+@section('script')
+<script type="text/javascript">
+	$('.alert').delay(5000).slideUp()
+</script>
+@endsection
 	
-
-

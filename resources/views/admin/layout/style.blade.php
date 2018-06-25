@@ -45,4 +45,19 @@
 
     <!-- DataTables Responsive CSS -->
     <link href="AdminAssets/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+
+    <!--WIDGET CSS-->
+	<link rel="stylesheet" href="AdminAssets/css/widget.css">
+	<!--ICONS CSS-->
+	<link href="AdminAssets/css/svg-icon.css" rel="stylesheet">
+	<!--SLICK SLIDER CSS-->
+	<link rel="stylesheet" type="text/css" href="AdminAssets/slick/slick-theme.css"/>
+	<link rel="stylesheet" type="text/css" href="AdminAssets/slick/slick.css"/>
+	<!--BX SLIDER CSS-->
+	<link rel="stylesheet" href="AdminAssets/css/jquery.bxslider.css">
+	<!--OWL SLIDER CSS-->
+	<link href="AdminAssets/css/owl.carousel.css" rel="stylesheet">
+	<!--FLEX SLIDER CSS-->
+	<link href="AdminAssets/css/flexslider.css" rel="stylesheet">
 </head> 

@@ -1,5 +1,5 @@
 @extends ('admin.layout.master_admin')
-@section ('title', 'Quản lý Tin Tức')
+@section ('title', 'Quản lý Tin tức')
 @section('content')
 	<div id="page-wrapper">
 				
@@ -7,58 +7,52 @@
 				<h3 class="title1">Danh sách tin tức</h3>
 				<div class="tables">
 					<div class="bs-example widget-shadow" data-example-id="contextual-table"> 
-						<h4>Bảng xếp hạng</h4>
+						<h4>Tin tức</h4>
+
+						@if(session('success'))
+						<div class="alert alert-success">
+							{{ session('success') }}
+						</div>
+	                  	@endif
+	                  	
+	                  	@if(session('error'))
+						<div class="alert alert-danger">
+							{{ session('error') }}
+						</div>
+	                  	@endif
+
 						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
 							<thead> 
 								<tr> 
 									<th>#</th> 
 									<th>Tiêu đề</th>
 					                <th>Tóm tắt</th>
-					                <th>Ngày đăng</th>
 					                <th>Hình</th>
+					                <th>Ngày đăng</th>
 					                <th>Thuộc tính</th>
 								</tr> 
 							</thead> 
 
 							<tbody> 
+																
+								<?php $stt=1; ?>
+								@foreach ($tintuc as $tintuc)
 								<tr class="odd gradeX"> 
-									<th scope="row">1</th> 
-										<td>Góc chiến thuật: Khắc chế Ronaldo, Klopp sẽ chơi sơ đồ 3 hậu vệ?</td> 
-										<td>Để có thể khóa chặt ngòi nổ nguy hiểm nhất bên phía Real Madrid, HLV Jurgen Klopp có thể tính đến phương án sử dụng sơ đồ 3 hậu vệ.</td> 
-										<td>25/05/2018</td> 
-										<td>Hình</td>
-										<td>
-											<a href="#">Xoá</a>
-											<a href="{{route('SuaTinTuc')}}">Sửa</a>
+										<td>{{ $stt }}</td>
+										<td>{{ $tintuc->TieuDe }}</td> 
+										<td>{!!$tintuc->TomTat!!}</td> 
+										<td><img height="70px" src="adminAssets/img/photos/{{ $tintuc->Hinh }}" alt=""></td>
+										<td style="width: 80px">{{ $tintuc->NgayDang }}</td>
+										<td style="width: 155px">
+											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="admin/tin-tuc/xoa/{{ $tintuc->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
+
+											<a href="admin/tin-tuc/sua/{{ $tintuc->id }}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
 										</td>
-								</tr> 
+								</tr>
+								<?php $stt++; ?>
+								@endforeach 
 
-								<tr class="odd gradeX"> 
-									<th scope="row">2</th> 
-										<td>Ai hưởng lương cao nhất ở Liverpool?</td> 
-										<td>Trước thềm chung kết Champions League, hãy cùng BongDa.com.vn điểm qua 10 cầu thủ hưởng lương cao nhất đội hình Liverpool.</td> 
-										<td>22/05/2018</td> 
-										<td>Hình</td>
-										<td>
-											<a href="#">Xoá</a>
-											<a href="#">Sửa</a>
-										</td>
-								</tr> 
-
-
-								<tr class="odd gradeX"> 
-									<th scope="row">3</th> 
-										<td>Ai sẽ ghi bàn quyết định trong trận chung kết Champions League?</td> 
-										<td>Real Madrid lẫn Liverpool đều sở hữu những cầu thủ tấn công có khả năng giải quyết trận đấu. Vậy cái tên nào sẽ là người ghi bàn quyết định trong trận đại chiến ở chung kết Champions League rạng sáng ngày 27/05 tới?</td> 
-										<td>23/05/2018</td> 
-										<td>Hình</td>
-										<td>
-											<a href="#">Xoá</a>
-											<a href="#">Sửa</a>
-										</td>
-								</tr> 
-
-
+							
 							</tbody> 
 						</table> 
 					</div>
@@ -75,7 +69,7 @@
 <script src="AdminAssets/datatables/js/jquery.dataTables.min.js"></script>
 <script src="AdminAssets/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="AdminAssets/datatables-responsive/dataTables.responsive.js"></script>
-<!-- <script>
+<script>
     function XacNhanXoa(message){
             if(window.confirm(message)){
                 return true;
@@ -83,12 +77,32 @@
             return false;
         }
 
-</script> -->
+</script>
 <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
-            responsive: true
+            responsive: true,
+            "language": {
+					"sProcessing":   "Đang xử lý...",
+					"sLengthMenu":   "Xem _MENU_ mục",
+					"sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
+					"sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+					"sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
+					"sInfoFiltered": "(được lọc từ _MAX_ mục)",
+					"sInfoPostFix":  "",
+					"sSearch":       "Tìm kiếm ",
+					"sUrl":          "",
+					"oPaginate": {
+						"sFirst":    "Đầu",
+						"sPrevious": "Trước",
+						"sNext":     "Tiếp",
+						"sLast":     "Cuối"
+					}
+				}
         });
     });
+</script>
+<script type="text/javascript">
+	$('.alert').delay(5000).slideUp()
 </script>
 @endsection

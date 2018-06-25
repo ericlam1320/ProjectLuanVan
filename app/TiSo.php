@@ -14,5 +14,8 @@ class TiSo extends Model
     }
     public function TranDau(){
         return $this->belongsTo('App\TranDau', 'idTranDau', 'id');
-    }    
+    }
+    public function GiaiDau(){
+        return $this->belongsTo('App\GiaiDau', 'idGiaiDau', 'id');
+    }     
 }

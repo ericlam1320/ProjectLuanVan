@@ -18,9 +18,18 @@ use App\Thuoc;
 
 class CauThuController extends Controller
 {
+
+
+
     public function getCauThu($tenCauThu){
     	return view('cauthu.pages.trangchu', compact('tenCauThu'));
     }
+
+
+
+    #------------------------------------------------------------------------------------------------------------#
+    #---------------------------------------------- Thông tin cá nhân -------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------#
 
     public function getThongTinCaNhan($tenCauThu){
     	return view('cauthu.pages.thongtincanhan', compact('tenCauThu'));
@@ -29,40 +38,92 @@ class CauThuController extends Controller
     	return view('cauthu.pages.suathongtincanhan', compact('tenCauThu'));
     }
 
+
+
+
+
+    #------------------------------------------------------------------------------------------------------------#
+    #---------------------------------------------- Lịch luyện tập ----------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------#
+
     public function getLichLuyenTap($tenCauThu){
         $CauThu = '1';
         $LichLuyenTap = DB::SELECT("
                                         SELECT
-                                        nguoidung.HoTen,
-                                        giaotrinhtap.TenBaiTap,
-                                        giaotrinhtap.NoiDungBaiTap,
+                                        lichluyentap.id,
                                         lichluyentap.NgayLuyenTap,
+                                        lichluyentap.CaLuyenTap,
                                         lichluyentap.GioLuyenTap,
                                         lichluyentap.DiaDiem
                                         FROM lichluyentap
                                         INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
-                                        INNER JOIN giaotrinhtap ON giaotrinh_luyentap_cauthu.idGiaoTrinhTap = giaotrinhtap.id
                                         INNER JOIN cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
-                                        INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id
                                         WHERE cauthu.id = '$CauThu'
+                                        GROUP BY lichluyentap.NgayLuyenTap, lichluyentap.CaLuyenTap, lichluyentap.DiaDiem, lichluyentap.id
                                     ");
+        $NgayCauThuTap = $LichLuyenTap;
         $LichLuyenTap_DanhSach = [];
         foreach($LichLuyenTap as $lich){
             $LichLuyenTap_DanhSach[] = Calendar::event(
-                $lich->TenBaiTap,
+                $lich->DiaDiem,
                 false,  
                 new \Datetime($lich->NgayLuyenTap.$lich->GioLuyenTap),
-                new \Datetime($lich->NgayLuyenTap)
+                new \Datetime($lich->NgayLuyenTap.($lich->GioLuyenTap)),
+                $lich->id
             ); 
         }
-        $LichLuyenTap = Calendar::addEvents($LichLuyenTap_DanhSach);
-    	return view('cauthu.pages.lichluyentap', compact('tenCauThu', 'LichLuyenTap'));
+        $LichLuyenTap = Calendar::addEvents($LichLuyenTap_DanhSach)
+                        ->setOptions([ 
+                            'firstDay' => 1,
+                            'contentHeight' => 700,
+                            'themeSystem' => 'bootstrap3',
+                            'columnHeader' => false,
+                            'aspectRatio' => 1,
+                            'allDayDefault'=> false,
+                            'header' => [
+                                'left' => 'today prev,next',
+                                'center' =>'title',
+                                'right' => false ]
+                        ])
+                        ->setCallbacks([ 
+                            'eventClick' => 'function(event) {
+                                 $("#LichModal"+event.id).modal("show")
+                             }'
+                        ]);
+        foreach($NgayCauThuTap as $lich) {
+            $ngay = $lich->NgayLuyenTap;
+            $NoiDungLuyenTap[] = DB::SELECT("
+                                SELECT
+                                nguoidung.HoTen,
+                                giaotrinhtap.TenBaiTap,
+                                giaotrinhtap.NoiDungBaiTap,
+                                lichluyentap.NgayLuyenTap,
+                                lichluyentap.CaLuyenTap,
+                                lichluyentap.DiaDiem
+                                FROM lichluyentap
+                                INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
+                                INNER JOIN giaotrinhtap ON giaotrinh_luyentap_cauthu.idGiaoTrinhTap = giaotrinhtap.id
+                                INNER JOIN cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
+                                INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id
+                                WHERE cauthu.id = '$CauThu' AND lichluyentap.NgayLuyenTap = '$ngay'
+                            ");
+        }
+    	return view('cauthu.pages.lichluyentap', compact('tenCauThu', 'NoiDungLuyenTap', 'LichLuyenTap', 'NgayCauThuTap'));
     }
+
+
+
+
+
+    #------------------------------------------------------------------------------------------------------------#
+    #--------------------------------------------- Đội hình chiến thuật -----------------------------------------#
+    #------------------------------------------------------------------------------------------------------------#
 
     public function getDoiHinhChienThuat($tenCauThu){
         $TranDauTiepTheo = DB::SELECT("
                                             SELECT
                                             caulacbo.TenDayDu,
+                                            caulacbo.HinhAnhCauLacBo_lon,
                                             tiso.TiSo,
                                             trandau.VongDau,
                                             trandau.NgayThiDau,
@@ -122,6 +183,14 @@ class CauThuController extends Controller
         }
         return view('cauthu.pages.doihinhchienthuat', compact('tenCauThu', 'TranDauTiepTheo'));
     }
+
+
+
+
+
+    #------------------------------------------------------------------------------------------------------------#
+    #---------------------------------------------- Sức khỏe cầu thủ --------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------#
 
     public function getSucKhoe($tenCauThu){
         $CauThu = '1'; // -- Người đang đăng nhập
@@ -187,6 +256,15 @@ class CauThuController extends Controller
         return view('cauthu.pages.suckhoe', compact('tenCauThu', 'LichSuChanThuong', 'LichKham', 'ToaThuoc', 'Thuoc'));
     }
 
+
+
+
+
+
+    #------------------------------------------------------------------------------------------------------------#
+    #---------------------------------------------------- Danh mục ----------------------------------------------#
+    #------------------------------------------------------------------------------------------------------------#
+
     public function getThongBao($tenCauThu){
         return view('cauthu.pages.thongbao', compact('tenCauThu'));
     }
@@ -202,4 +280,6 @@ class CauThuController extends Controller
     public function getKetQua($tenCauThu){
         return view('cauthu.pages.ketqua', compact('tenCauThu'));
     }
+
+
 }

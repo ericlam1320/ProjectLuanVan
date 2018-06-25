@@ -13,8 +13,14 @@
 								<h4>Form :</h4>
 							</div>
 							<div class="form-body">
+
+                @if(count($errors) > 0)                       
+                    <div class="alert alert-danger">@foreach($errors->all() as $err){{$err}}<br>@endforeach</div>
+                @endif
 								
-								<form method="POST" action="admin/news/them" enctype="multipart/form-data">
+								<form method="POST" class="form-horizontal" action="admin/tin-tuc/them" enctype="multipart/form-data">
+                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                           <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                           <div class="row">
@@ -56,7 +62,7 @@
                             <div class="col-md-6">
                               <div class="form-group label-floating">
                                <label class="control-label">Hình ảnh</label>
-                                <input type="file" name="HinhTin" class="form-control" />
+                                <input type="file" name="hinhtintuc" class="form-control" />
                               </div>
                             </div>
                           </div>

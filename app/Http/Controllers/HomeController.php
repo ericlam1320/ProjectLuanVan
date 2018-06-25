@@ -13,6 +13,7 @@ use App\TiSo;
 use App\ThanhTichCauThu;
 use App\CauThu;
 use App\NguoiDung;
+use App\TinTuc;
 
 class HomeController extends Controller
 {
@@ -55,14 +56,13 @@ class HomeController extends Controller
                                         ");
         $ThongKeMuaGiai = DB::SELECT("
                                             SELECT
-                                            bangxephang.SoTranThang,
-                                            bangxephang.BanThang,
-                                            bangxephang.SoTran,
-                                            caulacbo.TenDayDu
+                                            caulacbo.TenDayDu,
+                                            bangxephangclbgiaidau.SoTranThang,
+                                            bangxephangclbgiaidau.SoTran,
+                                            bangxephangclbgiaidau.BanThang
                                             FROM
-                                            bangxephang
-                                            INNER JOIN bangxephang_caulacbo ON bangxephang_caulacbo.idBangXepHang = bangxephang.id
-                                            INNER JOIN caulacbo ON bangxephang_caulacbo.idCauLacBo = caulacbo.id
+                                            caulacbo
+                                            INNER JOIN bangxephangclbgiaidau ON bangxephangclbgiaidau.idCauLacBo = caulacbo.id
                                             WHERE caulacbo.TenDayDu='Liverpool'
                                         ");
         $NamHienTai = date('Y');$NamTruocDo=$NamHienTai-1;
@@ -76,7 +76,7 @@ class HomeController extends Controller
                                             caulacbo
                                             INNER JOIN caulacbo_giaidau ON caulacbo_giaidau.idCauLacBo = caulacbo.id
                                             INNER JOIN giaidau ON caulacbo_giaidau.idGiaiDau = giaidau.id
-                                            WHERE caulacbo.TenDayDu = 'Liverpool' AND caulacbo_giaidau.XepHang = 1 AND giaidau.NamKetThucMuaGiai='$NamHienTai' AND giaidau.NamBatDauMuaGiai='$NamTruocDo'
+                                            WHERE caulacbo.TenDayDu = 'Liverpool' AND caulacbo_giaidau.XepHang = 1 AND YEAR(giaidau.NamKetThucMuaGiai)='$NamHienTai' AND YEAR(giaidau.NamBatDauMuaGiai)='$NamTruocDo'
                                             GROUP BY  caulacbo.TenDayDu, caulacbo_giaidau.XepHang, giaidau.NamKetThucMuaGiai
                                             ORDER BY giaidau.NamKetThucMuaGiai DESC
                                         ");
@@ -104,7 +104,7 @@ class HomeController extends Controller
 
     public function getThongKeDoiBong(){
         $GiaiDau = GiaiDau::where('TenGiaiDau', 'Premier league')->orderBy('NamBatDauMuaGiai','DESC')->first();
-        $GiaiDauMuaHienTai = $GiaiDau->NamBatDauMuaGiai;
+        $GiaiDauMuaHienTai =  $GiaiDau->NamBatDauMuaGiai;
         $GiaiDauMuaHienTai_ = $GiaiDau->NamKetThucMuaGiai; 
         $DanhSachThongKeCauThu = DB::SELECT("
                                                 SELECT nguoidung.HoTen,
@@ -124,15 +124,17 @@ class HomeController extends Controller
 
         $KetQuaDoiBongChart = DB::SELECT("
                                             SELECT
-                                            bangxephang.SoTran,
-                                            bangxephang.SoTranThang,
-                                            bangxephang.SoTranHoa,
-                                            bangxephang.SoTranThua
-                                            FROM
-                                            caulacbo
-                                            INNER JOIN bangxephang_caulacbo ON bangxephang_caulacbo.idCauLacBo = caulacbo.id
-                                            INNER JOIN bangxephang ON bangxephang_caulacbo.idBangXepHang = bangxephang.id
-                                            INNER JOIN giaidau ON bangxephang.idGiaiDau = giaidau.id
+                                            giaidau.TenGiaiDau,
+                                            giaidau.NamBatDauMuaGiai,
+                                            giaidau.NamKetThucMuaGiai,
+                                            bangxephangclbgiaidau.SoTran,
+                                            bangxephangclbgiaidau.SoTranThang,
+                                            bangxephangclbgiaidau.SoTranHoa,
+                                            bangxephangclbgiaidau.SoTranThua,
+                                            caulacbo.TenDayDu
+                                            FROM caulacbo
+                                            INNER JOIN bangxephangclbgiaidau ON bangxephangclbgiaidau.idCauLacBo = caulacbo.id
+                                            INNER JOIN giaidau ON bangxephangclbgiaidau.idGiaiDau = giaidau.id
                                             WHERE caulacbo.TenDayDu='Liverpool' AND giaidau.NamBatDauMuaGiai='$GiaiDauMuaHienTai' AND giaidau.NamKetThucMuaGiai='$GiaiDauMuaHienTai_'
                                         ");
         if(empty($KetQuaDoiBongChart)){
@@ -190,9 +192,11 @@ class HomeController extends Controller
     }
 
     public function getTinTuc(){
-    	return view('client.pages.tintuc');
+        $TinTuc = TinTuc::orderBy('NgayDang', 'DESC')->get();
+    	return view('client.pages.tintuc', compact('TinTuc'));
     }
-    public function getChiTietTinTuc(){
-        return view('client.pages.chitiettintuc');
+    public function getChiTietTinTuc($id){
+        $TinTuc = TinTuc::find($id);
+        return view('client.pages.chitiettintuc', compact('TinTuc'));
     }
 }

@@ -50,7 +50,7 @@
 				<div class="ft-match-slider">
 				  <div class="owl-carousel-3 owl-theme" id="owl-demo6">
 					
-					@for ($i=0;$i<=5;$i++)
+					@for ($i=0;$i<count($CacTranDauTiepTheo);$i++)
 					  <div class="ft-match-dec">
 						  <span>{{ date('d/m/Y' , strtotime($CacTranDauTiepTheo[$i]->NgayThiDau)) }}</span>
 						  <div class="ft-match-teams">

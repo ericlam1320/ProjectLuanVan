@@ -10,8 +10,8 @@ class CauLacBo extends Model
 	public $timestamps = false;
 
     public function BangXepHang(){
-        return $this->belongsToMany('App\BangXepHang', 'bangxephang_caulacbo', 'idCauLacBo', 'idBangXepHang');
-    }
+        return $this->hasMany('App\BangXepHang', 'idCauLacBo', 'id');
+    } 
     public function GiaiDau(){
         return $this->belongsToMany('App\GiaiDau', 'caulacbo_giaidau', 'idCauLacBo', 'idGiaiDau');
     }
@@ -21,4 +21,7 @@ class CauLacBo extends Model
     public function TiSo(){
         return $this->hasMany('App\TiSo', 'idCauLacBo', 'id');
     } 
+    public function BangXepHangCLB(){
+        return $this->hasOne('App\BangXepHangCLB', 'idCauLacBo', 'id');
+    }
 }

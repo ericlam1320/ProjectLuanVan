@@ -5,52 +5,110 @@
 	<div id="page-wrapper">
 				
 			<div class="main-page">
-				<h3 class="title1">Thêm Giải đấu</h3>
 				
+				<div class="row">
+						<h3 class="title1">Thêm giải đấu :</h3>
 
-				<div class="widget-shadow" data-example-id="basic-forms"> 
-							<div class="form-title">
-								<h4>Form :</h4>
-							</div>
-							<div class="form-body">
+						@if(session('success'))
+								<div class="alert alert-success">
+									{{ session('success') }}
+								</div>
+			            @endif
+			                  	
+			            @if(session('error'))
+								<div class="alert alert-danger">
+									{{ session('error') }}
+								</div>
+			            @endif
 
-								@if(count($errors) > 0)                       
-                            		<div class="alert alert-danger">@foreach($errors->all() as $err){{$err}}<br>@endforeach</div>
-                        		@endif
 
-								<form method="POST" class="form-horizontal" action="admin/giai-dau/them" enctype="multipart/form-data">
-									<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<div class="form-three widget-shadow">
+							<form method="POST" class="form-horizontal" action="admin/giai-dau/them" enctype="multipart/form-data">
+								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-									<div class="form-group">
-										<label class="control-label col-sm-2">Tên giải đấu:</label>
-										<div class="col-sm-4">
-											<input type="text" class="form-control" placeholder="Nhập tên giải đấu" name="tengiaidau">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group {{ $errors->has('tengiaidau') ? 'has-error' : '' }}">
+
+											<label for="txtarea1" class="col-md-4 control-label">Tên giải đấu:</label>
+											<div class="col-md-3">
+												<input style="height: 30px" class="form-control1" type="text" name="tengiaidau">
+											</div>
+
+											<div class="col-md-5">
+						                      @if ($errors->has('tengiaidau'))
+						                        <span class="help-block">
+						                          <strong style="color:#E01A22">
+						                            {{ $errors->first('tengiaidau') }}
+						                          </strong>
+						                        </span>
+						                      @endif
+						                    </div>
+
 										</div>
-				    				</div>
+									</div>
+								</div>
 
-								    <div class="form-group">
-								    	<label class="control-label col-sm-2" for="pwd">Năm bắt đầu mùa giải:</label>
-								    	<div class="col-sm-6">          
-								        	<input type="number" min="1990" max="2090" step="1" value="2018" name="nambatdau"/>
-								      	</div>
-								    </div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group {{ $errors->has('nambatdau') ? 'has-error' : '' }}">
 
-								    <div class="form-group">
-								    	<label class="control-label col-sm-2" for="pwd">Năm kết thúc mùa giải:</label>
-								    	<div class="col-sm-6">          
-								        	<input type="number" min="1990" max="2090" step="1" value="2018" name="namketthuc"/>
-								      	</div>
-								    </div>
+											<label for="txtarea1" class="col-md-4 control-label">Năm bắt đầu mùa giải:</label>
+											<div class="col-md-3">
+												<input type="date" class="form-control date"  name="nambatdau" value="<?= date('Y-m-d') ?>">
+											</div>
 
-								    <div class="form-group">        
-								      	<div class="col-sm-offset-2 col-sm-10">
-								        	<button type="submit" class="btn btn-default">Thêm</button>
-								      	</div>
-								    </div>
+											<div class="col-md-5">
+						                      @if ($errors->has('nambatdau'))
+						                        <span class="help-block">
+						                          <strong style="color:#E01A22">
+						                            {{ $errors->first('nambatdau') }}
+						                          </strong>
+						                        </span>
+						                      @endif
+						                    </div>
 
-								</form>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group {{ $errors->has('namketthuc') ? 'has-error' : '' }}">
+
+											<label for="txtarea1" class="col-md-4 control-label">Năm kết thúc mùa giải:</label>
+											<div class="col-md-3">
+												<input type="date" class="form-control date"  name="namketthuc" value="<?= date('Y-m-d') ?>">
+											</div>
+
+											<div class="col-md-5">
+						                      @if ($errors->has('namketthuc'))
+						                        <span class="help-block">
+						                          <strong style="color:#E01A22">
+						                            {{ $errors->first('namketthuc') }}
+						                          </strong>
+						                        </span>
+						                      @endif
+						                    </div>
+
+										</div>
+									</div>
+								</div>
+
+
+								<div class="row">
+									<div class="col-md-9">
+										<div class="form-group">
+											<div  style="margin-bottom: -50px !important" class="col-md-8 ">
+												<button type="submit" class="btn btn-danger pull-right">Thêm</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</form>
 						</div>
-				</div>
+					</div>
 
 				
 
