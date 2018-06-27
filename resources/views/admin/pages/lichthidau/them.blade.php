@@ -96,6 +96,13 @@
 										</select>
 									</div>
 								</div>
+
+								<div class="form-group">
+									<label for="selector1" class="col-md-2 control-label">Trận đấu của CLB:</label>
+									<div class="col-md-6">
+										<input type="number" value="0" min="0" max="1" name="trandaucuaCLB">
+									</div>
+								</div>
 								
 								<div class="form-group">
 									<div  style="margin-bottom: -50px !important" class="col-md-8 ">

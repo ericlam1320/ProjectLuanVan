@@ -27,52 +27,135 @@
 
 								<div class="row">
 									<div class="col-md-12">
-										<div class="form-group {{ $errors->has('tisoa') ? 'has-error' : '' }}">
 
-											<div class="col-md-4">
-												<img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $trandau[0]->HinhAnhCauLacBo_lon }}" alt="">
-											</div>
-											<div class="col-md-3">
-												<input style="height: 30px" class="form-control1" type="number" value="{{$trandau[0]->TiSo}}" name="tisoa">
-											</div>
+										<div class="col-md-3">
+											<div class="form-group ">
+						                        <label for="txtarea1" class="col-md-9 control-label">Vòng đấu : {{$trandau[0]->VongDau}}</label>
+					                      	</div>
+					                    </div>
 
-											<div class="col-md-5">
-						                      @if ($errors->has('tisoa'))
-						                        <span class="help-block">
-						                          <strong style="color:#E01A22">
-						                            {{ $errors->first('tisoa') }}
-						                          </strong>
-						                        </span>
-						                      @endif
-						                    </div>
+					                    <div class="col-md-3">
+											<div class="form-group ">
+						                        <label for="txtarea1" class="col-md-9 control-label">Ngày thi đấu : {{$trandau[0]->NgayThiDau}}</label>
+					                      	</div>
+					                    </div>
 
-										</div>
+					                    <div class="col-md-3">
+											<div class="form-group ">
+						                        <label for="txtarea1" class="col-md-9 control-label">Giờ thi đấu : {{$trandau[0]->GioThiDau}}</label>
+					                      	</div>
+					                    </div>
 
-										<div class="form-group {{ $errors->has('tisob') ? 'has-error' : '' }}">
+					                    <div class="col-md-3">
+											<div class="form-group ">
+						                        <label for="txtarea1" class="col-md-9 control-label">Địa điểm : {{$trandau[0]->DiaDiem}}</label>
+					                      	</div>
+					                    </div>
 
-											<div class="col-md-4">
-												<img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $trandau[1]->HinhAnhCauLacBo_lon }}" alt="">
-											</div>
-											<div class="col-md-3">
-												<input style="height: 30px" class="form-control1" value="{{$trandau[1]->TiSo}}" type="number" name="tisob">
-											</div>
-
-											<div class="col-md-5">
-						                      @if ($errors->has('tisob'))
-						                        <span class="help-block">
-						                          <strong style="color:#E01A22">
-						                            {{ $errors->first('tisob') }}
-						                          </strong>
-						                        </span>
-						                      @endif
-						                    </div>
-
-										</div>
 									</div>
 								</div>
+
+								<div class="row">
+									<div class="col-md-12">
+
+										<div class="col-md-6">
+											<div class="form-group" style="float: right; margin-right: 5px ">
+
+												<img height="60" style="margin-bottom:12px "  " src="Client/images/logos/{{ $trandau[0]->HinhAnhCauLacBo_lon }}" alt="">
+
+												
+												<label style="line-height:30px; margin-left: 20px" for="txtarea1">{{$trandau[0]->TenDayDu}}</label>
+
+												<input style="height: 30px; width: 60px; margin-left: 20px" class="form-control1" type="number" value="{{$trandau[0]->TiSo}}" name="tisoa">
+													
+											</div>
+										</div>
+										
+										<div class="col-md-6">
+
+											<div class="form-group">
+												
+													<input style="height: 30px; width: 60px; margin-left: 20px" class="form-control1" value="{{$trandau[1]->TiSo}}" type="number" name="tisob">
+													
+													
+													<label style="line-height:30px; margin-right: 20px" for="txtarea1">{{$trandau[1]->TenDayDu}}</label>
+												
+												
+													<img height="60" style="margin-bottom:12px "  " src="Client/images/logos/{{ $trandau[1]->HinhAnhCauLacBo_lon }}" alt="">
+												
+												
+												
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								
+								
+									<div class="col-md-12">
+										<div class="col-md-6">
+											<div class="form-group" style="float: right; margin-right: 5px ">
+
+												<img height="30" style="margin-bottom:12px "  " src="Client/images/yellowcard.png" alt="">
+
+												
+												<label style="line-height:30px; margin-left: 20px" for="txtarea1">Số thẻ vàng</label>
+
+												<input style="height: 30px; width: 60px; margin-left: 20px" value="0" type="number" name="thevanga">
+											</div>
+										</div>
+										
+										<div class="col-md-6">
+											<div class="form-group">
+													<input style="height: 30px; width: 60px; margin-right: 20px" value="0" type="number" name="thevangb">
+													
+
+													
+													<label style="line-height:30px; margin-right: 20px" for="txtarea1">Số thẻ vàng</label>
+												
+												
+													<img height="30" style="margin-bottom:12px "  " src="Client/images/yellowcard.png" alt="">
+											</div>
+										</div>
+									</div>
+								
+
+
+								
+									<div class="col-md-12">
+										<div class="col-md-6">
+											<div class="form-group" style="float: right; margin-right: 5px ">
+
+												<img height="30" style="margin-bottom:12px "  " src="Client/images/redcard.png" alt="">
+
+												
+												<label style="line-height:30px; margin-left: 20px" for="txtarea1">Số thẻ đỏ</label>
+
+												<input style="height: 30px; width: 60px; margin-left: 20px" value="0" type="number" name="thedoa">
+											</div>
+										</div>
+										
+										<div class="col-md-6">
+											<div class="form-group">
+													<input style="height: 30px; width: 60px; margin-right: 20px" value="0" type="number" name="thedob">
+													
+
+													
+													<label style="line-height:30px; margin-right: 20px" for="txtarea1">Số thẻ đỏ</label>
+												
+												
+													<img height="30" style="margin-bottom:12px "  " src="Client/images/redcard.png" alt="">
+											</div>
+										</div>
+									</div>
+								
+								
+
+
 								
 								<div class="form-group">
-									<div  style="margin-bottom: -50px !important" class="col-md-6 ">
+									<div  style="margin-bottom: -50px !important; margin-left: 55px;  " class="col-md-6 ">
 										<button type="submit" class="btn btn-danger pull-right">Cập nhật</button>
 									</div>
 								</div>

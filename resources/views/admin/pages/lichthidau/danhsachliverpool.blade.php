@@ -4,7 +4,7 @@
 	<div id="page-wrapper">
 				
 			<div class="main-page">
-				<h3 class="title1">Danh sách Lịch Thi Đấu</h3>
+				<h3 class="title1">Danh sách Lịch thi đấu Liverpool</h3>
 				<div class="tables">
 					<div class="bs-example widget-shadow" data-example-id="contextual-table"> 
 						<h4>Lịch Thi Đấu</h4>
@@ -31,43 +31,26 @@
 									<th class="text-center">Ngày thi đấu</th>
 									<th class="text-center">Sân vận động</th>
 									
-									<th class="text-center">Thuộc tính</th>
+									<th class="text-center">Hành động</th>
 								</tr> 
 							</thead> 
 
 							<tbody> 
 								<?php $stt = 1; ?>
-								@for ($i=0 ;$i < count($lichthidau) ;$i++)
+								@for ($i=0 ;$i < count($lichthidau_liverpool) ;$i++)
 		
 								<tr class="odd gradeX">
 										<td>{{ $stt }}</td>
-										<td style="width: 35px" class="text-center">{{ $lichthidau[$i]->VongDau }}</td>
-										<td ><img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $lichthidau[$i]->HinhAnhCauLacBo }}" alt=""> &nbsp;{{ $lichthidau[$i]->TenDayDu }}</td>
-										<td ><img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $lichthidau[$i+1]->HinhAnhCauLacBo }}" alt=""> &nbsp;{{ $lichthidau[$i+1]->TenDayDu }}</td>
-										<td class="text-center">{{ $lichthidau[$i]->NgayThiDau }}</td>
-										<td class="text-center">{{ $lichthidau[$i]->DiaDiem }}</td>
-										<td class="text-center" style="width: 265px">
-
-											@if (!isset($lichthidau[$i]->TiSo))
-											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="admin/lich-thi-dau/xoa/{{$lichthidau[$i]->id}}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
-											@else
-											<a class="btn btn-danger disabled" onclick="return false;" title="Xoá" ><i class="fa fa-ban" ></i> Xoá</a>
-											@endif
+										<td style="width: 35px" class="text-center">{{ $lichthidau_liverpool[$i]->VongDau }}</td>
+										<td ><img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $lichthidau_liverpool[$i]->HinhAnhCauLacBo }}" alt=""> &nbsp;{{ $lichthidau_liverpool[$i]->TenDayDu }}</td>
+										<td ><img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $lichthidau_liverpool[$i+1]->HinhAnhCauLacBo }}" alt=""> &nbsp;{{ $lichthidau_liverpool[$i+1]->TenDayDu }}</td>
+										<td class="text-center">{{ $lichthidau_liverpool[$i]->NgayThiDau }}</td>
+										<td class="text-center">{{ $lichthidau_liverpool[$i]->DiaDiem }}</td>
+										<td class="text-center" style="width: 200px">
 											
+											<a href="admin/lich-thi-dau/them-thanh-tich/{{$lichthidau_liverpool[$i]->id}}" title="Thêm" class="btn btn-success"><i class="fa fa-edit" ></i> Thêm</a>
 
-											@if (!isset($lichthidau[$i]->TiSo))
-											<a href="admin/lich-thi-dau/sua/{{$lichthidau[$i]->id}}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
-											@else
-											<a class="btn btn-info disabled" onclick="return false;" title="Sửa" ><i class="fa fa-edit" ></i> Sửa</a>
-											@endif
-
-											
-											
-											@if (!isset($lichthidau[$i]->TiSo))
-											<a class="btn btn-success " href="admin/lich-thi-dau/cap-nhat-ti-so/{{$lichthidau[$i]->id}} " title="Cập nhật tỉ số" ><i class="fa fa-edit" ></i> Cập nhật tỉ số</a>
-											@else
-											<a class="btn btn-success disabled" onclick="return false;" title="Cập nhật tỉ số" ><i class="fa fa-edit" ></i> Cập nhật tỉ số</a>
-											@endif
+											<a href="admin/lich-thi-dau/cap-nhat-thanh-tich/{{$lichthidau_liverpool[$i]->id}}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Cập nhật</a>
 										</td>
 								</tr>
 						

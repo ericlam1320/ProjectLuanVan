@@ -118,10 +118,22 @@ Route::group(['prefix'=>'admin'],function(){
 		Route::get('danh-sach'					, 	'LichThiDauController@getDanhSach')		->name('DanhSachLichThiDau');
 		Route::get('them'						, 	'LichThiDauController@getThem')			->name('ThemLichThiDau');
      	Route::post('them'						, 	'LichThiDauController@postThem');
+
+     	Route::get('xoa/{id}'					,	'LichThiDauController@getXoa');
+
 		Route::get('sua/{id}'					, 	'LichThiDauController@getSua')			->name('SuaLichThiDau');
      	Route::post('sua/{id}'					, 	'LichThiDauController@postSua');
      	Route::get('cap-nhat-ti-so/{id}'		, 	'LichThiDauController@getCapNhatTiSo')			->name('CapNhatTiSo');
      	Route::post('cap-nhat-ti-so/{idTiSoA}/{idTiSoB}'		, 	'LichThiDauController@postCapNhatTiSo');
+
+     	Route::get('danh-sach-liverpool'		, 	'LichThiDauController@getDanhSachLiverpool')		->name('DanhSachLiverpool');
+
+     	Route::get('them-thanh-tich/{id}'		, 	'LichThiDauController@getThemThanhTich')			->name('ThemThanhTich');
+     	Route::post('them-thanh-tich/{id}'		, 	'LichThiDauController@postThemThanhTich');
+     	
+     	Route::get('cap-nhat-thanh-tich/{id}'	, 	'LichThiDauController@getCapNhatThanhTich')			->name('CapNhatThanhTich');
+     	Route::post('cap-nhat-thanh-tich/{id}'	, 	'LichThiDauController@postCapNhatThanhTich');
+
 	});
 
 	Route::group(['prefix'=>'nguoi-dung'], function(){

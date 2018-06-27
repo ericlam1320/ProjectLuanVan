@@ -98,7 +98,7 @@ class HomeController extends Controller
 
     public function getBangXepHang(){
         $GiaiDau = GiaiDau::where('TenGiaiDau', 'Premier league')->orderBy('NamBatDauMuaGiai','DESC')->first();
-        $BangXepHang = BangXepHang::with('caulacbo')->where('idGiaiDau', $GiaiDau->id)->orderBy('Diem','DESC')->orderBy('HieuSo','DESC')->get();
+        $BangXepHang = BangXepHang::with('caulacbo')->where('idGiaiDau', $GiaiDau->id)->orderBy('Diem','DESC')->orderBy('HieuSo','DESC')->orderBy('BanThang', 'DESC')->orderBy('HieuSoFairPlay','ASC')->get();
     	return view('client.pages.bangxephang', compact('BangXepHang', 'GiaiDau'));
     }
 

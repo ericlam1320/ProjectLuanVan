@@ -39,6 +39,9 @@
 								<li>
 									<a href="{{route('ThemLichThiDau')}}">Thêm lịch thi đấu</a>
 								</li>
+								<li>
+									<a href="{{route('DanhSachLiverpool')}}">Danh sách lịch thi đấu Liverpool</a>
+								</li>
 							</ul>
 						</li>
 
