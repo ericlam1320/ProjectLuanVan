@@ -20,33 +20,87 @@ class NguoiDungController extends Controller
 
     public function postThem(Request $request){
     	$this->validate($request, [
-    		'hoten' 			=> 		'required',
-    		'tendangnhap'		=>		'required|unique:nguoidung,username',
-    		'matkhau' 			=>		'required|min:5',
-    		'nhaplaimatkhau'	=>		'required|same:matkhau', 
-    		'email'				=>		'required|email|unique:nguoidung,Email',
-    		'quoctich'			=> 		'required',
-    		'noisinh'			=>		'required',
-    		'hinhdaidien'       =>      'image|mimes:jpeg,jpg,png,gif,svg|max:10000'
+    		'hoten' 			=> 		'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+    		'tendangnhap'		=>		'required|
+                                         unique:nguoidung,username|
+                                         regex:/^[a-z0-9]+$/',
+
+    		'matkhau' 			=>		'required|
+                                         min:6|
+                                         max:10|
+                                         regex:/^[a-zA-Z0-9]+$/',
+
+    		'nhaplaimatkhau'	=>		'required|
+                                         same:matkhau', 
+
+    		'email'             =>      'required|
+                                         email|
+                                         unique:nguoidung,Email,'.$id.',id',
+
+            'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
+
+    		'quoctich'			=> 		'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+    		'noisinh'			=>		'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+    		'hinhdaidien'       =>      'image|
+                                         mimes:jpeg,jpg,png,gif,svg|
+                                         max:10000'
 
     	],
     	[
     		'hoten.required'				=>		'Không được để trống họ tên',
+            'hoten.regex'                   =>      'Vui lòng nhập chữ cái',
+
     		'tendangnhap.required'			=>		'Không được để trống tên đăng nhập',
     		'tendangnhap.unique'			=>		'Tên đăng nhập đã tồn tại',
+            'tendangnhap.regex'             =>      'Vui lòng nhập chữ thường và số',
+
     		'matkhau.required'				=>		'Không được để trống mật khẩu',
-    		'matkhau.min'					=>		'Mật khẩu tối thiểu 5 ký tự',
+    		'matkhau.min'					=>		'Mật khẩu tối thiểu 6 ký tự',
+            'matkhau.max'                   =>      'Mật khẩu tối thiểu 10 ký tự',
+            'matkhau.regex'                 =>      'Vui lòng nhập chữ cái và số',
+
     		'nhaplaimatkhau.required'		=>		'Không được để trống mật khẩu',
     		'nhaplaimatkhau.same'			=>		'Mật khẩu nhập lại không trùng khớp',
+
     		'email.required'				=>		'Không được để trống email',
     		'email.email'					=>		'Email không hợp lệ',
+            'email.regex'                   =>      'Email không hợp lệ',
     		'email.unique'					=>		'Email đã tồn tại',
+
     		'quoctich.required'				=>		'Không được để trống quốc tịch',
+            'quoctich.regex'                =>      'Vui lòng nhập chữ cái',
+
     		'noisinh.required'				=>		'Không được để trống nơi sinh',
+            'noisinh.regex'                 =>      'Vui lòng nhập chữ cái',
+
     		'hinhdaidien.image'             =>      'Hình đại diện không đúng định dạng',
             'hinhdaidien.mimes'             =>      'Hình ảnh phải có định dạng : jpeg,jpg,png,gif,svg',
             'hinhdaidien.max'               =>      'Kích thước hình ảnh quá lớn'
     	]);
+
+        $date = date('Y');
+
+        $ngaysinh = date_create($request->ngaysinh);
+
+        if($date - date_format($ngaysinh, 'Y') < 0){
+            return redirect()->route('ThemNguoiDung')->with('error', 'Bạn nhập sai ngày sinh');
+        }
+
+        if($date - date_format($ngaysinh, 'Y') < 18){
+            return redirect()->route('ThemNguoiDung')->with('error', 'Bạn chưa đủ tuổi để tham gia');
+        }
+
+        if($date - date_format($ngaysinh, 'Y') > 60){
+            return redirect()->route('ThemNguoiDung')->with('error', 'Bạn đã quá số tuổi tham gia');
+        }
+
+        
 
     	$nguoidung = new NguoiDung;
 
@@ -94,26 +148,69 @@ class NguoiDungController extends Controller
 
     public function postSua($id, Request $request){
     	$this->validate($request, [
-    		'hoten' 			=> 		'required',
-    		'tendangnhap'		=>		'required|',
-    		'email'				=>		'required|email|',
-    		'quoctich'			=> 		'required',
-    		'noisinh'			=>		'required',
-    		'hinhdaidien'		=>		'image|mimes:jpeg,jpg,png,gif,svg|max:10000'
+            'hoten'             =>      'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
 
-    	],
-    	[
-    		'hoten.required'				=>		'Không được để trống họ tên',
-    		'tendangnhap.required'			=>		'Không được để trống tên đăng nhập',
-    		'email.required'				=>		'Không được để trống email',
-    		'email.email'					=>		'Email không hợp lệ',
-    		'quoctich.required'				=>		'Không được để trống quốc tịch',
-    		'email.required'				=>		'Không được để trống họ tên',
-    		'noisinh.required'				=>		'Không được để trống nơi sinh',
-    		'hinhdaidien.image'				=>		'Hình đại diện không đúng định dạng',
-            'hinhdaidien.mimes'             =>      'Hình đại diện không đúng định dạng',
-            'hinhdaidien.max'               =>      'Kích thước hình ảnh tối đa : 10MB'
-    	]);
+            'tendangnhap'       =>      'required|
+                                         unique:nguoidung,username,'.$id.',id|
+                                         regex:/^[a-z0-9]+$/',
+
+            'email'             =>      'required|
+                                         email|
+                                         unique:nguoidung,Email,'.$id.',id',
+
+            'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
+
+            'quoctich'          =>      'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+            'noisinh'           =>      'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+            'hinhdaidien'       =>      'image|
+                                         mimes:jpeg,jpg,png,gif,svg|
+                                         max:10000'
+
+        ],
+        [
+            'hoten.required'                =>      'Không được để trống họ tên',
+            'hoten.regex'                   =>      'Vui lòng nhập chữ cái',
+
+            'tendangnhap.required'          =>      'Không được để trống tên đăng nhập',
+            'tendangnhap.unique'            =>      'Tên đăng nhập đã tồn tại',
+            'tendangnhap.regex'             =>      'Vui lòng nhập chữ thường và số',
+
+            'email.required'                =>      'Không được để trống email',
+            'email.email'                   =>      'Email không hợp lệ',
+            'email.regex'                   =>      'Email không hợp lệ',
+            'email.unique'                  =>      'Email đã tồn tại',
+
+            'quoctich.required'             =>      'Không được để trống quốc tịch',
+            'quoctich.regex'                =>      'Vui lòng nhập chữ cái',
+
+            'noisinh.required'              =>      'Không được để trống nơi sinh',
+            'noisinh.regex'                 =>      'Vui lòng nhập chữ cái',
+
+            'hinhdaidien.image'             =>      'Hình đại diện không đúng định dạng',
+            'hinhdaidien.mimes'             =>      'Hình ảnh phải có định dạng : jpeg,jpg,png,gif,svg',
+            'hinhdaidien.max'               =>      'Kích thước hình ảnh quá lớn'
+        ]);
+
+        $date = date('Y');
+
+        $ngaysinh = date_create($request->ngaysinh);
+
+        if($date - date_format($ngaysinh, 'Y') < 0){
+            return redirect('admin/nguoi-dung/sua/'.$id.'')->with('error', 'Bạn nhập sai ngày sinh');
+        }
+
+        if($date - date_format($ngaysinh, 'Y') < 18){
+            return redirect('admin/nguoi-dung/sua/'.$id.'')->with('error', 'Bạn chưa đủ tuổi để tham gia');
+        }
+
+        if($date - date_format($ngaysinh, 'Y') > 60){
+            return redirect('admin/nguoi-dung/sua/'.$id.'')->with('error', 'Bạn đã quá số tuổi tham gia');
+        }
 
     	$nguoidung = NguoiDung::find($id);
 

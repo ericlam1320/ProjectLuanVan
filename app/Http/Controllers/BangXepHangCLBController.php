@@ -65,6 +65,13 @@ class BangXepHangCLBController extends Controller
     }
 
     public function postSua($id, Request $request){
+        $this->validate($request, [
+            'caulacbo'      =>      'unique:bangxephangclb,idCauLacBo,'.$id.',id'
+        ], 
+        [
+            'caulacbo.unique'       =>      'Câu lạc bộ đã tồn tại'
+        ]);
+
         $bangxephang = BangXepHangCLB::with('CauLacBo')->get();
 
         if($request->caulacbo == 'macdinh'){

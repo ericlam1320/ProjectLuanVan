@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\PhongDo;
+use App\PhongDo_CauThu;
 
 class PhongDoController extends Controller
 {
@@ -35,7 +36,15 @@ class PhongDoController extends Controller
     }
 
     public function getXoa($id){
+        $phongdo_cauthu = PhongDo_CauThu::all();
         $phongdo = PhongDo::find($id);
+
+        foreach($phongdo_cauthu as $pdct){
+            if($phongdo->id == $pdct->idPhongDo){
+                return redirect()->route('DanhSachPhongDo')->with('error','Phong độ được sở hữu bởi cầu thủ');
+            }
+        }
+
         $phongdo->delete();
         return redirect()->route('DanhSachPhongDo')->with('success','Xoá phong độ thành công');
     }
@@ -47,10 +56,11 @@ class PhongDoController extends Controller
 
     public function postSua($id, Request $request){
     	$this->validate($request, [
-    		'chisophongdo'			=>		'required',
+    		'chisophongdo'			=>		'required|unique:phongdo,ChiSoPhongDo,'.$id.',id',
     	], 
     	[
     		'chisophongdo.required'	=>		'Không được bỏ trống',
+            'chisophongdo.unique'         =>        'Chỉ số phong độ đã tồn tại',
     	]);
 
     	$phongdo = PhongDo::find($id);

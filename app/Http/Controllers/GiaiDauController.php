@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 use App\GiaiDau;
 use App\BangXepHang;
+use App\TiSo;
+use App\CauLacBo_GiaiDau;
 
 class GiaiDauController extends Controller
 {
@@ -19,14 +22,20 @@ class GiaiDauController extends Controller
 
     public function postThem(Request $request){
         $this->validate($request, [
-            'tengiaidau'                =>      'required',
+            'tengiaidau'                =>      'required|
+                                                 regex:/^[a-zA-Z0-9]$/',
+
             'nambatdau'                 =>      'unique:giaidau,NamBatDauMuaGiai',
-            'namkethuc'                 =>      'unique:giaidau,NamKetThucMuaGiai'
+
+            'namketthuc'                =>      'unique:giaidau,NamKetThucMuaGiai'
         ], 
         [
             'tengiaidau.required'       =>      'Tên giải đấu không được để trống',
+            'tengiaidau.regex'          =>      'Tên giải đấu chỉ gồm chữ và số',
+
             'nambatdau.unique'          =>      'Năm bắt đầu đã tồn tại',
-            'namkethuc.unique'          =>      'Năm kết thúc đã tồn tại'
+
+            'namketthuc.unique'         =>      'Năm kết thúc đã tồn tại'
         ]);
 
         //86400s = 1d
@@ -41,6 +50,7 @@ class GiaiDauController extends Controller
             $giaidau->TenGiaiDau            =       $request->tengiaidau;
             $giaidau->NamBatDauMuaGiai      =       $request->nambatdau;
             $giaidau->NamKetThucMuaGiai     =       $request->namketthuc;
+            $giaidau->MuaGiaiHienTai     	=       $request->muagiaihientai;
             $giaidau->save();
             return redirect()->route('DanhSachGiaiDau')->with('success', 'Thêm giải đấu thành công.');
         }
@@ -49,10 +59,24 @@ class GiaiDauController extends Controller
     public function getXoa($id){
         $giaidau = GiaiDau::find($id);
         $bangxephang = BangXepHang::all();
+        $caulacbo_giaidau = CauLacBo_GiaiDau::all();
+        $tiso = TiSo::all();
 
         foreach($bangxephang as $bxh){
             if($giaidau->id == $bxh->idGiaiDau){
                 return redirect()->back()->with('error', 'Tồn tại bảng xếp hạng trong giải đấu.');
+            }
+        }
+
+        foreach($caulacbo_giaidau as $clbgd){
+            if($giaidau->id == $clbgd->idGiaiDau){
+                return redirect()->back()->with('error', 'Tồn tại câu lạc bộ trong giải đấu.');
+            }
+        }
+
+        foreach($tiso as $ts){
+            if($giaidau->id == $ts->idGiaiDau){
+                return redirect()->back()->with('error', 'Tồn tại trận đấu trong giải đấu.');
             }
         }
 
@@ -67,14 +91,20 @@ class GiaiDauController extends Controller
 
     public function postSua($id, Request $request){
         $this->validate($request, [
-            'tengiaidau'                =>      'required',
-            'nambatdau'                 =>      'unique:giaidau,NamBatDauMuaGiai',
-            'namkethuc'                 =>      'unique:giaidau,NamKetThucMuaGiai'
+            'tengiaidau'                =>      'required|
+                                                 regex:/^[a-zA-Z0-9]$/',
+
+            'nambatdau'      			=> 		'unique:giaidau,NamBatDauMuaGiai,'.$id.',id',
+
+            'namketthuc'      			=> 		'unique:giaidau,NamKetThucMuaGiai,'.$id.',id',
         ], 
         [
             'tengiaidau.required'       =>      'Tên giải đấu không được để trống',
+            'tengiaidau.regex'          =>      'Tên giải đấu chỉ gồm chữ và số',
+
             'nambatdau.unique'          =>      'Năm bắt đầu đã tồn tại',
-            'namkethuc.unique'          =>      'Năm kết thúc đã tồn tại'
+
+            'namketthuc.unique'         =>      'Năm kết thúc đã tồn tại'
         ]);
 
         //86400s = 1d
@@ -89,6 +119,7 @@ class GiaiDauController extends Controller
             $giaidau->TenGiaiDau            =       $request->tengiaidau;
             $giaidau->NamBatDauMuaGiai      =       $request->nambatdau;
             $giaidau->NamKetThucMuaGiai     =       $request->namketthuc;
+            $giaidau->MuaGiaiHienTai     	=       $request->muagiaihientai;
             $giaidau->save();
             return redirect()->route('DanhSachGiaiDau')->with('success', 'Thêm giải đấu thành công.');
         }

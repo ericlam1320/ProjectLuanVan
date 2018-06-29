@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\CauLacBo;
+use App\BangXepHang;
+use App\BangXepHangCLB;
+use App\TiSo;
+use App\CauLacBo_GiaiDau;
 
 class CauLacBoController extends Controller
 {
@@ -19,30 +23,60 @@ class CauLacBoController extends Controller
 
     public function postThem(Request $request){
     	$this->validate($request, [
-    		'tendaydu' 						=>		'required|unique:caulacbo,TenDayDu',
-    		'tenviettat'					=>		'required|unique:caulacbo,TenVietTat',
-    		'truso'							=>		'required|unique:caulacbo,TruSo',
-    		'bietdanh'						=>		'required',
+    		'tendaydu' 						=>		'required|
+                                                     unique:caulacbo,TenDayDu|
+                                                     regex:/^[a-zA-Z0-9\s]+$/',
+
+    		'tenviettat'					=>		'required|
+                                                     unique:caulacbo,TenVietTat|
+                                                     regex:/^[A-Z\s]{3}+$/',
+
+    		'truso'							=>		'required',
+
+    		'bietdanh'						=>		'required|
+                                                     unique:caulacbo,BietDanh|
+                                                     regex:/^[a-zA-Z\s]+$/',
+
     		'lichsu'						=>		'required',
-    		'sanvandong'					=>		'required|unique:caulacbo,SanVanDong',
-    		'hinhanhcaulacbo'				=>		'image|mimes:jpeg,jpg,png,gif,svg|max:10',
-    		'hinhanhcaulacbo_lon'			=>		'image|mimes:jpeg,jpg,png,gif,svg|max:100',
+
+    		'sanvandong'					=>		'required|
+                                                     unique:caulacbo,SanVanDong|
+                                                     regex:/^[a-zA-Z\s]+$/',
+
+    		'hinhanhcaulacbo'				=>		'image|
+                                                     mimes:jpeg,jpg,png,gif,svg|
+                                                     max:10',
+
+    		'hinhanhcaulacbo_lon'			=>		'image|
+                                                     mimes:jpeg,jpg,png,gif,svg|
+                                                     max:100',
     		
     	], 
     	[
     		'tendaydu.required'						=>			'Không được để trống',
     		'tendaydu.unique'						=>			'Tên đầy đủ đã tồn tại',
+            'tendaydu.regex'                        =>          'Chỉ được nhập chữ và số',
+
     		'lichsu.required'						=>			'Không được để trống',
+
     		'tenviettat.required'					=>			'Không được để trống',
     		'tenviettat.unique'						=>			'Tên viết tắt đã tồn tại',
+            'tenviettat.regex'                      =>          'Chỉ được nhập chữ có 3 ký tự in hoa',
+
     		'truso.required'						=>			'Không được để trống',
-    		'truso.unique'							=>			'Trụ sở đã tồn tại',
+
     		'bietdanh.required'						=>			'Không được để trống',
+            'bietdanh.unique'                       =>          'Biệt danh đã tồn tại',
+            'bietdanh.regex'                        =>          'Chỉ được nhập chữ',
+
     		'sanvandong.required'					=>			'Không được để trống',
     		'sanvandong.unique'						=>			'Sân vận động đã tồn tại',
+            'sanvandong.regex'                      =>          'Chỉ được nhập chữ',
+
     		'hinhanhcaulacbo.image'					=>			'Sai định dạng hình ảnh',
     		'hinhanhcaulacbo.mimes'					=>			'Sai định dạng hình ảnh',
     		'hinhanhcaulacbo.max'					=>			'Kích thước tối đa là 10KB',
+
     		'hinhanhcaulacbo_lon.image'				=>			'Sai định dạng hình ảnh',
     		'hinhanhcaulacbo_lon.mimes'				=>			'Sai định dạng hình ảnh',
     		'hinhanhcaulacbo_lon.max'				=>			'Kích thước tối đa là 100KB',
@@ -86,6 +120,35 @@ class CauLacBoController extends Controller
 
     public function getXoa($id){
     	$caulacbo = CauLacBo::find($id);
+
+        $bangxephang_caulacbo = BangXepHangCLB::all();
+        foreach($bangxephang_caulacbo as $bxhclb){
+            if($caulacbo->id == $bxhclb->idCauLacBo){
+                return redirect()->back()->with('error', 'Tồn tại câu lạc bộ trong bảng xếp hạng');
+            }
+        }
+
+        $bangxephang = BangXepHang::all();
+        foreach($bangxephang as $bxh){
+            if($caulacbo->id == $bxh->idCauLacBo){
+                return redirect()->back()->with('error', 'Tồn tại câu lạc bộ trong bảng xếp hạng giải đấu');
+            }
+        }
+
+        $caulacbo_giaidau = CauLacBo_GiaiDau::all();
+        foreach($caulacbo_giaidau as $clbgd){
+            if($caulacbo->id == $clbgd->idCauLacBo){
+                return redirect()->back()->with('error', 'Tồn tại câu lạc bộ trong giải đấu');
+            }
+        }
+
+        $tiso = TiSo::all();
+        foreach($tiso as $ts){
+            if($caulacbo->id == $ts->idCauLacBo){
+                return redirect()->back()->with('error', 'Tồn tại câu lạc bộ trong trận đấu');
+            }
+        }
+
     	$caulacbo->delete();
     	return redirect()->route('DanhSachCauLacBo')->with('success','Xoá câu lạc bộ thành công');
     }
@@ -94,34 +157,71 @@ class CauLacBoController extends Controller
     	$caulacbo = CauLacBo::find($id);
     	return view('admin.pages.caulacbo.sua', compact('caulacbo'));
     }
+    // .$id.',id
 
     public function postSua($id, Request $request){
     	$this->validate($request, [
-    		'tendaydu' 						=>		'required',
-    		'tenviettat'					=>		'required',
-    		'truso'							=>		'required',
-    		'bietdanh'						=>		'required',
-    		'lichsu'						=>		'required',
-    		'sanvandong'					=>		'required',
-    		'hinhanhcaulacbo'				=>		'image|mimes:jpeg,jpg,png,gif,svg|max:10',
-    		'hinhanhcaulacbo_lon'			=>		'image|mimes:jpeg,jpg,png,gif,svg|max:100',
-    		
-    	], 
-    	[
-    		'tendaydu.required'						=>			'Không được để trống',
-    		'lichsu.required'						=>			'Không được để trống',
-    		'tenviettat.required'					=>			'Không được để trống',
-    		'truso.required'						=>			'Không được để trống',
-    		'bietdanh.required'						=>			'Không được để trống',
-    		'sanvandong.required'					=>			'Không được để trống',
-    		'hinhanhcaulacbo.image'					=>			'Sai định dạng hình ảnh',
-    		'hinhanhcaulacbo.mimes'					=>			'Sai định dạng hình ảnh',
-    		'hinhanhcaulacbo.max'					=>			'Kích thước tối đa là 10KB',
-    		'hinhanhcaulacbo_lon.image'				=>			'Sai định dạng hình ảnh',
-    		'hinhanhcaulacbo_lon.mimes'				=>			'Sai định dạng hình ảnh',
-    		'hinhanhcaulacbo_lon.max'				=>			'Kích thước tối đa là 100KB',
-    		
-    	]);
+            'tendaydu'                      =>      'required|
+                                                     unique:caulacbo,TenDayDu,'.$id.',id|
+                                                     regex:/^[a-zA-Z0-9\s]+$/',
+
+            'tenviettat'                    =>      'required|
+                                                     unique:caulacbo,TenVietTat,'.$id.',id|
+                                                     regex:/^[A-Z\s]{3}+$/',
+
+            'truso'                         =>      'required',
+
+            'bietdanh'                      =>      'required|
+                                                     unique:caulacbo,BietDanh,'.$id.',id|
+                                                     regex:/^[a-zA-Z\s]+$/',
+
+            'lichsu'                        =>      'required',
+
+            'sanvandong'                    =>      'required|
+                                                     unique:caulacbo,SanVanDong,'.$id.',id|
+                                                     regex:/^[a-zA-Z\s]+$/',
+
+            'hinhanhcaulacbo'               =>      'image|
+                                                     mimes:jpeg,jpg,png,gif,svg|
+                                                     max:10',
+
+            'hinhanhcaulacbo_lon'           =>      'image|
+                                                     mimes:jpeg,jpg,png,gif,svg|
+                                                     max:100',
+            
+        ], 
+        [
+            'tendaydu.required'                     =>          'Không được để trống',
+            'tendaydu.unique'                       =>          'Tên đầy đủ đã tồn tại',
+            'tendaydu.regex'                        =>          'Chỉ được nhập chữ và số',
+
+            'lichsu.required'                       =>          'Không được để trống',
+
+            'tenviettat.required'                   =>          'Không được để trống',
+            'tenviettat.unique'                     =>          'Tên viết tắt đã tồn tại',
+            'tenviettat.regex'                      =>          'Chỉ được nhập chữ có 3 ký tự in hoa',
+
+            'truso.required'                        =>          'Không được để trống',
+
+            'bietdanh.required'                     =>          'Không được để trống',
+            'bietdanh.unique'                       =>          'Biệt danh đã tồn tại',
+            'bietdanh.regex'                        =>          'Chỉ được nhập chữ',
+
+            'sanvandong.required'                   =>          'Không được để trống',
+            'sanvandong.unique'                     =>          'Sân vận động đã tồn tại',
+            'sanvandong.regex'                      =>          'Chỉ được nhập chữ',
+
+            'hinhanhcaulacbo.image'                 =>          'Sai định dạng hình ảnh',
+            'hinhanhcaulacbo.mimes'                 =>          'Sai định dạng hình ảnh',
+            'hinhanhcaulacbo.max'                   =>          'Kích thước tối đa là 10KB',
+
+            'hinhanhcaulacbo_lon.image'             =>          'Sai định dạng hình ảnh',
+            'hinhanhcaulacbo_lon.mimes'             =>          'Sai định dạng hình ảnh',
+            'hinhanhcaulacbo_lon.max'               =>          'Kích thước tối đa là 100KB',
+            
+        ]);
+
+
 
     	$caulacbo = CauLacBo::find($id);
 
@@ -149,6 +249,6 @@ class CauLacBoController extends Controller
     	$caulacbo->save();
 
 
-    	return redirect()->route('DanhSachCauLacBo')->with('success','Thêm câu lạc bộ thành công');
+    	return redirect()->route('DanhSachCauLacBo')->with('success','Cập nhật câu lạc bộ thành công');
     }
 }

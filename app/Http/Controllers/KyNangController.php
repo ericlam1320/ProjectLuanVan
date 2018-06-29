@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\KyNang;
+use App\KyNang_CauThu;
 class KyNangController extends Controller
 {
     public function getDanhSach(){
@@ -18,12 +19,17 @@ class KyNangController extends Controller
 
     public function postThem(Request $request){
     	$this->validate($request, [
-    		'tenkynang'			=>		'required|unique:kynang,TenKyNang',
+    		'tenkynang'			=>		'required|
+                                         unique:kynang,TenKyNang|
+                                         regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\-\s]+$/',
+
     		'chitiet'			=>		'required|unique:kynang,ChiTiet',
     	], 
     	[
     		'tenkynang.required'		=>		'Không được bỏ trống',
     		'tenkynang.unique'			=>		'Tên kỹ năng đã tồn tại',
+            'tenkynang.regex'           =>      'Chỉ được nhập chữ và số',
+
     		'chitiet.required'			=>		'Không được bỏ trống',
     		'chitiet.unique'			=>		'Chi tiết đã tồn tại',
 
@@ -39,7 +45,15 @@ class KyNangController extends Controller
     }
 
     public function getXoa($id){
+        $kynang_cauthu = KyNang_CauThu::all();
         $kynang = KyNang::find($id);
+
+        foreach($kynang_cauthu as $knct){
+            if($kynang->id == $knct->idKyNang){
+                return redirect()->route('DanhSachKyNang')->with('error','Kỹ năng được sở hữu bởi cầu thủ');
+            }
+        }
+
         $kynang->delete();
         return redirect()->route('DanhSachKyNang')->with('success','Xoá kỹ năng thành công');
     }
@@ -51,14 +65,21 @@ class KyNangController extends Controller
 
     public function postSua($id, Request $request){
     	$this->validate($request, [
-    		'tenkynang'			=>		'required',
-    		'chitiet'			=>		'required',
-    	], 
-    	[
-    		'tenkynang.required'		=>		'Không được bỏ trống',
-    		'chitiet.required'			=>		'Không được bỏ trống',
+            'tenkynang'         =>      'required|
+                                         unique:kynang,TenKyNang,'.$id.',id|
+                                         regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\-\s]+$/',
 
-    	]);
+            'chitiet'           =>      'required|unique:kynang,ChiTiet,'.$id.',id',
+        ], 
+        [
+            'tenkynang.required'        =>      'Không được bỏ trống',
+            'tenkynang.unique'          =>      'Tên kỹ năng đã tồn tại',
+            'tenkynang.regex'           =>      'Chỉ được nhập chữ và số',
+
+            'chitiet.required'          =>      'Không được bỏ trống',
+            'chitiet.unique'            =>      'Chi tiết đã tồn tại',
+
+        ]);
 
     	$kynang = KyNang::find($id);
     	$kynang->TenKyNang 	= 	$request->tenkynang;

@@ -26,13 +26,13 @@
 							<form method="POST" class="form-horizontal" action="admin/giai-dau/them" enctype="multipart/form-data">
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-								<div class="row">
+								
 									<div class="col-md-12">
 										<div class="form-group {{ $errors->has('tengiaidau') ? 'has-error' : '' }}">
 
 											<label for="txtarea1" class="col-md-4 control-label">Tên giải đấu:</label>
 											<div class="col-md-3">
-												<input style="height: 30px" class="form-control1" type="text" name="tengiaidau">
+												<input style="height: 30px; width: 200px" class="form-control1" type="text" name="tengiaidau">
 											</div>
 
 											<div class="col-md-5">
@@ -47,15 +47,15 @@
 
 										</div>
 									</div>
-								</div>
+								
 
-								<div class="row">
+								
 									<div class="col-md-12">
 										<div class="form-group {{ $errors->has('nambatdau') ? 'has-error' : '' }}">
 
 											<label for="txtarea1" class="col-md-4 control-label">Năm bắt đầu mùa giải:</label>
 											<div class="col-md-3">
-												<input type="date" class="form-control date"  name="nambatdau" value="<?= date('Y-m-d') ?>">
+												<input style="height: 30px; width: 200px" type="date" class="form-control date"  name="nambatdau" value="<?= date('Y-m-d') ?>">
 											</div>
 
 											<div class="col-md-5">
@@ -70,15 +70,15 @@
 
 										</div>
 									</div>
-								</div>
+								
 
-								<div class="row">
+								
 									<div class="col-md-12">
 										<div class="form-group {{ $errors->has('namketthuc') ? 'has-error' : '' }}">
 
 											<label for="txtarea1" class="col-md-4 control-label">Năm kết thúc mùa giải:</label>
 											<div class="col-md-3">
-												<input type="date" class="form-control date"  name="namketthuc" value="<?= date('Y-m-d') ?>">
+												<input style="height: 30px; width: 200px" type="date" class="form-control date"  name="namketthuc" value="<?= date('Y-m-d') ?>">
 											</div>
 
 											<div class="col-md-5">
@@ -93,7 +93,31 @@
 
 										</div>
 									</div>
-								</div>
+
+									<div class="col-md-12">
+										<div class="form-group {{ $errors->has('muagiaihientai') ? 'has-error' : '' }}">
+
+											<label for="txtarea1" class="col-md-4 control-label">Mùa giải hiện tại:</label>
+											<div class="col-md-3">
+												<select style="width: 200px;" class="control-label " name="muagiaihientai" >
+					                              <option value="0">Mùa giải khác</option>
+					                              <option value="1">Mùa giải hiện tại</option>
+					                            </select>
+											</div>
+
+											<div class="col-md-5">
+						                      @if ($errors->has('muagiaihientai'))
+						                        <span class="help-block">
+						                          <strong style="color:#E01A22">
+						                            {{ $errors->first('muagiaihientai') }}
+						                          </strong>
+						                        </span>
+						                      @endif
+						                    </div>
+
+										</div>
+									</div>
+								
 
 
 								<div class="row">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\VaiTro;
+use App\VaiTro_CauThu;
+use App\VaiTro_CauThu_TranDau;
 
 class VaiTroController extends Controller
 {
@@ -19,12 +21,17 @@ class VaiTroController extends Controller
 
     public function postThem(Request $request){
     	$this->validate($request, [
-    		'tenvaitro'				=>		'required|unique:vaitro,TenVaiTro',
+    		'tenvaitro'				=>		'required|
+                                             unique:vaitro,TenVaiTro|
+                                             regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\-\s]+$/',
+
     		'mieuta'				=>		'required|unique:vaitro,MieuTa',
     	], 
     	[
     		'tenvaitro.required'	=>		'Không được bỏ trống',
     		'tenvaitro.unique'		=>		'Tên vai trò đã tồn tại',
+            'tenvaitro.regex'       =>      'Chỉ được nhập chữ và số',
+
     		'mieuta.required'		=>		'Không được bỏ trống',
     		'mieuta.unique'			=>		'Miêu tả đã tồn tại',
     	]);
@@ -39,9 +46,24 @@ class VaiTroController extends Controller
     }
 
     public function getXoa($id){
+        $vaitro_cauthu = VaiTro_CauThu::all();
+        $vaitro_cauthu_trandau = VaiTro_CauThu_TranDau::all();
         $vaitro = VaiTro::find($id);
+
+        foreach($vaitro_cauthu as $vtct){
+            if($vaitro->id == $vtct->idVaiTro){
+                return redirect()->route('DanhSachVaiTro')->with('error','Vai trò đã có cầu thủ sở hữu');
+            }
+        }
+
+        foreach($vaitro_cauthu_trandau as $vtcttd){
+            if($vaitro->id == $vtcttd->idVaiTro){
+                return redirect()->route('DanhSachVaiTro')->with('error','Vai trò tồn tại trong trận đấu');
+            }
+        }
+
         $vaitro->delete();
-        return redirect()->route('DanhSachVaiTro')->with('success','Xoá vai trò thành công');
+        return redirect()->route('DanhSachVaiTro')->with('success','Xoá vai trò thành công');  
     }
 
     public function getSua($id){
@@ -51,13 +73,20 @@ class VaiTroController extends Controller
 
     public function postSua($id, Request $request){
     	$this->validate($request, [
-    		'tenvaitro'				=>		'required',
-    		'mieuta'				=>		'required',
-    	], 
-    	[
-    		'tenvaitro.required'	=>		'Không được bỏ trống',
-    		'mieuta.required'		=>		'Không được bỏ trống',
-    	]);
+            'tenvaitro'             =>      'required|
+                                             unique:vaitro,TenVaiTro,'.$id.',id|
+                                             regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\-\s]+$/',
+
+            'mieuta'                =>      'required|unique:vaitro,MieuTa,'.$id.',id',
+        ], 
+        [
+            'tenvaitro.required'    =>      'Không được bỏ trống',
+            'tenvaitro.unique'      =>      'Tên vai trò đã tồn tại',
+            'tenvaitro.regex'       =>      'Chỉ được nhập chữ và số',
+
+            'mieuta.required'       =>      'Không được bỏ trống',
+            'mieuta.unique'         =>      'Miêu tả đã tồn tại',
+        ]);
 
     	$vaitro = VaiTro::find($id);
     	$vaitro->TenVaiTro 	= 	$request->tenvaitro;

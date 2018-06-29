@@ -39,7 +39,7 @@
 								<tr class="odd gradeX">
 										<td>{{ 	$stt }}</td>
 										<td>{{ 	$clb->TenDayDu  }}</td> 
-										<td class="text-center">{{  date('Y',strtotime($clb->NgayThanhLap)) }}</td>
+										<td class="text-center">{{ $clb->NgayThanhLap }}</td>
 										<td>{{ 	$clb->SanVanDong  }}</td>  
 										<td class="text-center"><img height="55" width="55"  src="Client/images/logos/{{ $clb->HinhAnhCauLacBo_lon }}"></td>
 										<td class="text-center" style="width: 135px">

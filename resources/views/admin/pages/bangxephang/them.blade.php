@@ -34,7 +34,7 @@
 										<div class="form-group {{ $errors->has('caulacbo') ? 'has-error' : '' }}">
 
 											<label for="selector1" class="col-md-4 control-label">Chọn câu lạc bộ:</label>
-											<div class="col-md-3">
+											<div class="col-md-2">
 												<select style="height: 30px; width: 170px" name="caulacbo" id="selector1"  class="form-control1">
 													<option value="macdinh">Chọn câu lạc bộ</option>
 													@foreach($caulacbo as $clb)
@@ -43,7 +43,7 @@
 												</select>
 											</div>
 
-											<div class="col-md-4">
+											<div class="col-md-6">
 						                      @if ($errors->has('caulacbo'))
 						                        <span class="help-block">
 						                          <strong style="color:#E01A22">
@@ -63,11 +63,11 @@
 										<div class="form-group {{ $errors->has('diem') ? 'has-error' : '' }}">
 
 											<label for="selector1" class="col-md-4 control-label">Điểm câu lạc bộ:</label>
-											<div class="col-md-4">
+											<div class="col-md-2">
 												<input type="number" min="0" name="diem" value="0">
 											</div>
 
-											<div class="col-md-4">
+											<div class="col-md-6">
 						                      @if ($errors->has('diem'))
 						                        <span class="help-block">
 						                          <strong style="color:#E01A22">
@@ -86,11 +86,11 @@
 										<div class="form-group {{ $errors->has('hangcaulacbo') ? 'has-error' : '' }}">
 
 											<label for="selector1" class="col-md-4 control-label">Hạng câu lạc bộ:</label>
-											<div class="col-md-4">
+											<div class="col-md-2">
 												<input type="number" min="1" name="hangcaulacbo" value="0">
 											</div>
 
-											<div class="col-md-4">
+											<div class="col-md-6">
 						                      @if ($errors->has('hangcaulacbo'))
 						                        <span class="help-block">
 						                          <strong style="color:#E01A22">

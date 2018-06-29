@@ -18,21 +18,34 @@ class TinTucController extends Controller
 
     public function postThem(Request $request){
     	$this->validate($request,[
-    		'tieude'		=>		'required|unique:tintuc,TieuDe',
-    		'tomtat'		=>		'required|unique:tintuc,TomTat', 
-    		'noidung'		=>		'required|unique:tintuc,NoiDung',
-    		'hinhtintuc'	=>		'image|mimes:jpeg,jpg,png,gif,svg|max:10000'
+    		'tieude'		=>		'required|
+                                     unique:tintuc,TieuDe|
+                                     regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+    		'tomtat'		=>		'required|
+                                     unique:tintuc,TomTat', 
+
+    		'noidung'		=>		'required|
+                                     unique:tintuc,NoiDung',
+
+    		'hinhtintuc'	=>		'image|
+                                     mimes:jpeg,jpg,png,gif,svg|
+                                     max:10000'
     	],
     	[
     		'tieude.required'			=>		'Không được để trống tiêu đề',
     		'tieude.unique'				=>		'Tiêu đề đã tồn tại',
+            'tieude.regex'              =>      'Vui lòng nhập chữ và số',
+
     		'tomtat.required'			=>		'Không được để trống tóm tắt',
     		'tomtat.unique'				=>		'Tóm tắt đã tồn tại',
+
     		'noidung.required'			=>		'Không được để trống nội dung',
     		'noidung.unique'			=>		'Nội dung đã tồn tại',
+
     		'hinhtintuc.image'			=>		'Hình ảnh không đúng định dạng',
     		'hinhtintuc.mimes'			=>		'Hình ảnh phải có định dạng : jpeg,jpg,png,gif,svg',
-    		'hinhtintuc.required'		=>		'Kích thước hình ảnh quá lớn',
+    		'hinhtintuc.required'		=>		'Kích thước hình ảnh tối đa 10MB',
     	]);
 
     	$tintuc = new TinTuc;
@@ -69,18 +82,34 @@ class TinTucController extends Controller
 
     public function postSua($id, Request $request){
         $this->validate($request,[
-            'tieude'        =>      'required',
-            'tomtat'        =>      'required', 
-            'noidung'       =>      'required',
-            'hinhtintuc'    =>      'image|mimes:jpeg,jpg,png,gif,svg|max:10000'
+            'tieude'        =>      'required|
+                                     unique:tintuc,TieuDe,'.$id.',id|
+                                     regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+            'tomtat'        =>      'required|
+                                     unique:tintuc,TomTat,'.$id.',id', 
+
+            'noidung'       =>      'required|
+                                     unique:tintuc,NoiDung,'.$id.',id',
+
+            'hinhtintuc'    =>      'image|
+                                     mimes:jpeg,jpg,png,gif,svg|
+                                     max:10000'
         ],
         [
             'tieude.required'           =>      'Không được để trống tiêu đề',
+            'tieude.unique'             =>      'Tiêu đề đã tồn tại',
+            'tieude.regex'              =>      'Vui lòng nhập chữ và số',
+
             'tomtat.required'           =>      'Không được để trống tóm tắt',
+            'tomtat.unique'             =>      'Tóm tắt đã tồn tại',
+
             'noidung.required'          =>      'Không được để trống nội dung',
+            'noidung.unique'            =>      'Nội dung đã tồn tại',
+
             'hinhtintuc.image'          =>      'Hình ảnh không đúng định dạng',
             'hinhtintuc.mimes'          =>      'Hình ảnh phải có định dạng : jpeg,jpg,png,gif,svg',
-            'hinhtintuc.required'       =>      'Kích thước hình ảnh quá lớn',
+            'hinhtintuc.required'       =>      'Kích thước hình ảnh tối đa 10MB',
         ]);
 
         $tintuc = TinTuc::find($id);

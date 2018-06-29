@@ -7,7 +7,7 @@
 				<h3 class="title1">Danh sách Lịch thi đấu Liverpool</h3>
 				<div class="tables">
 					<div class="bs-example widget-shadow" data-example-id="contextual-table"> 
-						<h4>Lịch Thi Đấu</h4>
+						<h4>Lịch thi đấu</h4>
 
 						@if(session('success'))
 						<div class="alert alert-success">
