@@ -155,6 +155,48 @@
                       <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-6">
+                            <div class="form-group {{ $errors->has('succhua') ? 'has-error' : '' }}">
+                              <label for="txtarea1" class="col-md-3 control-label">Sức chứa:</label>
+                              <div class="col-md-5">
+                                <input type="text" class="form-control" value="{{$caulacbo->SucChua}}" name="succhua">
+                              </div>
+                              <div class="col-md-4">
+                                @if ($errors->has('succhua'))
+                                  <span class="help-block">
+                                    <strong style="color:#E01A22">
+                                      {{ $errors->first('succhua') }}
+                                    </strong>
+                                  </span>
+                                @endif
+                              </div>
+                            </div>
+                          </div>
+
+
+                            <div class="col-md-6">
+                            <div class="form-group {{ $errors->has('chutich') ? 'has-error' : '' }}">
+                              <label for="txtarea1" class="col-md-3 control-label">Chủ tịch:</label>
+                              <div class="col-md-5">
+                                <input type="text" class="form-control" value="{{$caulacbo->ChuTich}}" name="chutich">
+                              </div>
+                              <div class="col-md-4">
+                                @if ($errors->has('chutich'))
+                                  <span class="help-block">
+                                    <strong style="color:#E01A22">
+                                      {{ $errors->first('chutich') }}
+                                    </strong>
+                                  </span>
+                                @endif
+                              </div>
+                            </div>
+                            </div>
+
+                          </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
                             <div class="form-group {{ $errors->has('hinhanhcaulacbo') ? 'has-error' : '' }}">
                               <label for="txtarea1" class="col-md-3 control-label">Hình ảnh câu lạc bộ :</label>
                               <div class="col-md-5">

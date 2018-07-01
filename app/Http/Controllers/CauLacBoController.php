@@ -43,6 +43,12 @@ class CauLacBoController extends Controller
                                                      unique:caulacbo,SanVanDong|
                                                      regex:/^[a-zA-Z\s]+$/',
 
+            'succhua'                       =>      'required|
+                                                     numeric',
+
+            'chutich'                       =>      'required|
+                                                     regex:/^[a-zA-Z\s]+$/',
+
     		'hinhanhcaulacbo'				=>		'image|
                                                      mimes:jpeg,jpg,png,gif,svg|
                                                      max:10',
@@ -73,6 +79,12 @@ class CauLacBoController extends Controller
     		'sanvandong.unique'						=>			'Sân vận động đã tồn tại',
             'sanvandong.regex'                      =>          'Chỉ được nhập chữ',
 
+            'succhua.required'                      =>          'Không được để trống',
+            'succhua.numeric'                       =>          'Chỉ được nhập số',
+
+            'chutich.required'                      =>          'Không được để trống',
+            'chutich.regex'                         =>          'Chỉ được nhập chữ',
+
     		'hinhanhcaulacbo.image'					=>			'Sai định dạng hình ảnh',
     		'hinhanhcaulacbo.mimes'					=>			'Sai định dạng hình ảnh',
     		'hinhanhcaulacbo.max'					=>			'Kích thước tối đa là 10KB',
@@ -92,6 +104,8 @@ class CauLacBoController extends Controller
     	$caulacbo->NgayThanhLap			=		$request->ngaythanhlap;
     	$caulacbo->BietDanh				=		$request->bietdanh;
     	$caulacbo->SanVanDong			=		$request->sanvandong;
+        $caulacbo->SucChua              =       $request->succhua;
+        $caulacbo->ChuTich              =       $request->chutich;
     	$caulacbo->HinhAnhCauLacBo		=		$request->hinhanhcaulacbo;
     	$caulacbo->HinhAnhCauLacBo_Lon  =		$request->hinhanhcaulacbo_lon;
     	$caulacbo->LichSu				=		$request->lichsu;
@@ -181,6 +195,12 @@ class CauLacBoController extends Controller
                                                      unique:caulacbo,SanVanDong,'.$id.',id|
                                                      regex:/^[a-zA-Z\s]+$/',
 
+            'succhua'                       =>      'required|
+                                                     numeric',
+
+            'chutich'                       =>      'required|
+                                                     regex:/^[a-zA-Z\s]+$/',
+
             'hinhanhcaulacbo'               =>      'image|
                                                      mimes:jpeg,jpg,png,gif,svg|
                                                      max:10',
@@ -211,6 +231,12 @@ class CauLacBoController extends Controller
             'sanvandong.unique'                     =>          'Sân vận động đã tồn tại',
             'sanvandong.regex'                      =>          'Chỉ được nhập chữ',
 
+            'succhua.required'                      =>          'Không được để trống',
+            'succhua.numeric'                       =>          'Chỉ được nhập số',
+
+            'chutich.required'                      =>          'Không được để trống',
+            'chutich.regex'                         =>          'Chỉ được nhập chữ',
+
             'hinhanhcaulacbo.image'                 =>          'Sai định dạng hình ảnh',
             'hinhanhcaulacbo.mimes'                 =>          'Sai định dạng hình ảnh',
             'hinhanhcaulacbo.max'                   =>          'Kích thước tối đa là 10KB',
@@ -232,7 +258,10 @@ class CauLacBoController extends Controller
     	$caulacbo->NgayThanhLap			=		$request->ngaythanhlap;
     	$caulacbo->BietDanh				=		$request->bietdanh;
     	$caulacbo->SanVanDong			=		$request->sanvandong;
+        $caulacbo->SucChua              =       $request->succhua;
+        $caulacbo->ChuTich              =       $request->chutich;
     	$caulacbo->LichSu				=		$request->lichsu;
+        
 
 
     	if($request->hasFile('hinhanhcaulacbo', 'hinhanhcaulacbo_lon')){

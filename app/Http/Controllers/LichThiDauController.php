@@ -12,6 +12,7 @@ use App\TiSo;
 use App\BangXepHang;
 use App\ThanhTichCauThu;
 use App\CauThu;
+use App\DoiHinh;
 
 
 class LichThiDauController extends Controller
@@ -41,11 +42,36 @@ class LichThiDauController extends Controller
         $giaidau = GiaiDau::all();
         $caulacbo = CauLacBo::all();
         $vongdau = TranDau::orderBy('id', 'DESC')->first();
-
+        if($vongdau->TranDauCuaCLB == 1){
+            $vongdau->VongDau += 1;
+        }
     	return view('admin.pages.lichthidau.them', compact('caulacbo','vongdau','giaidau'));
     }
 
     public function postThem(Request $request){
+
+        $tiso = DB::SELECT("
+                        SELECT
+                        tiso.idCauLacBo,
+                        tiso.idTranDau,
+                        tiso.idGiaiDau,
+                        trandau.VongDau
+                        FROM
+                        tiso
+                        INNER JOIN trandau ON tiso.idTranDau = trandau.id
+                        ORDER BY
+                        tiso.id ASC
+
+            ");
+
+
+        for ($i=0; $i < count($tiso); $i++) { 
+            if($request->doia == $tiso[$i]->idCauLacBo && $request->doib == $tiso[$i+1]->idCauLacBo && $request->giaidau == $tiso[$i]->idGiaiDau){
+                return redirect()->route('ThemLichThiDau')->with('error','Lịch thi đấu bị trùng');
+            }
+            $i++;
+        }
+        
         if($request->doia == 'macdinh'|| $request->doib == 'macdinh'){
             return redirect()->back()->with('error','Bạn chưa chọn đội bóng.');
         }
@@ -101,16 +127,49 @@ class LichThiDauController extends Controller
 
     public function getSua($id){
         $giaidau = GiaiDau::all();
-        $tiso2 = TiSo::find($id);
         $caulacbo = CauLacBo::all();
         $tiso = TiSo::where('idTranDau', $id)->get();
         $vongdau = TranDau::orderBy('id', 'DESC')->first();
-        $trandau = TranDau::find($id);
+        $trandau = TranDau::with('TiSo')->where('id', $id)->first();
 
-    	return view('admin.pages.lichthidau.sua', compact('caulacbo', 'vongdau', 'trandau', 'tiso','giaidau','tiso2'));
+    	return view('admin.pages.lichthidau.sua', compact('caulacbo', 'vongdau', 'trandau', 'tiso','giaidau'));
     }
 
     public function postSua($id, Request $request){
+
+        $caulacbo = CauLacBo::all();
+
+        $tiso = DB::SELECT("
+                        SELECT
+                        tiso.idCauLacBo,
+                        tiso.idTranDau,
+                        tiso.idGiaiDau,
+                        trandau.VongDau
+                        FROM
+                        tiso
+                        INNER JOIN trandau ON tiso.idTranDau = trandau.id
+                        WHERE
+                        tiso.idTranDau = '$id'
+                        ORDER BY
+                        tiso.id ASC
+
+
+            ");
+
+
+        // for ($i=0; $i < count($tiso); $i++) { 
+        //     if($request->doia == $tiso[$i]->idCauLacBo && $request->doib == $tiso[$i+1]->idCauLacBo && $request->giaidau == $tiso[$i]->idGiaiDau){
+        //         if($request->doia == $tiso[0]->idCauLacBo && $request->doib == $tiso[1]->idCauLacBo){
+        //             return true;
+        //         }
+        //         else{
+        //             return redirect('admin/lich-thi-dau/sua/'.$id.'')->with('error','Lịch thi đấu bị trùng');
+        //         }
+        //     }
+            
+        //     $i++;
+        // }
+
         if($request->doia == 'macdinh'|| $request->doib == 'macdinh'){
             return redirect()->back()->with('error','Bạn chưa chọn đội bóng.');
         }
@@ -271,6 +330,45 @@ class LichThiDauController extends Controller
             $bxh->Diem += 0;
         }
         $bxh->save();
+
+
+        $trandauCLB = TranDau::where('id',$tisoa->idTranDau)->where('TranDauCuaCLB',1)->first();
+        if(isset($trandauCLB)){
+
+            $trandau_doihinh = DoiHinh::where('id', $trandauCLB->idDoiHinh)->first();
+            $caulacboa = CauLacBo::where('id',$tisoa->idCauLacBo)->first();
+            $caulacbob = CauLacBo::where('id',$tisob->idCauLacBo)->first();
+
+            if($request->tisoa < $request->tisob){
+                if($caulacboa->TenDayDu == 'Liverpool'){
+                    $trandau_doihinh->SoTranThua += 1;
+                }
+                else if($caulacbob->TenDayDu == 'Liverpool'){
+                    $trandau_doihinh->SoTranThang += 1;
+                }
+            }
+
+            if($request->tisoa == $request->tisob){
+                if($caulacboa->TenDayDu == 'Liverpool'){
+                    $trandau_doihinh->SoTranHoa += 1;
+                }
+                else if($caulacbob->TenDayDu == 'Liverpool'){
+                    $trandau_doihinh->SoTranHoa += 1;
+                }
+            }
+
+            if($request->tisoa > $request->tisob){
+                if($caulacboa->TenDayDu == 'Liverpool'){
+                    $trandau_doihinh->SoTranThang += 1;
+                }
+                else if($caulacbob->TenDayDu == 'Liverpool'){
+                    $trandau_doihinh->SoTranThua += 1;
+                }
+            }
+
+            $trandau_doihinh->save();
+                
+        }
 
         return redirect()->route('DanhSachLichThiDau')->with('success','Cập nhật tỉ số thành công'); 
     }

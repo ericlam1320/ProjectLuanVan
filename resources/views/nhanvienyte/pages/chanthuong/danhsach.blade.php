@@ -1,63 +1,69 @@
 @extends ('nhanvienyte.layout.master_nhanvienyte')
-@section ('title', 'Quản lý Chấn Thương')
+@section ('title', 'Quản lý Chấn thương')
 @section('content')
 	<div id="page-wrapper">
 				
 			<div class="main-page">
-				<h3 class="title1">Danh sách chấn thương</h3>
+				<h3 class="title1">Danh sách Chấn thương</h3>
 				<div class="tables">
 					<div class="bs-example widget-shadow" data-example-id="contextual-table"> 
-						<h4>Chấn thương</h4>
+						<h4>Giải đấu</h4>
+
+						@if(session('success'))
+						<div class="alert alert-success">
+							{{ session('success') }}
+						</div>
+	                  	@endif
+	                  	
+	                  	@if(session('error'))
+						<div class="alert alert-danger">
+							{{ session('error') }}
+						</div>
+	                  	@endif
+
 						<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
 							<thead> 
 								<tr> 
 									<th>#</th> 
-									<th>Mã chấn thương</th> 
-									<th>Tên chấn thương</th> 
-									<th>Phân loại chấn thương</th>
-									<th>Thời gian hồi phục</th>
-									<th>Thuộc tính</th>
+									<th class="text-center">Tên chấn thương</th> 
+									<th class="text-center">Loại chấn thương</th> 
+									<th class="text-center">Thời gian hồi phục</th>
+									<th class="text-center">Hành động</th>
 								</tr> 
 							</thead> 
 
 							<tbody> 
-								<tr class="odd gradeX"> 
-									<th scope="row">1</th> 
-										<td>CT001</td> 
-										<td>Rách gân Kheo</td> 
-										<td>Chấn thương Cơ</td> 
-										<td>3 tháng</td> 
-										<td>
-											<a href="#">Xoá</a>
-											<a href="{{route('SuaChanThuong')}}">Sửa</a>
+								<?php $stt = 1; ?>
+								@foreach ($chanthuong as $ct)
+								<tr class="odd gradeX">
+										<td>{{ 	$stt }}</td>
+										<td>{{ 	$ct->TenChanThuong  }}</td> 
+										<td>@if($ct->PhanLoaiChanThuong == 1)
+												Chấn thương ngoài da
+
+											@elseif($ct->PhanLoaiChanThuong == 2)
+												Chấn thương cơ
+
+											@elseif($ct->PhanLoaiChanThuong == 3)
+												Chấn thương khớp
+
+											@elseif($ct->PhanLoaiChanThuong == 4)
+												Chấn thương xương
+
+											@elseif($ct->PhanLoaiChanThuong == 5)
+												Chấn thương đầu
+											@endif</td> 
+										<td class="text-center">{{  $ct->ThoiGianHoiPhuc}} tuần</td> 
+										<td class="text-center" style="width: 135px">
+											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="nhan-vien-y-te/chan-thuong/xoa/{{ $ct->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
+
+											<a href="nhan-vien-y-te/chan-thuong/sua/{{ $ct->id }}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
 										</td>
 								</tr> 
-
-								<tr class="odd gradeX"> 
-									<th scope="row">2</th> 
-										<td>CT002</td> 
-										<td>Trật mắt cá chân</td> 
-										<td>Chấn thương Khớp</td> 
-										<td>2 tuần - 1 tháng</td> 
-										<td>
-											<a href="#">Xoá</a>
-											<a href="#">Sửa</a>
-										</td>
-								</tr> 
-
-								<tr class="odd gradeX"> 
-									<th scope="row">3</th> 
-										<td>CT003</td> 
-										<td>Gãy xương</td> 
-										<td>Chấn thương Xương</td> 
-										<td>1 năm</td> 
-										<td>
-											<a href="#">Xoá</a>
-											<a href="#">Sửa</a>
-										</td>
-								</tr>   
-
+								<?php $stt++; ?>
+								@endforeach
 							</tbody> 
+
 						</table> 
 					</div>
 				</div>
@@ -73,7 +79,7 @@
 <script src="AdminAssets/datatables/js/jquery.dataTables.min.js"></script>
 <script src="AdminAssets/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="AdminAssets/datatables-responsive/dataTables.responsive.js"></script>
-<!-- <script>
+<script>
     function XacNhanXoa(message){
             if(window.confirm(message)){
                 return true;
@@ -81,12 +87,33 @@
             return false;
         }
 
-</script> -->
+</script>
 <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
-            responsive: true
+            responsive: true,
+            "language": {
+					"sProcessing":   "Đang xử lý...",
+					"sLengthMenu":   "Xem _MENU_ mục",
+					"sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
+					"sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+					"sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
+					"sInfoFiltered": "(được lọc từ _MAX_ mục)",
+					"sInfoPostFix":  "",
+					"sSearch":       "Tìm kiếm ",
+					"sUrl":          "",
+					"oPaginate": {
+						"sFirst":    "Đầu",
+						"sPrevious": "Trước",
+						"sNext":     "Tiếp",
+						"sLast":     "Cuối"
+					}
+				}
         });
     });
+</script>
+
+<script type="text/javascript">
+	$('.alert').delay(5000).slideUp()
 </script>
 @endsection

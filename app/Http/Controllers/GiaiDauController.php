@@ -23,7 +23,7 @@ class GiaiDauController extends Controller
     public function postThem(Request $request){
         $this->validate($request, [
             'tengiaidau'                =>      'required|
-                                                 regex:/^[a-zA-Z0-9]$/',
+                                                 regex:/^[a-zA-Z0-9\s]+$/',
 
             'nambatdau'                 =>      'unique:giaidau,NamBatDauMuaGiai',
 
@@ -92,7 +92,7 @@ class GiaiDauController extends Controller
     public function postSua($id, Request $request){
         $this->validate($request, [
             'tengiaidau'                =>      'required|
-                                                 regex:/^[a-zA-Z0-9]$/',
+                                                 regex:/^[a-zA-Z0-9\s]+$/',
 
             'nambatdau'      			=> 		'unique:giaidau,NamBatDauMuaGiai,'.$id.',id',
 

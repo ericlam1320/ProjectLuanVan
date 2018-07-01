@@ -19,13 +19,37 @@
 						</li>
 
 						<li>
-							<a href="#"><i class="fa fa-heart nav_icon"></i> Lịch khám <span class="fa arrow"></span></a>
+							<a href="#"><i class="fa fa-calendar nav_icon"></i> Lịch khám <span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
 								<li>
 									<a href="{{route('DanhSachLichKham')}}">Danh sách lịch khám</a>
 								</li>
 								<li>
 									<a href="{{route('ThemLichKham')}}">Thêm lịch khám</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#"><i class="fa fa-bar-chart nav_icon"></i> Phác đồ điều trị <span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<a href="{{route('DanhSachPhacDoDieuTri')}}">Danh sách phác đồ điều trị</a>
+								</li>
+								<li>
+									<a href="{{route('ThemPhacDoDieuTri')}}">Thêm phác đồ điều trị</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#"><i class="fa fa-leaf nav_icon"></i> Thuốc <span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level collapse">
+								<li>
+									<a href="{{route('DanhSachThuoc')}}">Danh sách thuốc</a>
+								</li>
+								<li>
+									<a href="{{route('ThemThuoc')}}">Thêm thuốc</a>
 								</li>
 							</ul>
 						</li>

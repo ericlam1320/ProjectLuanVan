@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 28, 2018 lúc 01:09 PM
+-- Thời gian đã tạo: Th7 01, 2018 lúc 12:23 PM
 -- Phiên bản máy phục vụ: 10.1.30-MariaDB
 -- Phiên bản PHP: 7.2.1
 
@@ -74,9 +74,9 @@ CREATE TABLE `bangxephangclbgiaidau` (
 
 INSERT INTO `bangxephangclbgiaidau` (`id`, `SoTran`, `SoTranThang`, `SoTranHoa`, `SoTranThua`, `BanThang`, `BanThua`, `HieuSo`, `TheVang`, `TheDo`, `ChiSoFairplay`, `Diem`, `idGiaiDau`, `idCauLacBo`) VALUES
 (1, 1, 0, 0, 1, 1, 3, -2, 2, 1, -4, 0, 1, 1),
-(2, 2, 2, 0, 0, 6, 1, 5, 3, 0, -3, 6, 1, 2),
-(3, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 1, 3),
-(4, 1, 0, 0, 1, 0, 3, -3, 1, 1, -3, 0, 1, 4);
+(2, 3, 2, 0, 1, 7, 3, 4, 5, 0, -5, 6, 1, 2),
+(3, 1, 0, 0, 1, 1, 2, -1, 2, 0, -2, 0, 1, 3),
+(4, 3, 2, 0, 1, 4, 5, -1, 8, 2, -12, 6, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -92,6 +92,8 @@ CREATE TABLE `caulacbo` (
   `NgayThanhLap` date DEFAULT NULL,
   `BietDanh` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `SanVanDong` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `SucChua` int(11) NOT NULL,
+  `ChuTich` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `LichSu` longtext COLLATE utf8_unicode_ci,
   `HinhAnhCauLacBo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `HinhAnhCauLacBo_lon` varchar(255) COLLATE utf8_unicode_ci NOT NULL
@@ -101,11 +103,11 @@ CREATE TABLE `caulacbo` (
 -- Đang đổ dữ liệu cho bảng `caulacbo`
 --
 
-INSERT INTO `caulacbo` (`id`, `TenDayDu`, `TenVietTat`, `TruSo`, `NgayThanhLap`, `BietDanh`, `SanVanDong`, `LichSu`, `HinhAnhCauLacBo`, `HinhAnhCauLacBo_lon`) VALUES
-(1, 'Arsenal', 'Ars', 'Holloway, London', '1886-12-01', 'The Gunners', 'Emirates', '<p>Lịch sử Arsenal</p>', '1529841285Arsenal.png', '1529841285Arsenal_big.png'),
-(2, 'Liverpool', 'Liv', 'Liverpool, Merseyside', '1892-06-03', 'The Kop', 'Anfield', '<p>Lịch sử Liverpool</p>', '1529841436Liverpool.png', '1529841436Liverpool_big.png'),
-(3, 'Manchester Utd', 'MU', 'Old Trafford, Greater Machester, Anh', '1878-01-01', 'The Red Devils', 'Old Trafford', '<p>Lịch sử Manchester United</p>', 'MU.png', 'MU_big.png'),
-(4, 'Manchester City', 'MC', 'Manchester, Anh', '1880-01-01', 'The Citizens', 'Etihad', '<p>Lịch sử Manchester City</p>', 'ManCity.png', 'ManCity_big.png');
+INSERT INTO `caulacbo` (`id`, `TenDayDu`, `TenVietTat`, `TruSo`, `NgayThanhLap`, `BietDanh`, `SanVanDong`, `SucChua`, `ChuTich`, `LichSu`, `HinhAnhCauLacBo`, `HinhAnhCauLacBo_lon`) VALUES
+(1, 'Arsenal', 'ARS', 'Holloway, London', '1886-12-01', 'The Gunners', 'Emirates', 0, '', '<p>Lịch sử Arsenal</p>', '1529841285Arsenal.png', '1529841285Arsenal_big.png'),
+(2, 'Liverpool', 'LIV', 'Liverpool, Merseyside', '1892-06-03', 'The Kop', 'Anfield', 54074, 'Tom Werner', '<p>Lịch sử Liverpool</p>', '1529841436Liverpool.png', '1529841436Liverpool_big.png'),
+(3, 'Manchester Utd', 'MU', 'Old Trafford, Greater Machester, Anh', '1878-01-01', 'The Red Devils', 'Old Trafford', 0, '', '<p>Lịch sử Manchester United</p>', 'MU.png', 'MU_big.png'),
+(4, 'Manchester City', 'MC', 'Manchester, Anh', '1880-01-01', 'The Citizens', 'Etihad', 0, '', '<p>Lịch sử Manchester City</p>', 'ManCity.png', 'ManCity_big.png');
 
 -- --------------------------------------------------------
 
@@ -163,7 +165,7 @@ INSERT INTO `cauthu` (`id`, `ChieuCao`, `CanNang`, `ViTriSoTruong`, `SoAo`, `Cha
 (11, NULL, NULL, 'Tiền đạo', 52, NULL, NULL, 12),
 (12, NULL, NULL, 'Tiền đạo', 56, NULL, NULL, 13),
 (13, NULL, NULL, 'Tiền đạo', 26, NULL, NULL, 14),
-(22, 176, 71, 'tiendao', 11, 1, '<p>Lược sử Mohamed Salah</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>', 26);
+(22, 176, 71, 'tiendao', 11, 1, '<p>Lược sử Mohamed Salah</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>', 26);
 
 -- --------------------------------------------------------
 
@@ -254,9 +256,8 @@ CREATE TABLE `giaidau` (
 --
 
 INSERT INTO `giaidau` (`id`, `TenGiaiDau`, `NamBatDauMuaGiai`, `NamKetThucMuaGiai`, `MuaGiaiHienTai`) VALUES
-(1, 'Premier league', '2017-09-05', '2018-05-10', 0),
-(4, 'Premier league', '2016-09-14', '2017-05-27', 0),
-(6, 'Premier League', '2018-08-15', '2019-05-12', 0);
+(1, 'Premier league', '2017-09-05', '2018-05-10', 1),
+(4, 'Premier league', '2016-09-14', '2017-05-27', 0);
 
 -- --------------------------------------------------------
 
@@ -552,7 +553,8 @@ INSERT INTO `nguoidung` (`id`, `username`, `password`, `HoTen`, `ChucVu`, `Email
 (12, 'Henry', '123456', 'T.Henry', 'cauthu', 'Henry@gmail.com', NULL, NULL, NULL, NULL, NULL),
 (13, 'DuBi1', '123456', 'M.Salah', 'cauthu', 'salah@gmail.com', NULL, NULL, NULL, NULL, NULL),
 (14, 'DuBi2', '123456', 'M.Sane', 'cauthu', 'sane@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(26, 'mohamedsalahisthebest', '123456', 'Mohamed Salah', 'cauthu', 'mohamedsalah@liverpoolfc.com', '1992-06-15', 'Ai Cập', 1, 'Nagrir, Ai Cập', NULL);
+(26, 'mohamedsalahisthebest', '123456', 'Mohamed Salah', 'cauthu', 'mohamedsalah@liverpoolfc.com', '1992-06-15', 'Ai Cập', 1, 'Nagrir Ai Cập', NULL),
+(27, 'truongminh', 'm123456', 'Trường Minh', 'admin', 'truongminh@gmail.co', '1996-06-28', 'Việt Nam', 0, 'Hồ Chí Minh', 'noone.png');
 
 -- --------------------------------------------------------
 
@@ -595,8 +597,8 @@ INSERT INTO `phongdo` (`id`, `ChiSoPhongDo`) VALUES
 (2, 4),
 (3, 3),
 (4, 2),
-(5, 5),
-(7, 1);
+(7, 1),
+(8, 5);
 
 -- --------------------------------------------------------
 
@@ -724,7 +726,7 @@ CREATE TABLE `tintuc` (
 --
 
 INSERT INTO `tintuc` (`id`, `TieuDe`, `TomTat`, `NoiDung`, `Hinh`, `NgayDang`) VALUES
-(2, 'Ba Lan không chỉ có Lewandowski', '<p>&quot;Lewan l&agrave; thủ lĩnh t&agrave;i năng v&agrave; l&agrave; một trong những cầu thủ xuất sắc nhất thế giới nhưng c&aacute;c cầu thủ c&ograve;n lại của ch&uacute;ng t&ocirc;i cũng rất đ&aacute;ng gờm.&quot; HLV Ba Lan ph&aacute;t biểu.</p>', '<p>Ai cũng biết Robert Lewandowski l&agrave; c&acirc;y săn b&agrave;n h&agrave;ng đầu Ch&acirc;u &Acirc;u trong những năm gần đ&acirc;y n&ecirc;n khi nh&igrave;n v&agrave;o đội tuyển&nbsp;<a href=\"http://www.bongda.com.vn/Ba+Lan-search/\" target=\"_blank\">Ba Lan</a>, người h&acirc;m mộ chỉ thấy anh l&agrave; cầu thủ nổi bật nhất. HLV Nawalka đ&atilde; cố gắng k&eacute;o sự ch&uacute; &yacute; của mọi người bớt khỏi cầu thủ n&agrave;y, &ocirc;ng cho rằng&nbsp;<strong>&lsquo;Đại b&agrave;ng trắng&rsquo; c&ograve;n rất nhiều cầu thủ đ&aacute;ng gờm kh&aacute;c</strong>.</p>\r\n\r\n<p><img alt=\"Ba Lan không chỉ có Lewandowski - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hoanghai.nguyen/2018/06/19/glik-1-1653.jpg\" style=\"height:365px; width:648px\" /></p>\r\n\r\n<h2>&nbsp;Glik l&agrave; chốt chặn đ&aacute;ng tin cậy ở h&agrave;ng ph&ograve;ng ngự.</h2>\r\n\r\n<p>Sự chuẩn bị của Ba Lan trước&nbsp;<a href=\"http://www.bongda.com.vn/22h00-ngay-19-06-ba-lan-vs-senegal-ki-thuat-dau-suc-manh-d450759.html\" target=\"_blank\">trận đấu gặp Senegal</a>&nbsp;đang rất su&ocirc;n sẻ. Vấn đề duy nhất họ gặp phải l&agrave; chấn thương lưng của Kamil Glik &ndash; hậu vệ tốt nhất của họ trong l&uacute;c tập luyện. Nhiều khả năng trung vệ của Monaco sẽ vắng mặt trong trận tranh t&agrave;i n&agrave;y nhưng HLV của Ba Lan cho rằng anh sẽ kịp b&igrave;nh phục.</p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/truoc-dai-chien-ba-lan-thuyen-truong-senegal-tang-tro-cung-len-tan-may-xanh-d450800.html\">Trước đại chiến Ba Lan, thuyền trưởng Senegal t&acirc;ng tr&ograve; cưng l&ecirc;n tận m&acirc;y xanh</a></p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/22h00-ngay-19-06-ba-lan-vs-senegal-ki-thuat-dau-suc-manh-d450759.html\">22h00 ng&agrave;y 19/06, Ba Lan vs Senegal: Kĩ thuật đấu sức mạnh</a></p>\r\n\r\n<p>Ngo&agrave;i ra ở h&agrave;ng ph&ograve;ng ngự họ cũng c&oacute; sự g&oacute;p mặt của Łukasz Piszczek (Dortmund), hậu vệ c&aacute;nh phải vẫn giữ được phong độ tốt của m&igrave;nh từ khi gia nhập đội b&oacute;ng của Đức từ năm 2010. Sự chắc chắn trong ph&ograve;ng ngự của anh đ&atilde; khiến CLB n&agrave;y&nbsp;k&iacute; hợp đồng với&nbsp;anh tới 2020.</p>\r\n\r\n<p><img alt=\"Ba Lan không chỉ có Lewandowski - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hoanghai.nguyen/2018/06/19/skysports-poland-arsenal_4323563-1654.jpg\" style=\"height:432px; width:768px\" /></p>\r\n\r\n<h2>&nbsp;Ba Lan c&oacute; hai thủ m&ocirc;n giỏi l&agrave; Szczesny v&agrave;&nbsp;Fabianski.</h2>\r\n\r\n<p>Trước khung th&agrave;nh, Ba Lan sở hữu kh&ocirc;ng chỉ một hay hai thủ m&ocirc;n rất xuất sắc l&agrave; Fabianski (Swansea) v&agrave; Szczesny (Juventus). Fabianski đ&atilde; c&oacute; một m&agrave;n tr&igrave;nh diễn rất ấn tượng ở Premier League m&ugrave;a giải qua d&ugrave; CLB của anh xuống hạng. Kh&ocirc;ng thủ th&agrave;nh n&agrave;o c&oacute; số lần cứu thua nhiều hơn anh (137).<br />\r\nTrong khi người g&aacute;c đền của Juve cũng c&oacute; tới 14/20 trận ở mọi giải đấu giữ sạch lưới cho CLB m&igrave;nh d&ugrave; phải chia sẻ vị tr&iacute; với Gianluigi Buffon.</p>\r\n\r\n<p>Ở h&agrave;ng tiền vệ, Jakub Blaszczykowski (Wolfburg) sẽ c&oacute; lần thứ 100 kho&aacute;c &aacute;o đội tuyển quốc gia. Tuy m&ugrave;a giải qua cầu thủ n&agrave;y rất hiếm khi được ra s&acirc;n ở CLB nhưng Ba Lan vẫn rất cần kinh nghiệm qu&iacute; b&aacute;u của anh.</p>\r\n\r\n<p><img alt=\"Ba Lan không chỉ có Lewandowski - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hoanghai.nguyen/2018/06/19/piotr-zielinski-controls-the-ball-during-the-international-friendly-match-1655.jpg\" style=\"height:409px; width:615px\" /></p>\r\n\r\n<h2>&nbsp;Piotr Zielinski đang được Liverpool r&aacute;o riết săn đ&oacute;n.</h2>\r\n\r\n<p>Hỗ trợ cho&nbsp;<a href=\"http://www.bongda.com.vn/Lewandowski-search/\" target=\"_blank\">Lewandowski</a>&nbsp;ở h&agrave;ng c&ocirc;ng sẽ l&agrave; cầu thủ Piotr Zielinski của Napoli. Cầu thủ 24 tuổi người Ba Lan l&agrave; một mẫu tiền vệ tuyệt vời. Anh được xem l&agrave; thủ lĩnh của&nbsp;tuyến giữa&nbsp;khi thể hiện được lối chơi s&aacute;ng tạo v&agrave; hỗ trợ đồng đội hết m&igrave;nh. Hiện Zielinski đang được Liverpool li&ecirc;n hệ.</p>\r\n\r\n<p>V&agrave; nếu Ba Lan cần một người s&aacute;t c&aacute;nh cạnh tiền đạo Bayern Munich th&igrave; đ&atilde; c&oacute; trung phong Arkadiusz Milik. Trong m&ugrave;a giải qua ở Napoli, Milik lại gặp v&ocirc; v&agrave;n kh&oacute; khăn v&igrave; chấn thương nhưng nếu đ&aacute; đ&uacute;ng phong độ của m&igrave;nh anh sẽ rất đ&aacute;ng sợ với khả năng dứt điểm cực tốt của m&igrave;nh.</p>', '1529412091piotr-zielinski-controls-the-ball-during-the-international-friendly-match-1655.jpg', '2018-06-19'),
+(2, 'Ba Lan không chỉ có Lewandowski', '<p>&quot;Lewan l&agrave; thủ lĩnh t&agrave;i năng v&agrave; l&agrave; một trong những cầu thủ xuất sắc nhất thế giới nhưng c&aacute;c cầu thủ c&ograve;n lại của ch&uacute;ng t&ocirc;i cũng rất đ&aacute;ng gờm.&quot; HLV Ba Lan ph&aacute;t biểu.</p>', '<p>Ai cũng biết Robert Lewandowski l&agrave; c&acirc;y săn b&agrave;n h&agrave;ng đầu Ch&acirc;u &Acirc;u trong những năm gần đ&acirc;y n&ecirc;n khi nh&igrave;n v&agrave;o đội tuyển&nbsp;<a href=\"http://www.bongda.com.vn/Ba+Lan-search/\" target=\"_blank\">Ba Lan</a>, người h&acirc;m mộ chỉ thấy anh l&agrave; cầu thủ nổi bật nhất. HLV Nawalka đ&atilde; cố gắng k&eacute;o sự ch&uacute; &yacute; của mọi người bớt khỏi cầu thủ n&agrave;y, &ocirc;ng cho rằng&nbsp;<strong>&lsquo;Đại b&agrave;ng trắng&rsquo; c&ograve;n rất nhiều cầu thủ đ&aacute;ng gờm kh&aacute;c</strong>.</p>\r\n\r\n<p><img alt=\"Ba Lan không chỉ có Lewandowski - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hoanghai.nguyen/2018/06/19/glik-1-1653.jpg\" style=\"height:365px; width:648px\" /></p>\r\n\r\n<h2>&nbsp;Glik l&agrave; chốt chặn đ&aacute;ng tin cậy ở h&agrave;ng ph&ograve;ng ngự.</h2>\r\n\r\n<p>Sự chuẩn bị của Ba Lan trước&nbsp;<a href=\"http://www.bongda.com.vn/22h00-ngay-19-06-ba-lan-vs-senegal-ki-thuat-dau-suc-manh-d450759.html\" target=\"_blank\">trận đấu gặp Senegal</a>&nbsp;đang rất su&ocirc;n sẻ. Vấn đề duy nhất họ gặp phải l&agrave; chấn thương lưng của Kamil Glik &ndash; hậu vệ tốt nhất của họ trong l&uacute;c tập luyện. Nhiều khả năng trung vệ của Monaco sẽ vắng mặt trong trận tranh t&agrave;i n&agrave;y nhưng HLV của Ba Lan cho rằng anh sẽ kịp b&igrave;nh phục.</p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/truoc-dai-chien-ba-lan-thuyen-truong-senegal-tang-tro-cung-len-tan-may-xanh-d450800.html\">Trước đại chiến Ba Lan, thuyền trưởng Senegal t&acirc;ng tr&ograve; cưng l&ecirc;n tận m&acirc;y xanh</a></p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/22h00-ngay-19-06-ba-lan-vs-senegal-ki-thuat-dau-suc-manh-d450759.html\">22h00 ng&agrave;y 19/06, Ba Lan vs Senegal: Kĩ thuật đấu sức mạnh</a></p>\r\n\r\n<p>Ngo&agrave;i ra ở h&agrave;ng ph&ograve;ng ngự họ cũng c&oacute; sự g&oacute;p mặt của Łukasz Piszczek (Dortmund), hậu vệ c&aacute;nh phải vẫn giữ được phong độ tốt của m&igrave;nh từ khi gia nhập đội b&oacute;ng của Đức từ năm 2010. Sự chắc chắn trong ph&ograve;ng ngự của anh đ&atilde; khiến CLB n&agrave;y&nbsp;k&iacute; hợp đồng với&nbsp;anh tới 2020.</p>\r\n\r\n<p><img alt=\"Ba Lan không chỉ có Lewandowski - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hoanghai.nguyen/2018/06/19/skysports-poland-arsenal_4323563-1654.jpg\" style=\"height:432px; width:768px\" /></p>\r\n\r\n<h2>&nbsp;Ba Lan c&oacute; hai thủ m&ocirc;n giỏi l&agrave; Szczesny v&agrave;&nbsp;Fabianski.</h2>\r\n\r\n<p>Trước khung th&agrave;nh, Ba Lan sở hữu kh&ocirc;ng chỉ một hay hai thủ m&ocirc;n rất xuất sắc l&agrave; Fabianski (Swansea) v&agrave; Szczesny (Juventus). Fabianski đ&atilde; c&oacute; một m&agrave;n tr&igrave;nh diễn rất ấn tượng ở Premier League m&ugrave;a giải qua d&ugrave; CLB của anh xuống hạng. Kh&ocirc;ng thủ th&agrave;nh n&agrave;o c&oacute; số lần cứu thua nhiều hơn anh (137).<br />\r\nTrong khi người g&aacute;c đền của Juve cũng c&oacute; tới 14/20 trận ở mọi giải đấu giữ sạch lưới cho CLB m&igrave;nh d&ugrave; phải chia sẻ vị tr&iacute; với Gianluigi Buffon.</p>\r\n\r\n<p>Ở h&agrave;ng tiền vệ, Jakub Blaszczykowski (Wolfburg) sẽ c&oacute; lần thứ 100 kho&aacute;c &aacute;o đội tuyển quốc gia. Tuy m&ugrave;a giải qua cầu thủ n&agrave;y rất hiếm khi được ra s&acirc;n ở CLB nhưng Ba Lan vẫn rất cần kinh nghiệm qu&iacute; b&aacute;u của anh.</p>\r\n\r\n<p><img alt=\"Ba Lan không chỉ có Lewandowski - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hoanghai.nguyen/2018/06/19/piotr-zielinski-controls-the-ball-during-the-international-friendly-match-1655.jpg\" style=\"height:409px; width:615px\" /></p>\r\n\r\n<h2>&nbsp;Piotr Zielinski đang được Liverpool r&aacute;o riết săn đ&oacute;n.</h2>\r\n\r\n<p>Hỗ trợ cho&nbsp;<a href=\"http://www.bongda.com.vn/Lewandowski-search/\" target=\"_blank\">Lewandowski</a>&nbsp;ở h&agrave;ng c&ocirc;ng sẽ l&agrave; cầu thủ Piotr Zielinski của Napoli. Cầu thủ 24 tuổi người Ba Lan l&agrave; một mẫu tiền vệ tuyệt vời. Anh được xem l&agrave; thủ lĩnh của&nbsp;tuyến giữa&nbsp;khi thể hiện được lối chơi s&aacute;ng tạo v&agrave; hỗ trợ đồng đội hết m&igrave;nh. Hiện Zielinski đang được Liverpool li&ecirc;n hệ.</p>\r\n\r\n<p>V&agrave; nếu Ba Lan cần một người s&aacute;t c&aacute;nh cạnh tiền đạo Bayern Munich th&igrave; đ&atilde; c&oacute; trung phong Arkadiusz Milik. Trong m&ugrave;a giải qua ở Napoli, Milik lại gặp v&ocirc; v&agrave;n kh&oacute; khăn v&igrave; chấn thương nhưng nếu đ&aacute; đ&uacute;ng phong độ của m&igrave;nh anh sẽ rất đ&aacute;ng sợ với khả năng dứt điểm cực tốt của m&igrave;nh.</p>', 'noone.png', '2018-06-19'),
 (3, 'World Cup 2018 là một giải đấu kì lạ!', '<p>Giải đấu b&oacute;ng đ&aacute; lớn nhất năm nay mới chỉ chưa đi hết một v&ograve;ng đấu đầu ti&ecirc;n, nhưng c&oacute; vẻ n&oacute; đ&atilde; đem đến cho nhiều người sự bất ngờ kh&ocirc;ng thể tả.</p>', '<p>Hệ thống ph&acirc;n cấp ở&nbsp;c&aacute;c giải đấu b&oacute;ng đ&aacute;&nbsp;vẫn thường được ban tổ chức giải đấu quyết định khi đưa ra 4 nh&oacute;m kh&aacute;c nhau, v&agrave; tr&ecirc;n thực tế, chẳng ai nghi ngờ việc&nbsp;<a href=\"http://www.bongda.com.vn/brazil-search/\" target=\"_blank\">Brazil</a>, Đức, Argentina lại c&ugrave;ng đẳng cấp với Thuỵ Sĩ, Mexico hay Iceland... N&oacute;i như vậy để ch&uacute;ng ta hiểu được tại sao giải đấu năm nay lại l&agrave; một giải đấu k&igrave; lạ.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/sport-preview-golden-boot-1451.jpg\" style=\"height:420px; width:630px\" /></p>\r\n\r\n<h2>&nbsp;Gi&aacute; trị của 3 ng&ocirc;i sao n&agrave;y c&oacute; thể nhiều hơn cả một đội h&igrave;nh tại World Cup.</h2>\r\n\r\n<p>Trong lịch sử của c&aacute;c v&ograve;ng chung kết&nbsp;<a href=\"http://www.bongda.com.vn/world+cup+2018-search/\" target=\"_blank\">World Cup</a>, dĩ nhi&ecirc;n l&agrave; vẫn c&oacute; những bất ngờ như Hungary h&ugrave;ng mạnh vẫn bị T&acirc;y Đức đ&aacute;nh bại 3-2 ở trận chung kết năm 1954, d&ugrave; trước đ&oacute; 2 đội đ&atilde; gặp nhau ở v&ograve;ng bảng v&agrave; tỉ số khi đ&oacute; l&agrave; 8-3 cho đội b&oacute;ng của Ferenc Puskas. Nhưng nếu chỉ t&iacute;nh trong một giải đấu th&igrave; trước giờ chưa c&oacute; một k&igrave; đại hội n&agrave;o &quot;kh&oacute; hiểu&quot; như năm nay.</p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/bi-an-chan-thuong-salah-tat-ca-deu-ngo-ngang-d450855.html\">B&iacute; ẩn chấn thương Salah: Tất cả đều ngỡ ng&agrave;ng!</a></p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/thua-mexico-tuyen-duc-gian-lay-truyen-thong-d450812.html\">Thua Mexico, tuyển Đức &#39;giận lẫy&#39; truyền th&ocirc;ng</a></p>\r\n\r\n<p>M&agrave;n &quot;hạ s&aacute;t&quot; Ả Rập X&ecirc; &Uacute;t của chủ nh&agrave; Nga ho&aacute; ra lại l&agrave; một sự &quot;giả dối&quot; với con mắt người h&acirc;m mộ. Bởi nếu chỉ t&iacute;nh 8 đội tuyển được đ&aacute;nh gi&aacute; cao nhất l&agrave; Brazil,&nbsp;<a href=\"http://www.bongda.com.vn/T%C3%A2y+Ban+Nha-search/\" target=\"_blank\">T&acirc;y Ban Nha</a>, Đức, Ph&aacute;p, Anh, Bỉ, Argentina, Bồ Đ&agrave;o Nha, th&igrave; kh&ocirc;ng ai trong số n&agrave;y c&oacute; m&agrave;n tr&igrave;nh diễn qu&aacute; ấn tượng, thậm ch&iacute; họ c&ograve;n bị l&ocirc;i ra l&agrave;m tr&ograve; cười sau khi trận đấu với c&aacute;c đối thủ chiếu dưới kết th&uacute;c.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/15292712627954-1455.jpg\" style=\"height:370px; width:629px\" /></p>\r\n\r\n<h2>&nbsp;Đ&atilde; rất l&acirc;u rồi Brazil mới phải kh&oacute; khăn trước những đội b&oacute;ng nhỏ như vậy.</h2>\r\n\r\n<p>Đội tuyển&nbsp;<a href=\"http://www.bongda.com.vn/b%E1%BB%89-search/\" target=\"_blank\">Bỉ</a>&nbsp;thắng 3-0 trước Panama nhưng ai cũng biết họ gần như bế tắc cả 45 ph&uacute;t đầu ti&ecirc;n, v&agrave; nếu kh&ocirc;ng c&oacute; Dries Mertens bỗng ngẫu hứng với c&uacute; dứt điểm tuyệt đẹp th&igrave; kh&ocirc;ng ai biết Bỉ c&oacute; thể l&agrave;m c&aacute;ch n&agrave;o m&agrave; xuy&ecirc;n ph&aacute; được h&agrave;ng ph&ograve;ng ngự của Roman Torres v&agrave; c&aacute;c đồng đội.</p>\r\n\r\n<p>Trong khi đ&oacute; Ph&aacute;p v&agrave;&nbsp;<a href=\"http://www.bongda.com.vn/5-diem-nhan-tunisia-1-2-anh-khi-var-khong-phai-la-dong-minh-d450795.html\" target=\"_blank\">Anh phải thực sự h&uacute; v&iacute;a v&igrave; đối thủ</a>, họ cần nhờ đến những t&igrave;nh huống may mắn hoặc cuối trận mới c&oacute; thể kết liễu được đối thủ. C&ograve;n Argentina v&agrave; Brazil đ&atilde; để lại một sự thất vọng c&ugrave;ng cực khi chỉ kiếm được 1 điểm trong thế trận chẳng biết chơi b&oacute;ng thế n&agrave;o.</p>\r\n\r\n<p>Thậm ch&iacute; đương kim v&ocirc; địch thế giới&nbsp;<a href=\"http://www.bongda.com.vn/%C4%91%E1%BB%A9c-search/\" target=\"_blank\">Đức</a>&nbsp;c&ograve;n &quot;chết gục&quot; trước một Mexico kh&ocirc;ng được đ&aacute;nh gi&aacute; cao. Nếu điều n&agrave;y được n&oacute;i ở trước giải đấu c&oacute; lẽ kh&ocirc;ng c&oacute; ai tin trừ người d&acirc;n Mexico. Bởi Đức kh&ocirc;ng giống với 2 &ocirc;ng lớn ở Nam Mỹ, họ lu&ocirc;n c&oacute; sự ổn định rất cao v&agrave; c&aacute;c tuyển thủ đều l&agrave; những người qu&aacute; quen thuộc với kh&aacute;n giả.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/germany-mexico-lozano-earthquake-1459.jpg\" style=\"height:351px; width:630px\" /></p>\r\n\r\n<h2>&nbsp;Thậm ch&iacute; ĐKVĐ Đức c&ograve;n thất bại &ecirc; chề trước Mexico, điều chưa bao giờ xảy ra trước đ&oacute;.</h2>\r\n\r\n<p>Những kết quả bất ngờ n&agrave;y đ&atilde; cho thấy, kh&ocirc;ng phải c&aacute;c đội b&oacute;ng lớn đ&atilde; yếu đi m&agrave; do những kẻ &quot;l&oacute;t đường&quot; đ&atilde; lột x&aacute;c với c&aacute;ch l&agrave;m b&oacute;ng đ&aacute; trong nhiều năm qua. Giờ đ&acirc;y World Cup c&oacute; vẻ tương đồng với giải Ngoại hạng Anh, khi m&agrave; bất cứ đội b&oacute;ng n&agrave;o cũng c&oacute; thể bị đ&aacute;nh bại hoặc cầm ch&acirc;n bởi những c&aacute;i t&ecirc;n m&agrave; kh&ocirc;ng ai d&aacute;m nghĩ họ sẽ l&agrave;m được.</p>\r\n\r\n<p>C&oacute; thể n&oacute;i, đ&acirc;y l&agrave; một t&iacute;n hiệu đ&aacute;ng mừng với sự ph&aacute;t triển chung của m&ocirc;n thể thao n&agrave;y. Những đội b&oacute;ng nhỏ đ&atilde; thực sự đi đ&uacute;ng hướng trong kế hoạch ph&aacute;t triển kỹ năng chuy&ecirc;n m&ocirc;n. v&agrave; như vậy sự cạnh tranh cũng sẽ được đưa l&ecirc;n một tầm mới. C&aacute;c giải đấu sẽ kh&ocirc;ng c&ograve;n l&agrave; cuộc chơi ri&ecirc;ng của những đội b&oacute;ng quen thuộc với kh&aacute;n giả m&agrave; sẽ trải đều cơ hội cho tất cả những th&agrave;nh vi&ecirc;n kh&aacute;c.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/iceland-team-1502.jpg\" style=\"height:419px; width:630px\" /></p>\r\n\r\n<h2>&nbsp;Trước đ&oacute; kh&ocirc;ng nhiều người để &yacute; đến đội tuyển Iceland.</h2>\r\n\r\n<p>Th&ecirc;m nữa, b&oacute;ng đ&aacute; ph&aacute;t triển ở một khu vực nhất định n&agrave;o đ&oacute; cũng k&eacute;o theo người h&acirc;m mộ, v&agrave; d&acirc;n tr&iacute; từ đ&oacute; cũng sẽ được tăng l&ecirc;n, &iacute;t nhất ở kh&iacute;a cạnh giải tr&iacute;. Ngo&agrave;i ra, c&aacute;i lợi của b&oacute;ng đ&aacute; về những sự ph&acirc;n biệt sắc tộc hay quan điểm ch&iacute;nh trị c&oacute; khi cũng sẽ dung ho&agrave; với m&ocirc;n thể thao n&agrave;y với người h&acirc;m mộ.</p>\r\n\r\n<p><strong>World Cup 2018 l&agrave; một giải đấu k&igrave; lạ</strong>&nbsp;nhưng n&oacute; lại mang đến một điều t&iacute;ch cực lớn lao cho sự ph&aacute;t triển chung của b&oacute;ng đ&aacute;. Trước mắt ch&uacute;ng ta vẫn c&ograve;n rất nhiều trận đấu hấp dẫn, v&agrave; h&atilde;y c&ugrave;ng thưởng thức trọn vẹn để thấy được sự cuốn h&uacute;t của n&oacute;!</p>', '1529412303iceland-team-1502.jpg', '2018-06-19');
 
 -- --------------------------------------------------------
@@ -751,22 +753,12 @@ INSERT INTO `tiso` (`id`, `idCauLacBo`, `idTranDau`, `idGiaiDau`, `TiSo`, `Trang
 (2, 1, 1, 1, 1, -1),
 (5, 2, 3, 1, 3, 1),
 (6, 4, 3, 1, 0, -1),
-(7, 3, 4, 1, NULL, NULL),
-(8, 2, 4, 1, NULL, NULL),
-(9, 1, 5, 1, NULL, NULL),
-(10, 2, 5, 1, NULL, NULL),
-(11, 1, 6, 1, NULL, NULL),
-(12, 4, 6, 1, NULL, NULL),
-(13, 2, 7, 1, NULL, NULL),
-(14, 3, 7, 1, NULL, NULL),
-(15, 3, 8, 1, NULL, NULL),
-(16, 1, 8, 1, NULL, NULL),
-(17, 4, 9, 1, NULL, NULL),
-(18, 3, 9, 1, NULL, NULL),
-(21, 4, 11, 1, NULL, NULL),
-(22, 2, 11, 1, NULL, NULL),
-(23, 1, 12, 1, NULL, NULL),
-(24, 3, 12, 1, NULL, NULL);
+(21, 4, 11, 1, 2, 1),
+(22, 2, 11, 1, 1, -1),
+(43, 4, 22, 1, 2, 1),
+(44, 3, 22, 1, 1, -1),
+(47, 2, 24, 1, NULL, 0),
+(48, 3, 24, 1, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -844,14 +836,9 @@ CREATE TABLE `trandau` (
 INSERT INTO `trandau` (`id`, `VongDau`, `NgayThiDau`, `GioThiDau`, `DiaDiem`, `idDoiHinh`, `idChienThuat`, `TranDauCuaCLB`) VALUES
 (1, 1, '2018-06-01', '16:00:00', 'Anfield', 2, 4, 1),
 (3, 3, '2018-06-10', '17:00:00', 'Anfield', 2, 1, 1),
-(4, 4, '2018-06-15', '19:00:00', 'Old Trafford', 3, 4, 1),
-(5, 5, '2018-06-19', '16:00:00', 'Emirates', 1, 1, 1),
-(6, 6, '2018-06-23', '16:00:00', 'Emirates', NULL, NULL, 0),
-(7, 7, '2018-06-23', '17:00:00', 'Anfield', NULL, NULL, 1),
-(8, 8, '2018-06-23', '17:00:00', 'Old Trafford', NULL, NULL, 0),
-(9, 9, '2018-06-23', '17:00:00', 'Etihad', NULL, NULL, 0),
 (11, 2, '2018-06-25', '18:30:00', 'Anfield', NULL, NULL, 1),
-(12, 10, '2018-06-25', '17:30:00', 'Emirates', NULL, NULL, 0);
+(22, 3, '2018-06-30', '17:00:00', 'Emirates', NULL, NULL, 0),
+(24, 4, '2018-06-30', '17:00:00', 'Anfield', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1360,7 +1347,7 @@ ALTER TABLE `doihinh`
 -- AUTO_INCREMENT cho bảng `giaidau`
 --
 ALTER TABLE `giaidau`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `giaotrinhtap`
@@ -1408,7 +1395,7 @@ ALTER TABLE `lichluyentap`
 -- AUTO_INCREMENT cho bảng `nguoidung`
 --
 ALTER TABLE `nguoidung`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT cho bảng `phacdodieutri`
@@ -1420,7 +1407,7 @@ ALTER TABLE `phacdodieutri`
 -- AUTO_INCREMENT cho bảng `phongdo`
 --
 ALTER TABLE `phongdo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `thanhtichcauthu`
@@ -1450,7 +1437,7 @@ ALTER TABLE `tintuc`
 -- AUTO_INCREMENT cho bảng `tiso`
 --
 ALTER TABLE `tiso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT cho bảng `toathuoc`
@@ -1468,7 +1455,7 @@ ALTER TABLE `toathuoc_thuoc`
 -- AUTO_INCREMENT cho bảng `trandau`
 --
 ALTER TABLE `trandau`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `vaitro`

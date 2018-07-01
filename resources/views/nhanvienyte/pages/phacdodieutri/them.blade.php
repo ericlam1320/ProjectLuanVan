@@ -1,5 +1,5 @@
 @extends ('nhanvienyte.layout.master_nhanvienyte')
-@section ('title', 'Quản lý Chấn thương')
+@section ('title', 'Quản lý Phác đồ điều trị')
 @section('content')
 
   <div id="page-wrapper">
@@ -7,7 +7,7 @@
       <div class="main-page">
         
         <div class="row">
-            <h3 class="title1">Thêm chấn thương :</h3>
+            <h3 class="title1">Thêm phác đồ điều trị :</h3>
 
             @if(session('success'))
                 <div class="alert alert-success">
@@ -23,23 +23,23 @@
 
 
             <div class="form-three widget-shadow">
-              <form method="POST" class="form-horizontal" action="nhan-vien-y-te/chan-thuong/them" enctype="multipart/form-data">
+              <form method="POST" class="form-horizontal" action="nhan-vien-y-te/phac-do-dieu-tri/them" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                 
                   <div class="col-md-12">
-                    <div class="form-group {{ $errors->has('tenchanthuong') ? 'has-error' : '' }}">
+                    <div class="form-group {{ $errors->has('trinhtuthuchien') ? 'has-error' : '' }}">
 
-                      <label for="txtarea1" class="col-md-4 control-label">Tên chấn thương:</label>
+                      <label for="txtarea1" class="col-md-4 control-label">Trình tự thực hiện:</label>
                       <div class="col-md-3">
-                        <input style="height: 30px; width: 200px" class="form-control1" placeholder="Nhập tên chấn thương" type="text" name="tenchanthuong">
+                        <textarea style="width: 500px; height: 200px" name="trinhtuthuchien" placeholder="Nhập trình tự"></textarea>
                       </div>
 
                       <div class="col-md-5">
-                        @if ($errors->has('tenchanthuong'))
+                        @if ($errors->has('trinhtuthuchien'))
                           <span class="help-block">
                             <strong style="color:#E01A22">
-                              {{ $errors->first('tenchanthuong') }}
+                              {{ $errors->first('trinhtuthuchien') }}
                             </strong>
                           </span>
                         @endif
@@ -49,24 +49,18 @@
                   </div>
 
                   <div class="col-md-12">
-                    <div class="form-group {{ $errors->has('phanloaichanthuong') ? 'has-error' : '' }}">
+                    <div class="form-group {{ $errors->has('tiendohoiphuc') ? 'has-error' : '' }}">
 
-                      <label for="txtarea1" class="col-md-4 control-label">Loại chấn thương:</label>
+                      <label for="txtarea1" class="col-md-4 control-label">Tiến độ hồi phục:</label>
                       <div class="col-md-3">
-                        <select style="width: 200px;" class="control-label " name="phanloaichanthuong" >
-                                        <option value="1">Chấn thương ngoài da</option>
-                                        <option value="2">Chấn thương cơ</option>
-                                        <option value="3">Chấn thương khớp</option>
-                                        <option value="4">Chấn thương xương</option>
-                                        <option value="5">Chấn thương đầu</option>
-                                      </select>
+                       <input style="height: 30px; width: 500px" class="form-control1" placeholder="0" type="number" min="0" max="20" name="tiendohoiphuc">
                       </div>
 
                       <div class="col-md-5">
-                        @if ($errors->has('phanloaichanthuong'))
+                        @if ($errors->has('tiendohoiphuc'))
                           <span class="help-block">
                             <strong style="color:#E01A22">
-                              {{ $errors->first('phanloaichanthuong') }}
+                              {{ $errors->first('tiendohoiphuc') }}
                             </strong>
                           </span>
                         @endif
@@ -77,18 +71,18 @@
 
 
                   <div class="col-md-12">
-                    <div class="form-group {{ $errors->has('thoigianhoiphuc') ? 'has-error' : '' }}">
+                    <div class="form-group {{ $errors->has('ghichu') ? 'has-error' : '' }}">
 
-                      <label for="txtarea1" class="col-md-4 control-label">Thời gian hồi phục:</label>
+                      <label for="txtarea1" class="col-md-4 control-label">Ghi chú:</label>
                       <div class="col-md-3">
-                        <input style="height: 30px; width: 200px" class="form-control1" placeholder="0" type="number" min="0" max="104" name="thoigianhoiphuc">
+                        <textarea style="width: 500px; height: 200px" name="ghichu" placeholder="Nhập ghi chú"></textarea>
                       </div>
 
                       <div class="col-md-5">
-                        @if ($errors->has('thoigianhoiphuc'))
+                        @if ($errors->has('ghichu'))
                           <span class="help-block">
                             <strong style="color:#E01A22">
-                              {{ $errors->first('thoigianhoiphuc') }}
+                              {{ $errors->first('ghichu') }}
                             </strong>
                           </span>
                         @endif

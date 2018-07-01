@@ -61,6 +61,7 @@
 									<div class="col-md-6">
 										<select name="doib" id="selector1" class="form-control1">
 											<option value="macdinh">Chọn đội bóng</option>
+											
 											@foreach($caulacbo as $clb)
 											<option value="{{$clb->id}}"
 												@if($tiso[1]->idCauLacBo === $clb->id)
@@ -109,7 +110,7 @@
 											<option value="macdinh">Chọn giải đấu</option>
 											@foreach($giaidau as $gd)
 											<option value="{{$gd->id}}"
-													@if($tiso2->idGiaiDau === $gd->id)
+													@if($trandau->TiSo[0]->idGiaiDau === $gd->id)
 														{{'Selected'}}
 													@endif 
 												>{{$gd->TenGiaiDau}} {{  date('Y',strtotime($gd->NamBatDauMuaGiai)) }}-{{  date('Y',strtotime($gd->NamKetThucMuaGiai)) }}</option>

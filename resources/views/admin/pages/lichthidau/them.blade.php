@@ -28,7 +28,7 @@
 								<div class="form-group">
 									<label for="txtarea1" class="col-sm-2 control-label">Vòng đấu:</label>
 									<div class="col-sm-6">
-										<input class="form-control1" type="number" name="vongdau" value="{{($vongdau->VongDau)+1}}">
+										<input class="form-control1" type="number" name="vongdau" value="{{($vongdau->VongDau)}}">
 									</div>
 								</div>
 

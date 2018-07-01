@@ -217,12 +217,31 @@ Route::group(['prefix'=>'nhan-vien-y-te'],function(){
 
 	Route::get('', 'NhanVienYTeController@getIndex' )->name('TrangChu_NhanVienYTe');
 
-	Route::group(['prefix'=>'chanthuong'], function(){
+	Route::group(['prefix'=>'chan-thuong'], function(){
 		Route::get('danh-sach'		, 	'ChanThuongController@getDanhSach')		->name('DanhSachChanThuong');
 		Route::get('them'			, 	'ChanThuongController@getThem')			->name('ThemChanThuong');
-     // Route::post('them'			, 	'ChanThuongController@postThem');
-		Route::get('sua'			, 	'ChanThuongController@getSua')			->name('SuaChanThuong');
-    //  Route::post('sua/{id}'		, 	'ChanThuongController@postSua');
+     	Route::post('them'			, 	'ChanThuongController@postThem');
+     	Route::get('xoa/{id}'		, 	'ChanThuongController@getXoa');
+		Route::get('sua/{id}'		, 	'ChanThuongController@getSua')			->name('SuaChanThuong');
+     	Route::post('sua/{id}'		, 	'ChanThuongController@postSua');
+	});
+
+	Route::group(['prefix'=>'thuoc'], function(){
+		Route::get('danh-sach'		, 	'ThuocController@getDanhSach')		->name('DanhSachThuoc');
+		Route::get('them'			, 	'ThuocController@getThem')			->name('ThemThuoc');
+     	Route::post('them'			, 	'ThuocController@postThem');
+     	Route::get('xoa/{id}'		, 	'ThuocController@getXoa');
+		Route::get('sua/{id}'		, 	'ThuocController@getSua')			->name('SuaThuoc');
+     	Route::post('sua/{id}'		, 	'ThuocController@postSua');
+	});
+
+	Route::group(['prefix'=>'phac-do-dieu-tri'], function(){
+		Route::get('danh-sach'		, 	'PhacDoDieuTriController@getDanhSach')		->name('DanhSachPhacDoDieuTri');
+		Route::get('them'			, 	'PhacDoDieuTriController@getThem')			->name('ThemPhacDoDieuTri');
+     	Route::post('them'			, 	'PhacDoDieuTriController@postThem');
+     	Route::get('xoa/{id}'		, 	'PhacDoDieuTriController@getXoa');
+		Route::get('sua/{id}'		, 	'PhacDoDieuTriController@getSua')			->name('SuaPhacDoDieuTri');
+     	Route::post('sua/{id}'		, 	'PhacDoDieuTriController@postSua');
 	});
 
 	Route::group(['prefix'=>'lich-kham'], function(){

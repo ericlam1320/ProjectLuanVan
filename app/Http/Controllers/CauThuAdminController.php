@@ -57,30 +57,30 @@ class CauThuAdminController extends Controller
 
     	],
     	[
-    		'hoten.required'                =>      'Không được để trống họ tên',
+    		'hoten.required'                =>      'Không được để trống',
             'hoten.regex'                   =>      'Vui lòng nhập chữ cái',
 
-            'tendangnhap.required'          =>      'Không được để trống tên đăng nhập',
+            'tendangnhap.required'          =>      'Không được để trống',
             'tendangnhap.unique'            =>      'Tên đăng nhập đã tồn tại',
             'tendangnhap.regex'             =>      'Vui lòng nhập chữ thường và số',
 
-            'matkhau.required'              =>      'Không được để trống mật khẩu',
+            'matkhau.required'              =>      'Không được để trống',
             'matkhau.min'                   =>      'Mật khẩu tối thiểu 6 ký tự',
             'matkhau.max'                   =>      'Mật khẩu tối thiểu 10 ký tự',
             'matkhau.regex'                 =>      'Vui lòng nhập chữ cái và số',
 
-            'nhaplaimatkhau.required'       =>      'Không được để trống mật khẩu',
+            'nhaplaimatkhau.required'       =>      'Không được để trống',
             'nhaplaimatkhau.same'           =>      'Mật khẩu nhập lại không trùng khớp',
 
-            'email.required'                =>      'Không được để trống email',
+            'email.required'                =>      'Không được để trống',
             'email.email'                   =>      'Email không hợp lệ',
             'email.regex'                   =>      'Email không hợp lệ',
             'email.unique'                  =>      'Email đã tồn tại',
 
-            'quoctich.required'             =>      'Không được để trống quốc tịch',
+            'quoctich.required'             =>      'Không được để trống',
             'quoctich.regex'                =>      'Vui lòng nhập chữ cái',
 
-            'noisinh.required'              =>      'Không được để trống nơi sinh',
+            'noisinh.required'              =>      'Không được để trống',
             'noisinh.regex'                 =>      'Vui lòng nhập chữ cái',
 
             'hinhdaidien.image'             =>      'Hình đại diện không đúng định dạng',
@@ -195,22 +195,22 @@ class CauThuAdminController extends Controller
 
         ],
         [
-            'hoten.required'                =>      'Không được để trống họ tên',
+            'hoten.required'                =>      'Không được để trống',
             'hoten.regex'                   =>      'Vui lòng nhập chữ cái',
 
-            'tendangnhap.required'          =>      'Không được để trống tên đăng nhập',
+            'tendangnhap.required'          =>      'Không được để trống',
             'tendangnhap.unique'            =>      'Tên đăng nhập đã tồn tại',
             'tendangnhap.regex'             =>      'Vui lòng nhập chữ thường và số',
 
-            'email.required'                =>      'Không được để trống email',
+            'email.required'                =>      'Không được để trống',
             'email.email'                   =>      'Email không hợp lệ',
             'email.regex'                   =>      'Email không hợp lệ',
             'email.unique'                  =>      'Email đã tồn tại',
 
-            'quoctich.required'             =>      'Không được để trống quốc tịch',
+            'quoctich.required'             =>      'Không được để trống',
             'quoctich.regex'                =>      'Vui lòng nhập chữ cái',
 
-            'noisinh.required'              =>      'Không được để trống nơi sinh',
+            'noisinh.required'              =>      'Không được để trống',
             'noisinh.regex'                 =>      'Vui lòng nhập chữ cái',
 
             'hinhdaidien.image'             =>      'Hình đại diện không đúng định dạng',

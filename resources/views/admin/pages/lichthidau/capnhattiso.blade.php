@@ -66,7 +66,7 @@
 												
 												<label style="line-height:30px; margin-left: 20px" for="txtarea1">{{$trandau[0]->TenDayDu}}</label>
 
-												<input style="height: 30px; width: 60px; margin-left: 20px" class="form-control1" type="number" value="{{$trandau[0]->TiSo}}" name="tisoa">
+												<input style="height: 30px; width: 60px; margin-left: 20px" class="form-control1" type="number" value="{{$trandau[0]->TiSo}}" min="0" max="90" name="tisoa">
 													
 											</div>
 										</div>
@@ -75,7 +75,7 @@
 
 											<div class="form-group">
 												
-													<input style="height: 30px; width: 60px; margin-left: 20px" class="form-control1" value="{{$trandau[1]->TiSo}}" type="number" name="tisob">
+													<input style="height: 30px; width: 60px; margin-left: 20px" class="form-control1" value="{{$trandau[1]->TiSo}}" min="0" max="90" type="number" name="tisob">
 													
 													
 													<label style="line-height:30px; margin-right: 20px" for="txtarea1">{{$trandau[1]->TenDayDu}}</label>
