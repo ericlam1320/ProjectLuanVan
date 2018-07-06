@@ -17,13 +17,13 @@ Liverpool FC - Trang chủ
 					<a href="#"><img src="Client/images/logos/Liverpool_big.png" alt=""></a>
 				</div>
 				<div class="text">
-					<h6><a href="#">Liverpool</a></h6>
+					<h6><a>Liverpool</a></h6>
 				</div>
 			</div>
 
 			<div class="ftb-final-result">
 				<em>27/05/2018 | 9:00 pm <i>Kiev Stadium</i></em>
-				<a class="btn-4"  href="./huan-luyen-vien/1/doi-hinh-chien-thuat">Điều chỉnh đội hình chiến thuật</a>
+				<a class="btn-4"  href="./huan-luyen-vien/doi-hinh-chien-thuat">Điều chỉnh đội hình chiến thuật</a>
 			</div>
 
 			<div class="ftb-result1 ftb-result2">
@@ -31,7 +31,7 @@ Liverpool FC - Trang chủ
 					<a href="#"><img src="Client/images/logos/RealMadrid_big.png" alt=""></a>
 				</div>
 				<div class="text">
-					<h6><a href="#">Real Madrid</a></h6>
+					<h6><a >Real Madrid</a></h6>
 				</div>
 			</div>
 		</div>

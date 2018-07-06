@@ -53,6 +53,10 @@
 									</div>
 									@endforeach
 									<!-- KODE DETAIL FIG END -->
+
+									<div class="text-center">
+										{{ $TinTuc->links() }}
+									</div>
 																	
 
 								</div>

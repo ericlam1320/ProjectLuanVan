@@ -63,13 +63,14 @@ Liverpool FC - {{  $tenCauThu  }}
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="cau-thu/{{ $tenCauThu }}">Trang chủ</a></li>
+				<li><a href="cau-thu/{{ Auth::user()->username }}">Trang chủ</a></li>
 				<li class="active">Cập nhật thông tin cá nhân</li>
 			</ul>
 		</div>
 	</div>
 </div>
 
+@if(!empty($CauThu[0]))
 <div class="kode-content">
 	<div class="ft-match-slider">
 
@@ -79,7 +80,7 @@ Liverpool FC - {{  $tenCauThu  }}
 					<div class="col-md-4">
 						<div class="kode_player_fig">
 							<figure>
-								<img height="300" src="Client/images/players/Players_Home3.png" alt="">
+								<img height="300" src="Client/images/players/{{ $CauThu[0]->HinhDaiDien }}" alt="">
 							</figure>
 
 						</div>
@@ -87,14 +88,30 @@ Liverpool FC - {{  $tenCauThu  }}
 					<div class="col-md-8">
 						<div class="kode_player_item">
 
-							<form action="" method="POST">
+							@if(session('thongbao'))
+							<div class="alert alert-success">
+								{{ session('thongbao') }}
+							</div>
+		                  	@endif
+							@if(session('loi'))
+							<div class="alert alert-danger">
+								{{ session('loi') }}
+							</div>
+		                  	@endif
+
+							<form action="cau-thu/{{ Auth::user()->username }}/thong-tin-ca-nhan/sua" method="POST">
+								{{ csrf_field() }}
 								<div class="col-md-12">
 									<div class="col-md-3">
 										<label for="">Tên đăng nhập : </label>
 									</div>
 									<div class="col-md-9">
 										<div class="kode_contant_field">
-											<input type="text" placeholder="Tên đăng nhập" value="MohamedSalah2018" name="TenDangNhap" required>
+											<input type="text" placeholder="Tên đăng nhập" value="{{ $CauThu[0]->username }}" name="TenDangNhap" >
+											@if ($errors->has('TenDangNhap'))
+							                <span class="help-block"><strong style="font-size:14px; color:#E01A22">{{ 
+							                	$errors->first('TenDangNhap') }}</strong></span>
+							                @endif
 										</div>
 									</div>
 								</div>
@@ -104,7 +121,10 @@ Liverpool FC - {{  $tenCauThu  }}
 									</div>
 									<div class="col-md-9">
 										<div class="kode_contant_field">
-											<input type="text" placeholder="Email" value="Salach@gmail.com" name="Email" required>
+											<input type="text" placeholder="Email" value="{{ $CauThu[0]->Email }}" name="Email" >
+											@if ($errors->has('Email'))
+							                <span class="help-block"><strong style="font-size:14px; color:#E01A22">{{ $errors->first('Email') }}</strong></span>
+							                @endif
 										</div>
 									</div>
 								</div>
@@ -125,19 +145,32 @@ Liverpool FC - {{  $tenCauThu  }}
 									<div class="col-md-4">
 										<div class="kode_contant_field">
 											<input type="password" placeholder="Mật khẩu hiện tại" name="MatKhauHienTai" >
+											@if ($errors->has('MatKhauHienTai'))
+											<span class="help-block"><strong style="font-size:14px; color:#E01A22">{{ 
+												$errors->first('MatKhauHienTai') }}</strong></span>
+											@endif
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="kode_contant_field">
 											<input type="password" placeholder="Mật khẩu mới" name="MatKhauMoi" >
+											@if ($errors->has('MatKhauMoi'))
+											<span class="help-block"><strong style="font-size:14px; color:#E01A22">{{ 
+												$errors->first('MatKhauMoi') }}</strong></span>
+											@endif
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="kode_contant_field">
 											<input type="password" placeholder="Nhập lại mật khẩu mới" name="MatKhauNhapLai" >
+											@if ($errors->has('MatKhauNhapLai'))
+											<span class="help-block"><strong style="font-size:14px; color:#E01A22">{{ 
+												$errors->first('MatKhauNhapLai') }}</strong></span>
+											@endif
 										</div>
 									</div>
 								</div>
+								
 								<div class="col-md-12">
 									<div class="kode_contant_area" style="text-align: right; margin-top: 20px">
 										<button>Cập nhật </button>
@@ -153,11 +186,16 @@ Liverpool FC - {{  $tenCauThu  }}
 
 	</div>
 </div>
+@else
+<div class="alert alert-danger">Chưa có thông tin cầu thủ này.</div>
+@endif
 
 @stop
 
 @section ('script')
 <script type="text/javascript">
+
+	$('.alert').delay(5000).slideUp()
 
 	$('#someSwitchOptionDanger').click(function(){
 

@@ -4,7 +4,7 @@
 
 @section ('content')
 
-				<!--// KODE BENNER1 START //-->
+<!--// KODE BENNER1 START //-->
 				<div class="kode_benner1 bamnner2">
 					<div class="kode_benner1_text">
 						<h2>Kết quả trận đấu</h2>
@@ -12,7 +12,7 @@
 					<div class="kode_benner1_cols">
 						<div class="container kf_container">
 							<ul class="breadcrumb">
-							  <li><a href="cau-thu/TenCauThu">Trang chủ</a></li>
+							  <li><a href="./cau-thu/{{ Auth::user()->username }}">Trang chủ</a></li>
 							  <li class="active">Kết quả</li>
 							</ul>
 						</div>
@@ -24,47 +24,43 @@
 						<div class="row">
 							<div class="col-md-9">
 								
-								@for ($i=0;$i<=3;$i++)
+								@for ($i=0;$i<count($CacTranDaDau); $i++)
 								<section class="ftb-resultbg ftb_2 ftb_3">
 									<div class="heading5 hdg_5 hdg_6">
-									  <h4>Vòng {{ 38-$i }}</h4>
+									  <h4>Vòng {{ $CacTranDaDau[$i]->VongDau }}</h4>
 									</div>
 											<div class="ftb-result-wrap wrap_2">
 											  <div class="ftb-result1">
 												<div class="ftb-result-logo">
-												  <a href="#"><img src="Client/images/logos/liverpool_big.png" alt=""></a>
+												  <a><img src="Client/images/logos/{{ $CacTranDaDau[$i]->HinhAnhCauLacBo_lon }}" alt=""></a>
 												</div>
-												<div class="text text_2">
-												  <h6><a href="#">Liverpool</a></h6>
-												  <span>Daniel Sturridge - 1 goal</span>
+												<div class="text text_2 text-center">
+												  <h6 class="text-center"><a>{{ $CacTranDaDau[$i]->TenDayDu }}</a></h6>
 												</div>
 											  </div>
 
 											  <div class="ftb-final-result result_2">
-												<em>24/04/2018 | 2:15 pm <i>Anfield</i></em>
-												<p><span class="grater">1</span> - <span>0</span></p>
+												<em>{{ date('d/m/Y', strtotime($CacTranDaDau[$i]->NgayThiDau)) }} | {{ date('G:i', strtotime($CacTranDaDau[$i]->GioThiDau)) }} <i>{{ $CacTranDaDau[$i]->DiaDiem }}</i></em>
+												<p><span class="{{ ($CacTranDaDau[$i]->TiSo>$CacTranDaDau[$i+1]->TiSo) ? 'grater' : '' }}">{{ $CacTranDaDau[$i]->TiSo }}</span> - <span class="{{ ($CacTranDaDau[$i]->TiSo<$CacTranDaDau[$i+1]->TiSo) ? 'grater' : '' }}">{{ $CacTranDaDau[$i+1]->TiSo }}</span></p>
 											  </div>
 
 											  <div class="ftb-result1 ftb-result2">
 												<div class="ftb-result-logo">
-												  <a href="#"><img src="Client/images/logos/MU_big.png" alt=""></a>
+												  <a><img src="Client/images/logos/{{ $CacTranDaDau[$i+1]->HinhAnhCauLacBo_lon }}" alt=""></a>
 												</div>
-												<div class="text text_2">
-												  <h6><a href="#">Manchester Utd</a></h6>
+												<div class="text text_2 text-center">
+												  <h6 class="text-center"><a>{{ $CacTranDaDau[$i+1]->TenDayDu }}</a></h6>
 												</div>
 											  </div>
 											</div>
 								</section>
+								<?php $i++ ?>
 								@endfor
 
 								<div class="kode_blog_pagination">
-									<a class="left" href="#"><i class="fa fa-angle-double-left"></i></a>
-									<a href="#">1</a>
-									<a href="#">2</a>
-									<a href="#">3</a>
-									<a href="#">4</a>
-									<a href="#">5</a>
-									<a class="right" href="#"><i class="fa fa-angle-double-right"></i></a>
+									
+									{{ $CacTranDaDau->links() }}
+
 								</div>
 							</div>
 							
@@ -80,21 +76,22 @@
 										<h5>Bảng xếp hạng</h5>
 									  <!--// RATING TABLE //-->
 										<ul class="ftb-rating-table rating_2">
-
-										  @for($i=1;$i<=10;$i++)
-										  <li class="{{$i==4 ? 'BangXepHangDoiBong' : ''}}">
+										 
+										  <?php  $i=0; ?>
+										  @foreach ($BangXepHang as $bxh)
+										  <li class="{{$bxh->TenDayDu=='Liverpool' ? 'BangXepHangDoiBong' : ''}}">
 											<div class="ftb-position">
-											  {{$i}} . 
+											  {{++$i}} . 
 											</div>
 											<div class="ftb-team-name">
-											  <img src="Client/images/logos/liverpool.png" alt="">
-											  <a href="#">Đội {{$i}}</a>
+											  <img src="Client/images/logos/{{ $bxh->HinhAnhCauLacBo }}" alt="">
+											  <a style="font-size:14px">{{ $bxh->TenDayDu }}</a>
 											</div>
 											<div class="ftb-team-points">
-											  {{50-$i}}
+											  {{ $bxh->Diem }}
 											</div>
 										  </li>
-										  @endfor
+										  @endforeach
 
 										</ul>
 										<!--// RATING TABLE //-->

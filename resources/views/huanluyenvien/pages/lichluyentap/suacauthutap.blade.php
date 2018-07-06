@@ -35,8 +35,8 @@ Liverpool FC - Cập nhật cầu thủ luyện tập
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
-				<li><a href="huan-luyen-vien/1/lich-luyen-tap">Lịch luyện tập</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien/lich-luyen-tap">Lịch luyện tập</a></li>
 				<li class="active">Cập nhật cầu thủ tập</li>
 			</ul>
 		</div>
@@ -48,7 +48,7 @@ Liverpool FC - Cập nhật cầu thủ luyện tập
 	<section>
 		<div class="container">
 			
-			<form class="form-horizontal" method="POST" action="huan-luyen-vien/1/lich-luyen-tap/sua-cau-thu-tap/{{ $CacBaiTapTrongLichTapMoiCauThu[0]->idCauThu }}/{{ $CacBaiTapTrongLichTapMoiCauThu[0]->idLichLuyenTap }}">
+			<form class="form-horizontal" method="POST" action="huan-luyen-vien/lich-luyen-tap/sua-cau-thu-tap/{{ $CacBaiTapTrongLichTapMoiCauThu[0]->idCauThu }}/{{ $CacBaiTapTrongLichTapMoiCauThu[0]->idLichLuyenTap }}">
 				{{ csrf_field() }}
 
 				@if (session('thongbao'))
@@ -65,12 +65,12 @@ Liverpool FC - Cập nhật cầu thủ luyện tập
 							<div class="col-md-4 col-sm-4">
 								<div class="panel-group" >
 									<div class="panel panel-default">
-										<div class="panel-heading">Chọn ngày tập</div>
+										<div class="panel-heading">Chọn ngày tập, ca tập</div>
 										<div class="panel-body">
 											<div class="form-group {{ $errors->has('NgayLuyenTap') ? 'has-error' : '' }}">
 												<select name="NgayLuyenTap">
 													@foreach ($NgayLuyenTap as $ngay)
-													<option value="{{ $ngay->id }}" {{ $ngay->id===$CacBaiTapTrongLichTapMoiCauThu[0]->idLichLuyenTap?'selected':'' }}>{{ date('d/m/Y', strtotime($ngay->NgayLuyenTap)) }}</option>
+													<option value="{{ $ngay->id }}" {{ $ngay->id===$CacBaiTapTrongLichTapMoiCauThu[0]->idLichLuyenTap?'selected':'' }}>Ngày: {{ date('d/m/Y', strtotime($ngay->NgayLuyenTap)) }} - {{ $ngay->CaLuyenTap }}</option>
 													@endforeach
 												</select>
 												@if ($errors->has('NgayLuyenTap'))
@@ -82,10 +82,10 @@ Liverpool FC - Cập nhật cầu thủ luyện tập
 								</div>
 								<div class="panel-group">
 									<div class="panel panel-default">
-										<div class="panel-heading">Chọn cầu thủ luyện tập</div>
+										<div class="panel-heading">Chọn các cầu thủ luyện tập</div>
 										<div class="panel-body">
 											<div class="form-group {{ $errors->has('CauThuTap') ? 'has-error' : '' }}">
-												<select name="CauThuTap" size="18" style="height: 100%;" >
+												<select name="CauThuTap" size="20" style="height: 100%;" >
 													@foreach ($CauThuTap as $cauthu)
 													<option value="{{ $cauthu->id }}" {{ $cauthu->id===$CacBaiTapTrongLichTapMoiCauThu[0]->idCauThu?'selected':'' }} readonly >{{ $cauthu->HoTen }} &nbsp; - &nbsp; {{ $cauthu->ViTriSoTruong }}</option>
 													@endforeach
@@ -102,12 +102,12 @@ Liverpool FC - Cập nhật cầu thủ luyện tập
 							<div class="col-md-8 col-sm-8">
 								<div class="panel-group">
 									<div class="panel panel-default">
-										<div class="panel-heading">Chọn giáo trình tập</div>
+										<div class="panel-heading">Chọn giáo trình tập ( Thời lượng tối đa cho 1 ca tập là 180 phút)<span id="KetQuaChonGiaoTrinhTap" style="float:right; color:#05c605;  font-weight:bold">{{ $TongThoiLuongTapCauThu }} phút</span></div>
 										<div class="panel-body">
 											<div class="form-group {{ $errors->has('GiaoTrinhTap') ? 'has-error' : '' }}">
 												@foreach ($GiaoTrinhTap as $giaotrinh)
 												<div class="col-md-6">
-													<label style=" display: inline-block; font-size: 14px"><input type="checkbox" name="GiaoTrinhTap[]" value="{{ $giaotrinh->id }}" @foreach($CacBaiTapTrongLichTapMoiCauThu as $data) {{ $giaotrinh->id===$data->idGiaoTrinhTap?'checked':'' }} @endforeach> {{ $giaotrinh->TenBaiTap }}</label><br>
+													<label style=" display: inline-block; font-size: 14px"><input type="checkbox" name="GiaoTrinhTap[]" value="{{ $giaotrinh->id }}"  data="{{ $giaotrinh->ThoiLuongTapToiDa }}" @foreach($CacBaiTapTrongLichTapMoiCauThu as $data) {{ $giaotrinh->id===$data->idGiaoTrinhTap?'checked':'' }} @endforeach> {{ $giaotrinh->TenBaiTap }} ( {{ $giaotrinh->ThoiLuongTapToiDa }} phút)</label><br>
 												</div>
 												@endforeach
 											</div>
@@ -138,4 +138,39 @@ Liverpool FC - Cập nhật cầu thủ luyện tập
 	</div>
 </section>
 </div>
+@stop
+
+@section('script')
+<script type="text/javascript">
+
+	var TongThoiLuongTap = {{ $TongThoiLuongTapCauThu }};
+	$(document).ready(function() {
+
+		$('input[type="checkbox"]').click(function() {
+		    if ($(this).is(':checked')) {
+	        	TongThoiLuongTap = TongThoiLuongTap + parseInt($(this).attr('data'));
+				if(TongThoiLuongTap > 180) {
+					document.getElementById('KetQuaChonGiaoTrinhTap').style.color = "#ff0202";
+				}
+				else{
+					document.getElementById('KetQuaChonGiaoTrinhTap').style.color = "#05c605";
+				}
+			    document.getElementById("KetQuaChonGiaoTrinhTap").innerHTML = TongThoiLuongTap + ' phút';
+	    	}else {
+	    		TongThoiLuongTap = TongThoiLuongTap - parseInt($(this).attr('data'));
+				if(TongThoiLuongTap > 180) {
+					document.getElementById('KetQuaChonGiaoTrinhTap').style.color = "#ff0202";
+				}
+				else{
+					document.getElementById('KetQuaChonGiaoTrinhTap').style.color = "#05c605";
+				}
+			    document.getElementById("KetQuaChonGiaoTrinhTap").innerHTML = TongThoiLuongTap + ' phút';
+	    	}
+		});
+
+		$('div.alert').delay(5000).slideUp();
+
+	});
+
+</script>
 @stop

@@ -231,7 +231,7 @@
 			<tr class="kode_ply_two kode_ThongKe">
 				<td>{{ ++$stt }}</td>
 				<td style="text-align: left;">
-					<img height="40" style="margin: 0px 5px 0px 15px" src="Client/images/players/Players_Home2.png" alt="">
+					<img height="40" style="margin: 0px 5px 0px 15px" src="Client/images/players/{{ $cauthu->HinhDaiDien }}" alt="">
 					<b>{{ $cauthu->HoTen }}</b>
 				</td>
 				<td>{{ $cauthu->SoTran }}</td>

@@ -30,7 +30,7 @@ td.disabled a {
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
 				<li class="active">Lịch luyện tập</li>
 			</ul>
 		</div>
@@ -49,9 +49,9 @@ td.disabled a {
 			<div class="alert alert-danger">{{ session('loi') }}</div>
 			@endif
 
-			<a href="huan-luyen-vien/1/lich-luyen-tap/them-lich-tap" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm lịch luyện tập</a>
+			<a href="huan-luyen-vien/lich-luyen-tap/them-lich-tap" class="btn btn-primary"><i class="fa fa-plus"></i> Thêm lịch luyện tập</a>
 
-			<a href="huan-luyen-vien/1/lich-luyen-tap/them-cau-thu-tap" class="btn btn-success"><i class="fa fa-plus"></i> Thêm cầu thủ luyện tập</a>
+			<a href="huan-luyen-vien/lich-luyen-tap/them-cau-thu-tap" class="btn btn-success"><i class="fa fa-plus"></i> Thêm cầu thủ luyện tập</a>
 
 			<div class="ftb-tabs-wrap">
 				<div class="tab-content">
@@ -60,9 +60,8 @@ td.disabled a {
 						<thead>
 							<tr>
 								<th class="text-center">STT</th>
-								<th class="text-center">Ngày </th>
-								<th class="text-center">Tháng </th>
-								<th class="text-center">Năm </th>
+								<th class="text-center">Ngày tập</th>
+								<th class="text-center">Ca tập</th>
 								<th style="border-color: white"></th>
 								<th  class="text-center" style="border-left-width: 2px">Cầu thủ</th>
 								<th  class="text-center">Vị trí</th>
@@ -72,14 +71,13 @@ td.disabled a {
 						</thead>
 						<tbody>
 							
-							<?php $i=0;$stt=0; ?>
+							<?php $i=0; $stt=0; ?>
 							@foreach ($CauThuTapNgayHomAy as $NgayTapCauThu)
 							
 							<tr>
 								<td class="text-center">{{ ++$stt }}</td>
-								<td class="text-center">{{ date('d', strtotime($NgayTapCauThu->NgayLuyenTap)) }}</td>
-								<td class="text-center">{{ date('m', strtotime($NgayTapCauThu->NgayLuyenTap)) }}</td>
-								<td class="text-center">{{ date('Y', strtotime($NgayTapCauThu->NgayLuyenTap)) }}</td>
+								<td class="text-center">{{ date('d/m/Y', strtotime($NgayTapCauThu->NgayLuyenTap)) }}</td>
+								<td style="width: 100px" class="text-center">{{ $NgayTapCauThu->CaLuyenTap }}</td></td>
 								<td style="border-color: white"></td>
 								<td style="border-left-width: 2px; width: 160px">
 									@if(!empty($NgayTapCauThu->HoTen))
@@ -96,12 +94,12 @@ td.disabled a {
 								</td>
 								<td style="width: 165px" class="text-center {{ ($NgayTapCauThu->NgayLuyenTap < date('Y-m-d')) ? 'disabled' : ''  }}">
 									<a 
-									href="huan-luyen-vien/1/lich-luyen-tap/sua-cau-thu-tap/{{ $NgayTapCauThu->idCauThu }}/{{ $NgayTapCauThu->NgayLuyenTap }}" 
+									href="huan-luyen-vien/lich-luyen-tap/sua-cau-thu-tap/{{ $NgayTapCauThu->idCauThu }}/{{ $NgayTapCauThu->NgayLuyenTap }}" 
 									class="btn btn-info {{ ($NgayTapCauThu->NgayLuyenTap < date('Y-m-d')) ? 'disabled' : ''  }} "
 									><i class="fa fa-edit"></i> Sửa</a>
 									<a 
 									onClick="return XacNhanXoa('Bạn có chắc muốn xóa lịch tập cầu thủ này ( Xóa toàn bộ các bài tập ngày hôm đó)?')"
-									href="huan-luyen-vien/1/lich-luyen-tap/xoa-cau-thu-tap/{{ $NgayTapCauThu->idCauThu }}/{{ $NgayTapCauThu->NgayLuyenTap }}" 
+									href="huan-luyen-vien/lich-luyen-tap/xoa-cau-thu-tap/{{ $NgayTapCauThu->idCauThu }}/{{ $NgayTapCauThu->NgayLuyenTap }}" 
 									class="btn btn-danger {{ ($NgayTapCauThu->NgayLuyenTap < date('Y-m-d')) ? 'disabled' : ''  }} "
 									><i class="fa fa-trash"></i> Xóa</a>
 								</td>

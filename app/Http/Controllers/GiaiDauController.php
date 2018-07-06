@@ -21,27 +21,26 @@ class GiaiDauController extends Controller
     }
 
     public function postThem(Request $request){
+        $thongtingiaidau = GiaiDau::all();
         $this->validate($request, [
             'tengiaidau'                =>      'required|
-                                                 regex:/^[a-zA-Z0-9\s]+$/',
-
-            'nambatdau'                 =>      'unique:giaidau,NamBatDauMuaGiai',
-
-            'namketthuc'                =>      'unique:giaidau,NamKetThucMuaGiai'
+                                                 regex:/^[a-zA-Z0-9\s]+$/'
         ], 
         [
             'tengiaidau.required'       =>      'Tên giải đấu không được để trống',
-            'tengiaidau.regex'          =>      'Tên giải đấu chỉ gồm chữ và số',
-
-            'nambatdau.unique'          =>      'Năm bắt đầu đã tồn tại',
-
-            'namketthuc.unique'         =>      'Năm kết thúc đã tồn tại'
+            'tengiaidau.regex'          =>      'Tên giải đấu chỉ gồm chữ và số'
         ]);
 
+        
+        foreach($thongtingiaidau as $ttgd){
+            if(date('Y', strtotime($request->nambatdau)) == date('Y', strtotime($ttgd->NamBatDauMuaGiai)) && date('Y', strtotime($request->namketthuc)) == date('Y', strtotime($ttgd->NamKetThucMuaGiai))){
+                return redirect()->route('ThemGiaiDau')->with('error', 'Năm bắt đầu và năm kết thúc đã tồn tại');
+            }
+        }
+        
         //86400s = 1d
         // 2678400s = 1m
-
-        if(strtotime($request->namketthuc) - strtotime($request->nambatdau) < 2678400*5 || strtotime($request->namketthuc) - strtotime($request->nambatdau) > 2678400*9) {
+        if(strtotime($request->namketthuc) - strtotime($request->nambatdau) < 2678400*5 || strtotime($request->namketthuc) - strtotime($request->nambatdau) > 2678400*10) {
             return redirect()->route('ThemGiaiDau')->with('error', 'Sai thông tin Năm của giải đấu');
         }
 
@@ -92,19 +91,11 @@ class GiaiDauController extends Controller
     public function postSua($id, Request $request){
         $this->validate($request, [
             'tengiaidau'                =>      'required|
-                                                 regex:/^[a-zA-Z0-9\s]+$/',
-
-            'nambatdau'      			=> 		'unique:giaidau,NamBatDauMuaGiai,'.$id.',id',
-
-            'namketthuc'      			=> 		'unique:giaidau,NamKetThucMuaGiai,'.$id.',id',
+                                                 regex:/^[a-zA-Z0-9\s]+$/'
         ], 
         [
             'tengiaidau.required'       =>      'Tên giải đấu không được để trống',
-            'tengiaidau.regex'          =>      'Tên giải đấu chỉ gồm chữ và số',
-
-            'nambatdau.unique'          =>      'Năm bắt đầu đã tồn tại',
-
-            'namketthuc.unique'         =>      'Năm kết thúc đã tồn tại'
+            'tengiaidau.regex'          =>      'Tên giải đấu chỉ gồm chữ và số'
         ]);
 
         //86400s = 1d
@@ -121,7 +112,7 @@ class GiaiDauController extends Controller
             $giaidau->NamKetThucMuaGiai     =       $request->namketthuc;
             $giaidau->MuaGiaiHienTai     	=       $request->muagiaihientai;
             $giaidau->save();
-            return redirect()->route('DanhSachGiaiDau')->with('success', 'Thêm giải đấu thành công.');
+            return redirect()->route('DanhSachGiaiDau')->with('success', 'Cập nhật giải đấu thành công.');
         }
     }
 }

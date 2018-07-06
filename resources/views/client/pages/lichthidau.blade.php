@@ -24,35 +24,39 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-md-9">
-								<!--// TENNIS EVENT BG //-->
+								
+								@if (!empty($TranDauTiepTheo))
 								<div class="kode_ticket_sig_row">
 									<ul>
 										<li>
-											<div class="kode_ticket_sig_fig">
+											<div class="kode_ticket_sig_fig text-center">
 												<figure>
-													<img src="Client/images/logos/liverpool_big.png" alt="" height="120">
+													<img src="Client/images/logos/{{ $TranDauTiepTheo[0]->HinhAnhCauLacBo_lon }}" alt="" height="120" style="width: 120px">
 												</figure>
-												<h4>Liverpool</h4>
+												<h4>{{ $TranDauTiepTheo[0]->TenDayDu }}</h4>
 											</div>
 										</li>
 										<li>
 											<div class="kode_ticket_sig_fig fig_2">
 												<span>VS</span>
-												<a><i class="fa fa-clock-o"></i>2 : 45 P.M</a>
-												<p>Anfield Stadium</p>
-												<h4>27/05/2018</h4>
+												<a><i class="fa fa-clock-o"></i>{{ date('G:i', strtotime($TranDauTiepTheo[0]->GioThiDau)) }}</a>
+												<p>{{ $TranDauTiepTheo[0]->DiaDiem }}</p>
+												<h4>{{ date('d/m/Y', strtotime($TranDauTiepTheo[0]->NgayThiDau)) }}</h4>
 											</div>
 										</li>
 										<li>
-											<div class="kode_ticket_sig_fig">
-												<figure>
-													<img src="Client/images/logos/realmadrid_big.png" alt="" height="120">
+											<div class="kode_ticket_sig_fig text-center">
+												<figure >
+													<img src="Client/images/logos/{{ $TranDauTiepTheo[1]->HinhAnhCauLacBo_lon }}" alt="" height="120" style="width: 120px; float:none">
 												</figure>
-												<h4>Real Madrid</h4>
+												<h4 class="text-center">{{ $TranDauTiepTheo[1]->TenDayDu }}</h4>
 											</div>
 										</li>
 									</ul>
 								</div>
+								@else
+								<div class="kode_ticket_sig_row"><div class="alert alert-danger">Chưa có thông tin dữ liệu về trận đấu tiếp theo.</div></div>
+								@endif
 								
 								<div class="ftb-tabs-wrap wrap_3">
 									<div class="ftb_tabs_drop">
@@ -61,39 +65,36 @@
 									  <!--// MAIN TABS TABLE //-->
 									  <ul class="ftb-main-table table_2">
 										
-										@for($i=1;$i<=4;$i++)
+										@if (!empty($CacTranDauTiepTheo))
+										@for ($i=0; $i<count($CacTranDauTiepTheo); $i++)
 										<li>
 										  <div class="ftb-date date_2">
-											<span>28/{{$i+5}}/2018<sup> </sup> </span>
-											<p>1:00</p>
+											<span>{{ date('d/m/Y', strtotime($CacTranDauTiepTheo[$i]->NgayThiDau)) }}<sup> </sup> </span>
+											<p>{{ date('G:i', strtotime($CacTranDauTiepTheo[$i]->GioThiDau)) }}</p>
 										  </div>
 										  <div class="ftb-compitatev tev_2">
-											<div class="compitatev-team1">
-											  <img src="Client/images/logos/liverpool_big.png" alt="">
-											  <a href="#">Liverpool</a>
+											<div class="col-md-5 compitatev-team1">
+											  <img src="Client/images/logos/{{ $CacTranDauTiepTheo[$i]->HinhAnhCauLacBo_lon }}" alt="">
+											  <a >{{ $CacTranDauTiepTheo[$i]->TenDayDu }}</a>
 											</div>
 											<span>VS</span>
-											<div class="compitatev-team1 compitatev-team2">
-											 <a href="#">Arsenal</a>
-											  <img src="Client/images/logos/arsenal_big.png" alt="">
+											<div class="col-md-5 compitatev-team1 compitatev-team2">
+											 <a >{{ $CacTranDauTiepTheo[$i+1]->TenDayDu }}</a>
+											  <img src="Client/images/logos/{{ $CacTranDauTiepTheo[$i+1]->HinhAnhCauLacBo_lon }}" alt="">
 											</div>
 										  </div>
 										  <div class="ftb-venue venue_2"></div>
 										</li>
+										<?php $i++ ?>
 										@endfor
+										@endif
 										
 									  </ul>
 									  <!--// MAIN TABS TABLE //-->  
 								</div>	
 
-								<div class="kode_blog_pagination">
-									<a class="left" href="#"><i class="fa fa-angle-double-left"></i></a>
-									<a href="#">1</a>
-									<a href="#">2</a>
-									<a href="#">3</a>
-									<a href="#">4</a>
-									<a href="#">5</a>
-									<a class="right" href="#"><i class="fa fa-angle-double-right"></i></a>
+								<div class="text-center">
+									{{ $CacTranDauTiepTheo->links() }}
 								</div>
 							</div>
 
@@ -110,21 +111,22 @@
 										<h5>Bảng xếp hạng</h5>
 									  <!--// RATING TABLE //-->
 										<ul class="ftb-rating-table rating_2">
-
-										  @for($i=1;$i<=10;$i++)
-										  <li class="{{$i==4 ? 'BangXepHangDoiBong' : ''}}">
+										 
+										  <?php  $i=0; ?>
+										  @foreach ($BangXepHang as $bxh)
+										  <li class="{{$bxh->TenDayDu=='Liverpool' ? 'BangXepHangDoiBong' : ''}}">
 											<div class="ftb-position">
-											  {{$i}} . 
+											  {{++$i}} . 
 											</div>
 											<div class="ftb-team-name">
-											  <img src="Client/images/logos/liverpool.png" alt="">
-											  <a href="#">Đội {{$i}}</a>
+											  <img src="Client/images/logos/{{ $bxh->HinhAnhCauLacBo }}" alt="">
+											  <a style="font-size:14px">{{ $bxh->TenDayDu }}</a>
 											</div>
 											<div class="ftb-team-points">
-											  {{50-$i}}
+											  {{ $bxh->Diem }}
 											</div>
 										  </li>
-										  @endfor
+										  @endforeach
 
 										</ul>
 										<!--// RATING TABLE //-->

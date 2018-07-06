@@ -39,8 +39,8 @@ td.disabled a {
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
-				<li><a href="huan-luyen-vien/1/lich-luyen-tap">Quản lý luyện tập</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien/lich-luyen-tap">Quản lý luyện tập</a></li>
 				<li class="active">Thêm ngày luyện tập</li>
 			</ul>
 		</div>
@@ -63,7 +63,7 @@ td.disabled a {
 						<div class="alert alert-danger">{{ session('loi') }}</div>
 						@endif
 
-						<form class="" method="POST" action="huan-luyen-vien/1/lich-luyen-tap/them-lich-tap">
+						<form class="" method="POST" action="huan-luyen-vien/lich-luyen-tap/them-lich-tap">
 							{{ csrf_field() }}
 							<div class="col-sm-4">
 								<div class="form-group {{ $errors->has('NgayLuyenTap') ? 'has-error' : '' }}">
@@ -124,12 +124,12 @@ td.disabled a {
 									<td class="text-center">{{ $lich->DiaDiem }}</td>
 									<td class="text-center {{ ($lich->NgayLuyenTap < date('Y-m-d')) ? 'disabled' : ''  }}" style="width: 150px">
 										<a 
-										href="huan-luyen-vien/1/lich-luyen-tap/sua-lich-tap/{{ $lich->id  }}" 
+										href="huan-luyen-vien/lich-luyen-tap/sua-lich-tap/{{ $lich->id  }}" 
 										class="btn btn-info {{ ($lich->NgayLuyenTap < date('Y-m-d')) ? 'disabled' : ''  }}"
 										><i class="fa fa-edit"></i> Sửa</a>
 										<a 
 										onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')"
-										href="huan-luyen-vien/1/lich-luyen-tap/xoa-lich-tap/{{ $lich->id  }}" 
+										href="huan-luyen-vien/lich-luyen-tap/xoa-lich-tap/{{ $lich->id  }}" 
 										class="btn btn-danger {{ ($lich->NgayLuyenTap < date('Y-m-d')) ? 'disabled' : ''  }}"
 										><i class="fa fa-trash"></i> Xóa</a>
 									</td>

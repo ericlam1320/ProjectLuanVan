@@ -1,6 +1,23 @@
 @extends ('admin.layout.master_admin')
 @section ('title', 'Quản lý Người Dùng')
 @section('content')
+@section ('script')
+<script type="text/javascript">
+  function preview_image(event) 
+  {
+    var reader = new FileReader();
+    reader.onload = function()
+    {
+      var output = document.getElementById('output_image');
+      output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  }
+</script>
+<script type="text/javascript">
+  $('.alert').delay(5000).slideUp()
+</script>
+@endsection
 
 	<div id="page-wrapper">
 				
@@ -91,49 +108,6 @@
                     </div>
                   </div>
                 
-
-
-                
-                  <div class="col-md-12">
-                    <div class="form-group {{ $errors->has('matkhau') ? 'has-error' : '' }}">
-                      <label for="txtarea1" class="col-md-4 control-label">Mật khẩu:</label>
-                      <div class="col-md-3">
-                        <input type="password" class="form-control" placeholder="Nhập mật khẩu" name="matkhau">
-                      </div>
-                      <div class="col-md-5">
-                        @if ($errors->has('matkhau'))
-                          <span class="help-block">
-                            <strong style="color:#E01A22">
-                              {{ $errors->first('matkhau') }}
-                            </strong>
-                          </span>
-                        @endif
-                      </div>
-                    </div>
-                  </div>
-                
-
-
-                
-                  <div class="col-md-12">
-                    <div class="form-group {{ $errors->has('nhaplaimatkhau') ? 'has-error' : '' }}">
-                      <label for="txtarea1" class="col-md-4 control-label">Nhập lại mật khẩu:</label>
-                      <div class="col-md-3">
-                        <input type="password" class="form-control" placeholder="Nhập mật khẩu" name="nhaplaimatkhau">
-                      </div>
-                      <div class="col-md-5">
-                        @if ($errors->has('nhaplaimatkhau'))
-                          <span class="help-block">
-                            <strong style="color:#E01A22">
-                              {{ $errors->first('nhaplaimatkhau') }}
-                            </strong>
-                          </span>
-                        @endif
-                      </div>
-                    </div>
-                  </div>
-                
-
 
                 
                   <div class="col-md-12">
@@ -248,7 +222,8 @@
                     <div class="form-group {{ $errors->has('hinhdaidien') ? 'has-error' : '' }}">
                       <label for="txtarea1" class="col-md-4 control-label">Hình đại diện:</label>
                       <div class="col-md-3">
-                        <input type="file" class="form-control" name="hinhdaidien">
+                        <input type="file" name="hinhdaidien" value="" class="form-control" accept="image/x-png,image/gif,image/jpeg,image/jpg" onchange="preview_image(event)" >
+                        <img id="output_image" height="250" src="AdminAssets/images/default-user-image.png" />
                       </div>
                       <div class="col-md-5">
                         @if ($errors->has('hinhdaidien'))

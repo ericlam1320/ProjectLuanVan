@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Calendar;
+use Hash;
 use DB;
 
 use App\NguoiDung;
@@ -15,6 +16,7 @@ use App\LichKham;
 use App\ToaThuoc;
 use App\Thuoc_ToaThuoc;
 use App\Thuoc;
+use App\TinTuc;
 
 class CauThuController extends Controller
 {
@@ -22,7 +24,49 @@ class CauThuController extends Controller
 
 
     public function getCauThu($tenCauThu){
-    	return view('cauthu.pages.trangchu', compact('tenCauThu'));
+
+        $TinTucMoiNhat = TinTuc::orderBy('id', 'DESC')->first();
+        $CacTinTucKhac = TinTuc::orderBy('id', 'DESC')->skip(1)->take(4)->get();
+
+        $KetQuaTranDauGanDay = DB::SELECT("
+                                            SELECT
+                                            caulacbo.TenDayDu,
+                                            caulacbo.HinhAnhCauLacBo_lon,
+                                            tiso.TiSo,
+                                            trandau.VongDau,
+                                            trandau.NgayThiDau,
+                                            trandau.GioThiDau,
+                                            trandau.DiaDiem,
+                                            trandau.id
+                                            FROM
+                                            caulacbo
+                                            INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
+                                            INNER JOIN trandau ON tiso.idTranDau = trandau.id
+                                            WHERE tiso.TiSo IS NOT Null AND  trandau.TranDauCuaCLB='1'
+                                            ORDER BY trandau.NgayThiDau DESC, tiso.id ASC
+                                            LIMIT 2
+                                        ");
+
+        $CacTranDauTiepTheo = DB::SELECT("
+                                            SELECT
+                                            caulacbo.TenDayDu,
+                                            caulacbo.HinhAnhCauLacBo,
+                                            tiso.TiSo,
+                                            trandau.VongDau,
+                                            trandau.NgayThiDau,
+                                            trandau.GioThiDau,
+                                            trandau.DiaDiem,
+                                            trandau.id
+                                            FROM
+                                            caulacbo
+                                            INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
+                                            INNER JOIN trandau ON tiso.idTranDau = trandau.id
+                                            WHERE tiso.TiSo IS Null AND  trandau.TranDauCuaCLB='1'
+                                            ORDER BY trandau.NgayThiDau ASC, tiso.id ASC
+                                            LIMIT 6 
+                                        ");
+
+    	return view('cauthu.pages.trangchu', compact('tenCauThu', 'CacTranDauTiepTheo', 'TinTucMoiNhat', 'CacTinTucKhac', 'KetQuaTranDauGanDay'));
     }
 
 
@@ -32,10 +76,103 @@ class CauThuController extends Controller
     #------------------------------------------------------------------------------------------------------------#
 
     public function getThongTinCaNhan($tenCauThu){
-    	return view('cauthu.pages.thongtincanhan', compact('tenCauThu'));
+
+        $idNguoiDung = NguoiDung::select('id')->where('username', $tenCauThu)->first();
+        $KiemTraCauThu = CauThu::select('id')->where('idNguoiDung', $idNguoiDung->id)->first();
+        $idCauThu = $KiemTraCauThu->id;
+        $CauThu = DB::SELECT("
+                                SELECT
+                                nguoidung.*,
+                                cauthu.*
+                                FROM nguoidung
+                                INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+                                WHERE cauthu.id='$idCauThu'
+                            ");
+        $Tuoi = 0;
+        if(!empty($CauThu)){
+            $Tuoi = (int)date('Y') - (int)date('Y', strtotime($CauThu[0]->NgaySinh));
+        }
+        $ThanhTichCauThu = DB::SELECT("
+                                        SELECT
+                                        AVG(thanhtichcauthu.DiemSo) as Diem,
+                                        SUM(thanhtichcauthu.SoDuongChuyen) as SoDuongChuyen,
+                                        COUNT(thanhtichcauthu.DiemSo) as SoTran,
+                                        SUM(thanhtichcauthu.SoKienTao) as SoKienTao,
+                                        SUM(thanhtichcauthu.SoBanThang) as SoBanThang,
+                                        SUM(thanhtichcauthu.TheVang) as SoTheVang,
+                                        SUM(thanhtichcauthu.TheDo) as SoTheDo
+                                        FROM cauthu
+                                        INNER JOIN thanhtichcauthu ON thanhtichcauthu.idCauThu = cauthu.id
+                                        WHERE cauthu.id='$idCauThu'
+                                    ");
+
+    	return view('cauthu.pages.thongtincanhan', compact('tenCauThu', 'Tuoi', 'CauThu', 'ThanhTichCauThu'));
     }
+
     public function getSuaThongTinCaNhan($tenCauThu){
-    	return view('cauthu.pages.suathongtincanhan', compact('tenCauThu'));
+
+        $idNguoiDung = NguoiDung::select('id')->where('username', $tenCauThu)->first();
+        $KiemTraCauThu = CauThu::select('id')->where('idNguoiDung', $idNguoiDung->id)->first();
+        $idCauThu = $KiemTraCauThu->id;
+
+        $CauThu = DB::SELECT("
+                                SELECT
+                                nguoidung.*,
+                                cauthu.*
+                                FROM nguoidung
+                                INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+                                WHERE cauthu.id='$idCauThu'
+                            ");
+
+    	return view('cauthu.pages.suathongtincanhan', compact('tenCauThu', 'CauThu'));
+    }
+    public function postSuaThongTinCaNhan($tenCauThu, Request $request) {
+
+        $idNguoiDung = NguoiDung::select('id')->where('username', $tenCauThu)->first();
+        $KiemTraCauThu = CauThu::select('id')->where('idNguoiDung', $idNguoiDung->id)->first();
+        $idCauThu = $KiemTraCauThu->id;
+
+        $this->validate($request, [
+            'TenDangNhap'          => 'required | regex : /^[a-zA-Z0-9]+$/ | unique:nguoidung,username,'.$idNguoiDung->id.',id' ,
+            'Email'                => 'required | email | unique:nguoidung,Email,'.$idNguoiDung->id.',id'
+        ], 
+        [
+            'TenDangNhap.required' => 'Tên đăng nhập không được để trống.',
+            'TenDangNhap.unique'   => 'Tên đăng nhập đã có người sử dụng.',
+            'TenDangNhap.regex'    => 'Tên đăng nhập không nên có kí tự đặc biệt.',
+            'Email.required'       => 'Địa chỉ email không được để trống.',
+            'Email.email'          => 'Địa chỉ email không đúng định dạng.',
+            'Email.unique'         => 'Địa chỉ email đã có người sử dụng.'
+        ]);
+
+        $cauthu = NguoiDung::findOrFail($idNguoiDung->id);
+        $cauthu->username = $request->TenDangNhap;
+        $cauthu->Email = $request->Email;
+
+        if($request->DoiMatKhau === 'on'){
+            $this->validate($request, [
+                'MatKhauHienTai'          => 'required',
+                'MatKhauMoi'              => 'required',
+                'MatKhauNhapLai'          => 'required|same:MatKhauMoi'
+            ], 
+            [
+                'MatKhauHienTai.required' => 'Bạn cần nhập mật khẩu.',
+                'MatKhauMoi.required'     => 'Bạn cần nhập mật khẩu mới.',
+                'MatKhauNhapLai.required' => 'Bạn cần nhập lại mật khẩu.',
+                'MatKhauNhapLai.same'     => 'Mật khẩu nhập lại không đúng.'
+            ]);
+
+            if(!Hash::check($request->MatKhauHienTai, $cauthu->password)){
+                return back()->with('loi','Mật khẩu cũ bạn nhập vào chưa đúng.');
+            }else{
+                $cauthu->password = Hash::make($request->MatKhauMoi);
+            }
+
+        }
+
+        $cauthu->save();
+
+        return redirect()->back()->with('thongbao', 'Cập nhật thông tin thành công.');
     }
 
 
@@ -47,7 +184,9 @@ class CauThuController extends Controller
     #------------------------------------------------------------------------------------------------------------#
 
     public function getLichLuyenTap($tenCauThu){
-        $CauThu = '1';
+        $idNguoiDung = NguoiDung::select('id')->where('username', $tenCauThu)->first();
+        $KiemTraCauThu = CauThu::select('id')->where('idNguoiDung', $idNguoiDung->id)->first();
+        $idCauThu = $KiemTraCauThu->id;
         $LichLuyenTap = DB::SELECT("
                                         SELECT
                                         lichluyentap.id,
@@ -58,8 +197,8 @@ class CauThuController extends Controller
                                         FROM lichluyentap
                                         INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
                                         INNER JOIN cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
-                                        WHERE cauthu.id = '$CauThu'
-                                        GROUP BY lichluyentap.NgayLuyenTap, lichluyentap.CaLuyenTap, lichluyentap.DiaDiem, lichluyentap.id
+                                        WHERE cauthu.id = '$idCauThu'
+                                        GROUP BY lichluyentap.NgayLuyenTap, lichluyentap.CaLuyenTap, lichluyentap.GioLuyenTap,lichluyentap.DiaDiem, lichluyentap.id
                                     ");
         $NgayCauThuTap = $LichLuyenTap;
         $LichLuyenTap_DanhSach = [];
@@ -105,7 +244,7 @@ class CauThuController extends Controller
                                 INNER JOIN giaotrinhtap ON giaotrinh_luyentap_cauthu.idGiaoTrinhTap = giaotrinhtap.id
                                 INNER JOIN cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
                                 INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id
-                                WHERE cauthu.id = '$CauThu' AND lichluyentap.NgayLuyenTap = '$ngay'
+                                WHERE cauthu.id = '$idCauThu' AND lichluyentap.NgayLuyenTap = '$ngay'
                             ");
         }
     	return view('cauthu.pages.lichluyentap', compact('tenCauThu', 'NoiDungLuyenTap', 'LichLuyenTap', 'NgayCauThuTap'));
@@ -120,6 +259,11 @@ class CauThuController extends Controller
     #------------------------------------------------------------------------------------------------------------#
 
     public function getDoiHinhChienThuat($tenCauThu){
+
+        $idNguoiDung = NguoiDung::select('id')->where('username', $tenCauThu)->first();
+        $KiemTraCauThu = CauThu::select('id')->where('idNguoiDung', $idNguoiDung->id)->first();
+        $idCauThu = $KiemTraCauThu->id;
+
         $TranDauTiepTheo = DB::SELECT("
                                             SELECT
                                             caulacbo.TenDayDu,
@@ -134,7 +278,7 @@ class CauThuController extends Controller
                                             caulacbo
                                             INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
                                             INNER JOIN trandau ON tiso.idTranDau = trandau.id
-                                            WHERE tiso.TiSo IS NULL
+                                            WHERE tiso.TiSo IS NULL AND  trandau.TranDauCuaCLB='1'
                                             ORDER BY trandau.NgayThiDau ASC
                                             LIMIT 2
                                         ");
@@ -161,9 +305,9 @@ class CauThuController extends Controller
                                         doihinh.TenDoiHinh
                                         FROM
                                         nguoidung
-                                        INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
-                                        INNER JOIN vitri_cauthu_trandau ON vitri_cauthu_trandau.idCauThu = cauthu.id
-                                        INNER JOIN vitri ON vitri_cauthu_trandau.idViTri = vitri.id
+                                        LEFT JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+                                        LEFT JOIN vitri_cauthu_trandau ON vitri_cauthu_trandau.idCauThu = cauthu.id
+                                        LEFT JOIN vitri ON vitri_cauthu_trandau.idViTri = vitri.id
                                         INNER JOIN trandau ON vitri_cauthu_trandau.idTranDau = trandau.id
                                         INNER JOIN doihinh ON trandau.idDoiHinh = doihinh.id
                                         WHERE trandau.id = '$idTranDau'
@@ -174,12 +318,12 @@ class CauThuController extends Controller
                                         cauthu.id
                                         FROM
                                         cauthu
-                                        INNER JOIN vaitro_cauthu_trandau ON vaitro_cauthu_trandau.idCauThu = cauthu.id
-                                        INNER JOIN vaitro ON vaitro_cauthu_trandau.idVaiTro = vaitro.id
+                                        LEFT JOIN vaitro_cauthu_trandau ON vaitro_cauthu_trandau.idCauThu = cauthu.id
+                                        LEFT JOIN vaitro ON vaitro_cauthu_trandau.idVaiTro = vaitro.id
                                         INNER JOIN trandau ON vaitro_cauthu_trandau.idTranDau = trandau.id
                                         WHERE trandau.id = '$idTranDau'
                                     ");
-            return view('cauthu.pages.doihinhchienthuat', compact('tenCauThu', 'DoiHinhChienThuat', 'TranDauTiepTheo', 'CauThuRaSan', 'VaiTroCauThu'));
+            return view('cauthu.pages.doihinhchienthuat', compact('tenCauThu', 'DoiHinhChienThuat', 'TranDauTiepTheo', 'CauThuRaSan', 'VaiTroCauThu', 'idCauThu'));
         }
         return view('cauthu.pages.doihinhchienthuat', compact('tenCauThu', 'TranDauTiepTheo'));
     }
@@ -193,7 +337,9 @@ class CauThuController extends Controller
     #------------------------------------------------------------------------------------------------------------#
 
     public function getSucKhoe($tenCauThu){
-        $CauThu = '1'; // -- Người đang đăng nhập
+        $idNguoiDung = NguoiDung::select('id')->where('username', $tenCauThu)->first();
+        $KiemTraCauThu = CauThu::select('id')->where('idNguoiDung', $idNguoiDung->id)->first();
+        $idCauThu = $KiemTraCauThu->id;
         $LichSuChanThuong = DB::SELECT("
                                         SELECT
                                         thongtinchanthuong_cauthu.ngaychanthuong AS NgayChanThuong,
@@ -205,7 +351,7 @@ class CauThuController extends Controller
                                         cauthu
                                         INNER JOIN thongtinchanthuong_cauthu ON thongtinchanthuong_cauthu.idCauThu = cauthu.id
                                         INNER JOIN chanthuong ON thongtinchanthuong_cauthu.idChanThuong = chanthuong.id
-                                        WHERE cauthu.id = '$CauThu'
+                                        WHERE cauthu.id = '$idCauThu'
                                         ORDER BY thongtinchanthuong_cauthu.ngaychanthuong DESC
                                     ");
         $LichKham = DB::SELECT("
@@ -221,15 +367,15 @@ class CauThuController extends Controller
                                     INNER JOIN chanthuong ON thongtinchanthuong_cauthu.idChanThuong = chanthuong.id
                                     INNER JOIN phacdodieutri ON thongtinchanthuong_cauthu.idPhacDoDieuTri = phacdodieutri.id
                                     INNER JOIN lichkham ON lichkham.idPhacDoDieuTri = phacdodieutri.id
-                                    WHERE cauthu.id = '$CauThu' AND thongtinchanthuong_cauthu.TinhTrangChanThuong='1'
+                                    WHERE cauthu.id = '$idCauThu' AND thongtinchanthuong_cauthu.TinhTrangChanThuong='1'
                                     ORDER BY lichkham.NgayKham
                                 ");
-        if($LichKham){
+        if(isset($LichKham)){
             foreach($LichKham as $lich) {
                 $ToaThuoc[] = ToaThuoc::where('idLichKham', $lich->id)->get();
             }
         }
-        if($ToaThuoc){
+        if(isset($ToaThuoc)){
             $stt=1;
             $Thuoc=[];
             foreach($ToaThuoc as $toathuoc) {
@@ -274,12 +420,83 @@ class CauThuController extends Controller
     }
 
     public function getLichThiDau($tenCauThu){
-        return view('cauthu.pages.lichthidau', compact('tenCauThu'));
+
+        $TranDauTiepTheo = DB::SELECT("
+                                            SELECT
+                                            caulacbo.TenDayDu,
+                                            caulacbo.HinhAnhCauLacBo_lon,
+                                            tiso.TiSo,
+                                            trandau.VongDau,
+                                            trandau.NgayThiDau,
+                                            trandau.GioThiDau,
+                                            trandau.DiaDiem,
+                                            trandau.id
+                                            FROM
+                                            caulacbo
+                                            INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
+                                            INNER JOIN trandau ON tiso.idTranDau = trandau.id
+                                            WHERE tiso.TiSo IS Null AND  trandau.TranDauCuaCLB='1'
+                                            ORDER BY trandau.NgayThiDau ASC, tiso.id ASC
+                                            LIMIT 2
+                                        ");
+
+        $CacTranDauTiepTheo = DB::TABLE('caulacbo')
+                                ->join('tiso', 'tiso.idCauLacBo', '=', 'caulacbo.id')
+                                ->join('trandau', 'tiso.idTranDau', '=', 'trandau.id')
+                                ->select('caulacbo.TenDayDu', 'caulacbo.HinhAnhCauLacBo', 'caulacbo.HinhAnhCauLacBo_lon', 'tiso.TiSo', 'trandau.VongDau', 'trandau.NgayThiDau', 'trandau.GioThiDau', 'trandau.DiaDiem', 'trandau.id')
+                                ->where('tiso.TiSo', NULL)->where('trandau.TranDauCuaCLB', '1')
+                                ->orderBy('trandau.NgayThiDau', 'ASC')->orderBy('tiso.id', 'ASC')
+                                ->paginate(8);
+
+        $BangXepHang = DB::SELECT("
+                                    SELECT
+                                    caulacbo.TenDayDu,
+                                    caulacbo.HinhAnhCauLacBo,
+                                    bangxephangclbgiaidau.Diem
+                                    FROM
+                                    bangxephangclbgiaidau
+                                    INNER JOIN caulacbo ON bangxephangclbgiaidau.idCauLacBo = caulacbo.id
+                                    INNER JOIN giaidau ON bangxephangclbgiaidau.idGiaiDau = giaidau.id
+                                    WHERE giaidau.MuaGiaiHienTai='1'
+                                    ORDER BY
+                                    bangxephangclbgiaidau.Diem DESC,
+                                    bangxephangclbgiaidau.HieuSo DESC,
+                                    bangxephangclbgiaidau.BanThang DESC,
+                                    bangxephangclbgiaidau.ChiSoFairplay ASC
+                                    LIMIT 10
+                                ");
+
+        return view('cauthu.pages.lichthidau', compact('tenCauThu', 'TranDauTiepTheo', 'CacTranDauTiepTheo', 'BangXepHang'));
     }
 
     public function getKetQua($tenCauThu){
-        return view('cauthu.pages.ketqua', compact('tenCauThu'));
+
+        $CacTranDaDau = DB::TABLE('caulacbo')
+                                ->join('tiso', 'tiso.idCauLacBo', '=', 'caulacbo.id')
+                                ->join('trandau', 'tiso.idTranDau', '=', 'trandau.id')
+                                ->select('caulacbo.TenDayDu', 'caulacbo.HinhAnhCauLacBo', 'caulacbo.HinhAnhCauLacBo_lon', 'tiso.TiSo', 'trandau.VongDau', 'trandau.NgayThiDau', 'trandau.GioThiDau', 'trandau.DiaDiem', 'trandau.id')
+                                ->where('tiso.TiSo', '<>', NULL)->where('trandau.TranDauCuaCLB', '1')
+                                ->orderBy('trandau.NgayThiDau', 'DESC')->orderBy('tiso.id', 'ASC')
+                                ->paginate(8);
+
+        $BangXepHang = DB::SELECT("
+                                    SELECT
+                                    caulacbo.TenDayDu,
+                                    caulacbo.HinhAnhCauLacBo,
+                                    bangxephangclbgiaidau.Diem
+                                    FROM
+                                    bangxephangclbgiaidau
+                                    INNER JOIN caulacbo ON bangxephangclbgiaidau.idCauLacBo = caulacbo.id
+                                    INNER JOIN giaidau ON bangxephangclbgiaidau.idGiaiDau = giaidau.id
+                                    WHERE giaidau.MuaGiaiHienTai='1'
+                                    ORDER BY
+                                    bangxephangclbgiaidau.Diem DESC,
+                                    bangxephangclbgiaidau.HieuSo DESC,
+                                    bangxephangclbgiaidau.BanThang DESC,
+                                    bangxephangclbgiaidau.ChiSoFairplay ASC
+                                    LIMIT 10
+                                ");
+
+        return view('cauthu.pages.ketqua', compact('tenCauThu', 'CacTranDaDau', 'BangXepHang'));
     }
-
-
 }

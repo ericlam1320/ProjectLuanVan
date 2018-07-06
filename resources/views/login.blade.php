@@ -8,6 +8,28 @@
     <meta name="viewport" content="initial-scale=1.0, width=device-width">
     <link type='image/x-icon' href='Client/images/favicon.ico' rel='shortcut icon' />
     <title>Liverpool F.C - Đăng nhập</title>
+    <style>
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
 </head>
 <body>
     <link rel="stylesheet" href="Login/css/login.css" />
@@ -22,22 +44,33 @@
             Đăng nhập
         </div>
 
-        <form action="#" method="post">
+        @if (session('loi'))
+        <div class="alert">
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+          <strong> {{ session('loi') }} </strong>
+        </div>
+        @endif
+
+        <form action="{{ route('Login') }}" method="POST">
 
             <div class="inputFields">
 
 
-                <input type="hidden" name="_csrf_token" value="4OEfdOuFd2YreFGgTipRMnV7BUi-oUZ8v8wNORL4xOQ" />
+                {{ csrf_field() }}
 
                 <label for="username">Tên đăng nhập</label>
-                <input type="text" id="username" name="username" value="" required="required" />
-                <div class="helpText"></div>
+                <input type="text" id="username" name="username" value=""  style="margin-bottom:4px"/>
+                @if ($errors->has('username'))
+                <span class="help-block" style="margin-bottom: 10px; margin-left: 170px"><strong style="font-size:14px; color:#E01A22">{{ $errors->first('username') }}</strong></span>
+                @endif
 
                 <br>
 
                 <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password" required="required" />
-                <div class="helpText password"> </div>
+                <input type="password" id="password" name="password" style="margin-bottom:4px" />
+                @if ($errors->has('password'))
+                <span class="help-block" style="margin-bottom: 10px; margin-left: 170px"><strong style="font-size:14px; color:#E01A22">{{ $errors->first('password') }}</strong></span>
+                @endif
                 <br>
 
 

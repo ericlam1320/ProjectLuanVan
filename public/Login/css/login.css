@@ -131,7 +131,7 @@ body {
 }
 
 .inputFields {
-	width: 82%;
+	/*width: 82%;*/
 	margin: 20px auto
 }
 
@@ -417,7 +417,7 @@ a:-webkit-any-link {
 	margin-right: 1px;
 	font-size: 16px;
 	box-sizing: border-box;
-	margin-bottom: 20px
+	margin-top: 10px;
 }
 
 .inputFields.reset {

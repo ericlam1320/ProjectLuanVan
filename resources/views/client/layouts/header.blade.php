@@ -9,16 +9,15 @@
 						<div class="spb-ticker spb-ticker2">
 							<span>Tin mới nhất:</span>
 							<ul class="top_slider_bxslider">
+
+								@foreach ($tintuc as $tin)
 								<li>
 									<div class="ticker-dec">
-										<a href="#">Cầu thủ Mane bị chấn thương vào buổi tập hôm qua.</a>
+										<a href="tin-tuc/chi-tiet/{{ $tin->id }}">{{ $tin->TieuDe }}</a>
 									</div>
 								</li>
-								<li>
-									<div class="ticker-dec">
-										<a href="#">Huấn luyện viên J.Klopp tự tin đội bóng sẽ giành chiến thắng trước Real Madrid</a>
-									</div>
-								</li>
+								@endforeach
+
 							</ul>
 						</div>
 						<!--// TinTuc TICKER //-->

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Hash;
 use App\CauThu;
 use App\NguoiDung;
 
@@ -27,25 +28,16 @@ class CauThuAdminController extends Controller
                                          unique:nguoidung,username|
                                          regex:/^[a-z0-9]+$/',
 
-    		'matkhau' 			=>		'required|
-                                         min:6|
-                                         max:10|
-                                         regex:/^[a-zA-Z0-9]+$/',
-
-    		'nhaplaimatkhau'	=>		'required|
-                                         same:matkhau', 
-
     		'email'             =>      'required|
                                          email|
-                                         unique:nguoidung,Email,'.$id.',id',
+                                         unique:nguoidung,Email',
 
             'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
 
     		'quoctich'			=> 		'required|
                                          regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
 
-    		'noisinh'			=>		'required|
-                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+    		'noisinh'			=>		'required',
 
     		'hinhdaidien'       =>      'image|
                                          mimes:jpeg,jpg,png,gif,svg|
@@ -64,14 +56,6 @@ class CauThuAdminController extends Controller
             'tendangnhap.unique'            =>      'Tên đăng nhập đã tồn tại',
             'tendangnhap.regex'             =>      'Vui lòng nhập chữ thường và số',
 
-            'matkhau.required'              =>      'Không được để trống',
-            'matkhau.min'                   =>      'Mật khẩu tối thiểu 6 ký tự',
-            'matkhau.max'                   =>      'Mật khẩu tối thiểu 10 ký tự',
-            'matkhau.regex'                 =>      'Vui lòng nhập chữ cái và số',
-
-            'nhaplaimatkhau.required'       =>      'Không được để trống',
-            'nhaplaimatkhau.same'           =>      'Mật khẩu nhập lại không trùng khớp',
-
             'email.required'                =>      'Không được để trống',
             'email.email'                   =>      'Email không hợp lệ',
             'email.regex'                   =>      'Email không hợp lệ',
@@ -81,7 +65,6 @@ class CauThuAdminController extends Controller
             'quoctich.regex'                =>      'Vui lòng nhập chữ cái',
 
             'noisinh.required'              =>      'Không được để trống',
-            'noisinh.regex'                 =>      'Vui lòng nhập chữ cái',
 
             'hinhdaidien.image'             =>      'Hình đại diện không đúng định dạng',
             'hinhdaidien.mimes'             =>      'Hình ảnh phải có định dạng : jpeg,jpg,png,gif,svg',
@@ -113,7 +96,7 @@ class CauThuAdminController extends Controller
     	$nguoidung->HoTen 			= 		$request->hoten;
     	$nguoidung->ChucVu	 		= 		'cauthu';
     	$nguoidung->username 		= 		$request->tendangnhap;
-    	$nguoidung->password 		=		$request->matkhau;
+    	$nguoidung->password 		=		Hash::make($request->tendangnhap);
     	$nguoidung->Email 			= 		$request->email;
     	$nguoidung->NgaySinh 		= 		$request->ngaysinh;
     	$nguoidung->QuocTich 		= 		$request->quoctich;
@@ -182,8 +165,7 @@ class CauThuAdminController extends Controller
             'quoctich'          =>      'required|
                                          regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
 
-            'noisinh'           =>      'required|
-                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+            'noisinh'           =>      'required',
 
             'hinhdaidien'       =>      'image|
                                          mimes:jpeg,jpg,png,gif,svg|
@@ -211,7 +193,6 @@ class CauThuAdminController extends Controller
             'quoctich.regex'                =>      'Vui lòng nhập chữ cái',
 
             'noisinh.required'              =>      'Không được để trống',
-            'noisinh.regex'                 =>      'Vui lòng nhập chữ cái',
 
             'hinhdaidien.image'             =>      'Hình đại diện không đúng định dạng',
             'hinhdaidien.mimes'             =>      'Hình ảnh phải có định dạng : jpeg,jpg,png,gif,svg',

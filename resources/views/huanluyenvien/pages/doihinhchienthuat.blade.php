@@ -44,7 +44,7 @@ a:disabled{
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
 				<li class="active">Quản lý trận đấu</li>
 			</ul>
 		</div>
@@ -106,7 +106,7 @@ a:disabled{
 										<table id="example" class="table table-striped table-bordered" style="width:100%">
 											<thead>
 												<tr class="text-center">
-													<th>Vòng đấu</th>
+													<th class="text-center">Vòng đấu</th>
 													<th class="text-center">Trận đấu</th>
 													<th class="text-center">Đội hình</th>
 													<th class="text-center">Chiến thuật</th>
@@ -124,18 +124,17 @@ a:disabled{
 														&nbsp; VS  &nbsp; 
 														<img src="./Client/images/logos/{{ $DanhSachCacTranDau[$i+1]->HinhAnhCauLacBo }}" height="40">
 													</td>
-													<td class="text-center">{{ $DanhSachCacTranDau[$i]->TenDoiHinh }}</td>
-													<td class="text-center">{{ $DanhSachCacTranDau[$i]->TenChienThuat }}</td>
+													<td class="text-center">{{ $DanhSachCacTranDau[$i]->TenDoiHinh ? $DanhSachCacTranDau[$i]->TenDoiHinh : '-' }}</td>
+													<td class="text-center">{{ $DanhSachCacTranDau[$i]->TenChienThuat ? $DanhSachCacTranDau[$i]->TenChienThuat : '-' }}</td>
 													<td class="text-center" style="width: 80px">
 														{{ $DanhSachCacTranDau[$i]->TiSo }} - {{ $DanhSachCacTranDau[$i+1]->TiSo }}
 													</td>
-													<td class="text-center" style="width: 200px">
+													<td class="text-center" style="width: 220px">
 														@if (isset($DanhSachCacTranDau[$i]->TiSo) && isset($DanhSachCacTranDau[$i+1]->TiSo))
-														<a href="huan-luyen-vien/1/doi-hinh-chien-thuat/sua/{{ $DanhSachCacTranDau[$i]->id }}" class="btn btn-primary"><i class="glyphicon glyphicon-list-alt"></i> Xem</a>
-														<a  href="huan-luyen-vien/1/doi-hinh-chien-thuat/sua/{{ $DanhSachCacTranDau[$i]->id }}" class="btn btn-success disabled" disabled><i class="fa fa-edit"></i> Sắp xếp</a>
+														<a href="huan-luyen-vien/doi-hinh-chien-thuat/xem/{{ $DanhSachCacTranDau[$i]->id }}" class="btn btn-link"><i class="glyphicon glyphicon-list-alt"></i> Xem thông tin chi tiết</a>
 														@else
-														<a href="huan-luyen-vien/1/doi-hinh-chien-thuat/sua/{{ $DanhSachCacTranDau[$i]->id }}" class="btn btn-primary"><i class="glyphicon glyphicon-list-alt"></i> Xem</a>
-														<a href="huan-luyen-vien/1/doi-hinh-chien-thuat/sua/{{ $DanhSachCacTranDau[$i]->id }}" class="btn btn-success"><i class="fa fa-edit"></i> Sắp xếp</a>
+														<a href="huan-luyen-vien/doi-hinh-chien-thuat/sap-xep/{{ $DanhSachCacTranDau[$i]->id }}" class="{{ $DanhSachCacTranDau[$i]->TenDoiHinh ? 'disabled' : '' }}  btn btn-success"><i class="fa fa-edit"></i> Sắp xếp</a>
+														<a href="huan-luyen-vien/doi-hinh-chien-thuat/sua/{{ $DanhSachCacTranDau[$i]->id }}" class="btn btn-info {{ !$DanhSachCacTranDau[$i]->TenDoiHinh ? 'disabled' : '' }}"><i class="glyphicon glyphicon-edit"></i> Cập nhật</a>
 														@endif
 													</td>
 												</tr>

@@ -1,34 +1,35 @@
 <?php
 
 #--------------------------------- Client Page -------------------------------------------
-Route::get('dang-nhap'                       , 'LoginController@getDangNhap');
-Route::post('dang-nhap'                      , 'LoginController@postDangNhap');
+Route::get('dang-nhap'                                  , 'LoginController@getDangNhap')->name('Login');
+Route::post('dang-nhap'                                 , 'LoginController@postDangNhap')->name('Login');
+Route::get('dang-xuat'                                  , 'LoginController@getDangXuat')->name('Logout');
 
-Route::get(''                                , 'HomeController@getIndex')->name('Home');
-Route::get('lich-su'                         , 'HomeController@getLichSu');
-Route::get('lich-thi-dau'                    , 'HomeController@getLichThiDau');
-Route::get('ket-qua'                         , 'HomeController@getKetQua');
-Route::get('bang-xep-hang'                   , 'HomeController@getBangXepHang');
-Route::get('danh-sach-cau-thu'               , 'HomeController@getCauThu');
-Route::get('danh-sach-cau-thu/chi-tiet'      , 'HomeController@getChiTietCauThu');
-Route::get('thong-ke-doi-bong'               , 'HomeController@getThongKeDoiBong');
-Route::get('lien-he'                         , 'HomeController@getLienHe');
-Route::get('tin-tuc'                         , 'HomeController@getTinTuc');
-Route::get('tin-tuc/chi-tiet/{id}'           , 'HomeController@getChiTietTinTuc');
+Route::get(''                                           , 'HomeController@getIndex')->name('Home');
+Route::get('lich-su'                                    , 'HomeController@getLichSu');
+Route::get('lich-thi-dau'                               , 'HomeController@getLichThiDau');
+Route::get('ket-qua'                                    , 'HomeController@getKetQua');
+Route::get('bang-xep-hang'                              , 'HomeController@getBangXepHang');
+Route::get('danh-sach-cau-thu'                          , 'HomeController@getCauThu');
+Route::get('danh-sach-cau-thu/chi-tiet/{idCauThu}'      , 'HomeController@getChiTietCauThu');
+Route::get('thong-ke-doi-bong'                          , 'HomeController@getThongKeDoiBong');
+Route::get('lien-he'                                    , 'HomeController@getLienHe');
+Route::get('tin-tuc'                                    , 'HomeController@getTinTuc');
+Route::get('tin-tuc/chi-tiet/{id}'                      , 'HomeController@getChiTietTinTuc');
 
 
 
 #-------------------------------------------- Cau Thu Page ----------------------------------------
-Route::group(['prefix'                                    =>'cau-thu'], function(){
+Route::group(['prefix'                                =>'cau-thu', 'middleware'=>'loginCauThu'], function(){
 	Route::group(['prefix'                                =>'{TenCauThu}'], function(){
-		Route::get(''                                     , 'CauThuController@getCauThu');
+		Route::get(''                                     , 'CauThuController@getCauThu')->name('CauThu');
 		Route::get('thong-tin-ca-nhan'                    , 'CauThuController@getThongTinCaNhan');
 		Route::get('thong-tin-ca-nhan/sua'                , 'CauThuController@getSuaThongTinCaNhan');
+		Route::post('thong-tin-ca-nhan/sua'               , 'CauThuController@postSuaThongTinCaNhan');
 		Route::get('lich-luyen-tap'                       , 'CauThuController@getLichLuyenTap');
 		Route::get('doi-hinh-chien-thuat'                 , 'CauThuController@getDoiHinhChienThuat');
 		Route::get('suc-khoe'                             , 'CauThuController@getSucKhoe');
 		Route::get('thong-bao'                            , 'CauThuController@getThongBao');
-		Route::get('yeu-cau'                              , 'CauThuController@getYeuCau');
 		Route::get('lich-thi-dau'                         , 'CauThuController@getLichThiDau');
 		Route::get('ket-qua'                              , 'CauThuController@getKetQua');
 	});
@@ -37,13 +38,14 @@ Route::group(['prefix'                                    =>'cau-thu'], function
 
 
 #----------------------------------- Huan Luyen Vien Page ----------------------------------------------
-Route::group(['prefix'                                    =>'huan-luyen-vien'], function(){
-	Route::group(['prefix'                                =>'{id}'], function(){
+Route::group(['prefix'                                =>'huan-luyen-vien', 'middleware'=>'loginHuanLuyenVien'], function(){
+	
 		
-		Route::get(''                                            , 'HuanLuyenVienController@getHuanLuyenVien');
+		Route::get(''                                            , 'HuanLuyenVienController@getHuanLuyenVien')->name('HuanLuyenVien');
 
 		Route::get('thong-tin-ca-nhan'                           , 'HuanLuyenVienController@getThongTinCaNhan');
 		Route::get('thong-tin-ca-nhan/sua'                       , 'HuanLuyenVienController@getSuaThongTinCaNhan');
+		Route::post('thong-tin-ca-nhan/sua'                      , 'HuanLuyenVienController@postSuaThongTinCaNhan');
 
 		Route::get('lich-luyen-tap'                              , 'HuanLuyenVienController@getLichLuyenTap');
 		Route::get('lich-luyen-tap/them-lich-tap'                , 'HuanLuyenVienController@getThemLichTap');
@@ -66,6 +68,13 @@ Route::group(['prefix'                                    =>'huan-luyen-vien'], 
 		Route::post('giao-trinh-tap/sua/{idGiaoTrinh}'           , 'HuanLuyenVienController@postSuaGiaoTrinhTap');
 
 		Route::get('doi-hinh-chien-thuat'                        , 'HuanLuyenVienController@getDoiHinhChienThuat');
+		Route::get('doi-hinh-chien-thuat/sap-xep/{idTranDau}'    , 'HuanLuyenVienController@getSapXepDoiHinhChienThuat');
+		Route::post('doi-hinh-chien-thuat/sap-xep/{idTranDau}'   , 'HuanLuyenVienController@postSapXepDoiHinhChienThuat');
+		Route::get('doi-hinh-chien-thuat/ajax/sap-xep/{idDoiHinh}/{idTranDau}', 'AjaxController@getAjaxSapXepDoiHinhChienThuat');
+		Route::get('doi-hinh-chien-thuat/sua/{idTranDau}'        , 'HuanLuyenVienController@getSuaDoiHinhChienThuat');
+		Route::post('doi-hinh-chien-thuat/sua/{idTranDau}'       , 'HuanLuyenVienController@postSuaDoiHinhChienThuat');
+		Route::get('doi-hinh-chien-thuat/ajax/sua/{idDoiHinh}/{idTranDau}', 'AjaxController@getAjaxSuaDoiHinhChienThuat');
+		Route::get('doi-hinh-chien-thuat/xem/{idTranDau}'        , 'HuanLuyenVienController@getXemDoiHinhChienThuat');
 
 		Route::get('doi-hinh'                                    , 'HuanLuyenVienController@getDoiHinh');
 		Route::get('doi-hinh/them'                               , 'HuanLuyenVienController@getThemDoiHinh');
@@ -84,16 +93,15 @@ Route::group(['prefix'                                    =>'huan-luyen-vien'], 
 		Route::get('suc-khoe-cau-thu'                            , 'HuanLuyenVienController@getSucKhoeCauThu');
 		
 		Route::get('thong-bao'                                   , 'HuanLuyenVienController@getThongBao');
-		Route::get('yeu-cau'                                     , 'HuanLuyenVienController@getYeuCau');
 		Route::get('lich-thi-dau'                                , 'HuanLuyenVienController@getLichThiDau');
 		Route::get('ket-qua'                                     , 'HuanLuyenVienController@getKetQua');
-	});
+	
 });
 
 
 
 #----------------------------- Admin Page ---------------------------------
-Route::group(['prefix'=>'admin'],function(){
+Route::group(['prefix'=>'admin', 'middleware'=>'loginAdmin'],function(){
 	Route::get('', 'AdminController@getIndex')->name('TrangChu_Admin');
 
 	Route::group(['prefix'=>'bang-xep-hang'],function(){
@@ -213,7 +221,7 @@ Route::group(['prefix'=>'admin'],function(){
 
 
 #--------------------------- Nhân viên y tế Page -----------------------------------
-Route::group(['prefix'=>'nhan-vien-y-te'],function(){
+Route::group(['prefix'=>'nhan-vien-y-te', 'middleware'=>'loginNhanVienYTe'],function(){
 
 	Route::get('', 'NhanVienYTeController@getIndex' )->name('TrangChu_NhanVienYTe');
 
@@ -247,17 +255,19 @@ Route::group(['prefix'=>'nhan-vien-y-te'],function(){
 	Route::group(['prefix'=>'lich-kham'], function(){
 		Route::get('danh-sach'		, 	'LichKhamController@getDanhSach')		->name('DanhSachLichKham');
 		Route::get('them'			, 	'LichKhamController@getThem')			->name('ThemLichKham');
-     // Route::post('them'			, 	'LichKhamController@postThem');
-		Route::get('sua'			, 	'LichKhamController@getSua')			->name('SuaLichKham');
-     // Route::post('sua/{id}'		, 	'LichKhamController@postSua');
+     	Route::post('them'			, 	'LichKhamController@postThem');
+     	Route::get('xoa/{id}'		, 	'LichKhamController@getXoa');
+		Route::get('sua/{id}'		, 	'LichKhamController@getSua')			->name('SuaLichKham');
+     	Route::post('sua/{id}'		, 	'LichKhamController@postSua');
 	});
 
-	Route::group(['prefix'=>'toa-huoc'], function(){
+	Route::group(['prefix'=>'toa-thuoc'], function(){
 		Route::get('danh-sach'		, 	'ToaThuocController@getDanhSach')		->name('DanhSachToaThuoc');
 		Route::get('them'			, 	'ToaThuocController@getThem')				->name('ThemToaThuoc');
-     // Route::post('them'			, 	'ToaThuocController@postThem');
-		Route::get('sua'			, 	'ToaThuocController@getSua')			->name('SuaToaThuoc');
-     // Route::post('sua/{id}'		, 	'ToaThuocController@postSua');
+     	Route::post('them'			, 	'ToaThuocController@postThem');
+     	Route::get('xoa/{id}'		, 	'ToaThuocController@getXoa');
+		Route::get('sua/{id}'		, 	'ToaThuocController@getSua')			->name('SuaToaThuoc');
+     	Route::post('sua/{id}'		, 	'ToaThuocController@postSua');
 	});
 
 	Route::get('nguoidung', 'AdminController@getNguoiDung');

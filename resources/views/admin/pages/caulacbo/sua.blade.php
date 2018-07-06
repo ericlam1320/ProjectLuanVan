@@ -1,7 +1,33 @@
 @extends ('admin.layout.master_admin')
 @section ('title', 'Quản lý Câu lạc bộ')
 @section('content')
-
+@section ('script')
+<script type="text/javascript">
+  function preview_image(event) 
+  {
+    var reader = new FileReader();
+    reader.onload = function()
+    {
+      var output = document.getElementById('output_image');
+      output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  }
+  function preview_image2(event) 
+  {
+    var reader = new FileReader();
+    reader.onload = function()
+    {
+      var output = document.getElementById('output_image2');
+      output.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  }
+</script>
+<script type="text/javascript">
+  $('.alert').delay(5000).slideUp()
+</script>
+@endsection
 	<div id="page-wrapper">
 				
 			<div class="main-page">
@@ -200,8 +226,8 @@
                             <div class="form-group {{ $errors->has('hinhanhcaulacbo') ? 'has-error' : '' }}">
                               <label for="txtarea1" class="col-md-3 control-label">Hình ảnh câu lạc bộ :</label>
                               <div class="col-md-5">
-                                <input type="file" class="form-control" name="hinhanhcaulacbo">
-                                <img style="width: 30px" src="Client/images/logos/{{$caulacbo->HinhAnhCauLacBo}}" alt="">
+                                 <input type="file" name="hinhanhcaulacbo" value="" class="form-control" accept="image/x-png,image/gif,image/jpeg,image/jpg" onchange="preview_image(event)" >
+                                 <img id="output_image" height="50" src="Client/images/logos/{{$caulacbo->HinhAnhCauLacBo}}" />
                               </div>
                               <div class="col-md-4">
                                 @if ($errors->has('hinhanhcaulacbo'))
@@ -216,12 +242,13 @@
                           </div>
 
 
+
                             <div class="col-md-6">
                             <div class="form-group {{ $errors->has('hinhanhcaulacbo_lon') ? 'has-error' : '' }}">
                               <label for="txtarea1" class="col-md-3 control-label">Hình ảnh câu lạc bộ (lớn):</label>
                               <div class="col-md-5">
-                                <input type="file" class="form-control" name="hinhanhcaulacbo_lon">
-                                <img style="width: 100px" src="Client/images/logos/{{$caulacbo->HinhAnhCauLacBo_lon}}" alt="">
+                                <input type="file" name="hinhanhcaulacbo_lon" value="" class="form-control" accept="image/x-png,image/gif,image/jpeg,image/jpg" onchange="preview_image2(event)" >
+                                <img id="output_image2" height="150" src="Client/images/logos/{{$caulacbo->HinhAnhCauLacBo_lon}}" />
                               </div>
                               <div class="col-md-4">
                                 @if ($errors->has('hinhanhcaulacbo_lon'))
@@ -234,6 +261,7 @@
                               </div>
                             </div>
                           </div>
+
 
                           </div>
                       </div>

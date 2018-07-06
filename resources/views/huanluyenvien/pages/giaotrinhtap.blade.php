@@ -24,7 +24,7 @@ Liverpool FC - Giáo trình tập
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
 				<li class="active">Giáo trình tập</li>
 			</ul>
 		</div>
@@ -43,7 +43,7 @@ Liverpool FC - Giáo trình tập
 			<div class="alert alert-danger">{{ session('loi') }}</div>
 			@endif
 
-			<a href="huan-luyen-vien/1/giao-trinh-tap/them" class="btn btn-success"><i class="fa fa-plus"></i> Thêm giáo trình tập</a>
+			<a href="huan-luyen-vien/giao-trinh-tap/them" class="btn btn-success"><i class="fa fa-plus"></i> Thêm giáo trình tập</a>
 
 			<div class="ftb-tabs-wrap">
 				<div class="tab-content">
@@ -66,8 +66,8 @@ Liverpool FC - Giáo trình tập
 								<td style="width: 200px">{{ $giaotrinh->TenBaiTap }}</td>
 								<td>{!! $giaotrinh->NoiDungBaiTap !!}</td>
 								<td  class="text-center" style="width: 175px">
-									<a href="huan-luyen-vien/1/giao-trinh-tap/sua/{{ $giaotrinh->id }}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
-									<a  onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="huan-luyen-vien/1/giao-trinh-tap/xoa/{{ $giaotrinh->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-trash" ></i> Xóa</a>
+									<a href="huan-luyen-vien/giao-trinh-tap/sua/{{ $giaotrinh->id }}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
+									<a  onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="huan-luyen-vien/giao-trinh-tap/xoa/{{ $giaotrinh->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-trash" ></i> Xóa</a>
 								</td>
 							</tr>
 							@endforeach

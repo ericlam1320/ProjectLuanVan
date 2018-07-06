@@ -2,10 +2,10 @@
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th6 22, 2018 lúc 04:42 PM
--- Phiên bản máy phục vụ: 5.7.19
--- Phiên bản PHP: 7.1.9
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th7 02, 2018 lúc 10:03 AM
+-- Phiên bản máy phục vụ: 10.1.29-MariaDB
+-- Phiên bản PHP: 7.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -28,15 +28,12 @@ SET time_zone = "+00:00";
 -- Cấu trúc bảng cho bảng `bangxephangclb`
 --
 
-DROP TABLE IF EXISTS `bangxephangclb`;
-CREATE TABLE IF NOT EXISTS `bangxephangclb` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `bangxephangclb` (
+  `id` int(11) NOT NULL,
   `idCauLacBo` int(11) NOT NULL,
   `Diem` int(5) NOT NULL,
-  `HangCauLacBo` int(5) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauLacBo` (`idCauLacBo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `HangCauLacBo` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Đang đổ dữ liệu cho bảng `bangxephangclb`
@@ -52,9 +49,8 @@ INSERT INTO `bangxephangclb` (`id`, `idCauLacBo`, `Diem`, `HangCauLacBo`) VALUES
 -- Cấu trúc bảng cho bảng `bangxephangclbgiaidau`
 --
 
-DROP TABLE IF EXISTS `bangxephangclbgiaidau`;
-CREATE TABLE IF NOT EXISTS `bangxephangclbgiaidau` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `bangxephangclbgiaidau` (
+  `id` int(11) NOT NULL,
   `SoTran` int(3) DEFAULT NULL,
   `SoTranThang` int(3) DEFAULT NULL,
   `SoTranHoa` int(3) DEFAULT NULL,
@@ -62,23 +58,23 @@ CREATE TABLE IF NOT EXISTS `bangxephangclbgiaidau` (
   `BanThang` int(3) DEFAULT NULL,
   `BanThua` int(3) DEFAULT NULL,
   `HieuSo` int(3) DEFAULT NULL,
+  `TheVang` int(3) DEFAULT NULL,
+  `TheDo` int(3) DEFAULT NULL,
+  `ChiSoFairplay` int(3) DEFAULT NULL,
   `Diem` int(3) DEFAULT NULL,
   `idGiaiDau` int(11) NOT NULL,
-  `idCauLacBo` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idGiaiDau` (`idGiaiDau`),
-  KEY `idCauLacBo` (`idCauLacBo`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idCauLacBo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `bangxephangclbgiaidau`
 --
 
-INSERT INTO `bangxephangclbgiaidau` (`id`, `SoTran`, `SoTranThang`, `SoTranHoa`, `SoTranThua`, `BanThang`, `BanThua`, `HieuSo`, `Diem`, `idGiaiDau`, `idCauLacBo`) VALUES
-(1, 38, 35, 4, 1, 128, 28, 100, 100, 1, 1),
-(2, 38, 30, 0, 8, 100, 50, 50, 81, 1, 2),
-(3, 38, 30, 8, 0, 100, 1, 99, 81, 1, 3),
-(4, 38, 25, 10, 3, 100, 15, 85, 81, 1, 4);
+INSERT INTO `bangxephangclbgiaidau` (`id`, `SoTran`, `SoTranThang`, `SoTranHoa`, `SoTranThua`, `BanThang`, `BanThua`, `HieuSo`, `TheVang`, `TheDo`, `ChiSoFairplay`, `Diem`, `idGiaiDau`, `idCauLacBo`) VALUES
+(1, 38, 35, 4, 1, 128, 28, 100, NULL, NULL, NULL, 100, 1, 1),
+(2, 38, 30, 0, 8, 100, 50, 50, NULL, NULL, NULL, 81, 1, 2),
+(3, 38, 30, 8, 0, 100, 1, 99, NULL, NULL, NULL, 81, 1, 3),
+(4, 38, 25, 10, 3, 88, 15, 50, NULL, NULL, NULL, 81, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -86,9 +82,8 @@ INSERT INTO `bangxephangclbgiaidau` (`id`, `SoTran`, `SoTranThang`, `SoTranHoa`,
 -- Cấu trúc bảng cho bảng `caulacbo`
 --
 
-DROP TABLE IF EXISTS `caulacbo`;
-CREATE TABLE IF NOT EXISTS `caulacbo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `caulacbo` (
+  `id` int(11) NOT NULL,
   `TenDayDu` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `TenVietTat` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `TruSo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -96,20 +91,21 @@ CREATE TABLE IF NOT EXISTS `caulacbo` (
   `BietDanh` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `SanVanDong` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `LichSu` longtext COLLATE utf8_unicode_ci,
+  `SucChua` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ChuTich` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `HinhAnhCauLacBo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `HinhAnhCauLacBo_lon` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `HinhAnhCauLacBo_lon` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `caulacbo`
 --
 
-INSERT INTO `caulacbo` (`id`, `TenDayDu`, `TenVietTat`, `TruSo`, `NgayThanhLap`, `BietDanh`, `SanVanDong`, `LichSu`, `HinhAnhCauLacBo`, `HinhAnhCauLacBo_lon`) VALUES
-(1, 'Arsenal', 'Ars', NULL, NULL, NULL, NULL, NULL, 'Arsenal.png', 'Arsenal_big.png'),
-(2, 'Liverpool', 'Liv', NULL, NULL, NULL, NULL, NULL, 'Liverpool.png', 'Liverpool_big.png'),
-(3, 'Manchester Utd', 'MU', NULL, NULL, NULL, NULL, NULL, 'MU.png', 'MU_big.png'),
-(4, 'Manchester City', 'MC', NULL, NULL, NULL, NULL, NULL, 'ManCity.png', 'ManCity_big.png');
+INSERT INTO `caulacbo` (`id`, `TenDayDu`, `TenVietTat`, `TruSo`, `NgayThanhLap`, `BietDanh`, `SanVanDong`, `LichSu`, `SucChua`, `ChuTich`, `HinhAnhCauLacBo`, `HinhAnhCauLacBo_lon`) VALUES
+(1, 'Arsenal', 'Ars', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Arsenal.png', 'Arsenal_big.png'),
+(2, 'Liverpool', 'Liv', 'Tập đoàn Fenway Sports', '1892-03-15', 'The Reds', 'Anfield', 'Câu lạc bộ bóng đá Liverpool (viết tắt Liverpool F.C.) là một câu lạc bộ bóng đá chuyên nghiệp Anh, có trụ sở tại thành phố Liverpool, hạt Merseyside, hiện đang chơi tại giải bóng đá Ngoại hạng Anh. Tính đến nay, Liverpool đã 18 lần vô địch nước Anh, giành được 7 Cúp FA, 8 Cúp Liên đoàn Anh, 15 Siêu cúp Anh, 5 Cúp vô địch châu Âu (Cúp C1), 3 Cúp UEFA (Cúp C2) và 3 Siêu cúp châu Âu.', '54.074', 'Tom Werner', 'Liverpool.png', 'Liverpool_big.png'),
+(3, 'Manchester Utd', 'MU', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'MU.png', 'MU_big.png'),
+(4, 'Manchester City', 'MC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ManCity.png', 'ManCity_big.png');
 
 -- --------------------------------------------------------
 
@@ -117,16 +113,12 @@ INSERT INTO `caulacbo` (`id`, `TenDayDu`, `TenVietTat`, `TruSo`, `NgayThanhLap`,
 -- Cấu trúc bảng cho bảng `caulacbo_giaidau`
 --
 
-DROP TABLE IF EXISTS `caulacbo_giaidau`;
-CREATE TABLE IF NOT EXISTS `caulacbo_giaidau` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `caulacbo_giaidau` (
+  `id` int(11) NOT NULL,
   `idCauLacBo` int(11) NOT NULL,
   `idGiaiDau` int(11) NOT NULL,
-  `XepHang` int(3) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauLacBo` (`idCauLacBo`),
-  KEY `idGiaiDau` (`idGiaiDau`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `XepHang` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `caulacbo_giaidau`
@@ -143,19 +135,16 @@ INSERT INTO `caulacbo_giaidau` (`id`, `idCauLacBo`, `idGiaiDau`, `XepHang`) VALU
 -- Cấu trúc bảng cho bảng `cauthu`
 --
 
-DROP TABLE IF EXISTS `cauthu`;
-CREATE TABLE IF NOT EXISTS `cauthu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `cauthu` (
+  `id` int(11) NOT NULL,
   `ChieuCao` int(3) DEFAULT NULL,
   `CanNang` int(3) DEFAULT NULL,
   `ViTriSoTruong` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `SoAo` int(3) NOT NULL,
   `ChanThuan` tinyint(4) DEFAULT NULL,
   `LuocSuCauThu` longtext COLLATE utf8_unicode_ci,
-  `idNguoiDung` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idNguoiDung` (`idNguoiDung`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idNguoiDung` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `cauthu`
@@ -173,8 +162,14 @@ INSERT INTO `cauthu` (`id`, `ChieuCao`, `CanNang`, `ViTriSoTruong`, `SoAo`, `Cha
 (9, NULL, NULL, 'Tiền đạo', 15, NULL, NULL, 10),
 (10, NULL, NULL, 'Tiền đạo', 25, NULL, NULL, 11),
 (11, NULL, NULL, 'Tiền đạo', 52, NULL, NULL, 12),
-(12, NULL, NULL, 'Tiền đạo', 56, NULL, NULL, 13),
-(13, NULL, NULL, 'Tiền đạo', 26, NULL, NULL, 14);
+(12, 182, 78, 'Tiền đạo', 56, 2, 'Mohamed Salah Ghaly là một cầu thủ bóng đá người Ai Cập hiện đang chơi ở vị trí tiền đạo cánh cho câu lạc bộ Liverpool và là thành viên của đội tuyển Ai Cập. Anh đã từng giành giải cầu thủ trẻ tài năng nhất năm châu Phi của CAF vào năm 2012.', 13),
+(13, 185, 81, 'Tiền đạo', 26, NULL, '1', 14),
+(14, 200, 95, 'Thủ môn', 50, 2, NULL, 15),
+(15, 185, 86, 'Tiền vệ', 8, 2, NULL, 16),
+(16, 195, 95, 'Tiền đạo', 50, 2, NULL, 17),
+(17, 191, 89, 'Thủ môn', 1, 1, NULL, 18),
+(18, 188, 95, 'Tiền vệ', 8, 1, NULL, 19),
+(19, 198, 98, 'Tiền vệ', 5, 1, NULL, 20);
 
 -- --------------------------------------------------------
 
@@ -182,14 +177,12 @@ INSERT INTO `cauthu` (`id`, `ChieuCao`, `CanNang`, `ViTriSoTruong`, `SoAo`, `Cha
 -- Cấu trúc bảng cho bảng `chanthuong`
 --
 
-DROP TABLE IF EXISTS `chanthuong`;
-CREATE TABLE IF NOT EXISTS `chanthuong` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `chanthuong` (
+  `id` int(11) NOT NULL,
   `TenChanThuong` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `PhanLoaiChanThuong` tinyint(4) DEFAULT NULL,
-  `ThoiGianHoiPhuc` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `ThoiGianHoiPhuc` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `chanthuong`
@@ -207,13 +200,11 @@ INSERT INTO `chanthuong` (`id`, `TenChanThuong`, `PhanLoaiChanThuong`, `ThoiGian
 -- Cấu trúc bảng cho bảng `chienthuat`
 --
 
-DROP TABLE IF EXISTS `chienthuat`;
-CREATE TABLE IF NOT EXISTS `chienthuat` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `chienthuat` (
+  `id` int(11) NOT NULL,
   `TenChienThuat` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `NoiDungChienThuat` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `NoiDungChienThuat` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `chienthuat`
@@ -231,26 +222,23 @@ INSERT INTO `chienthuat` (`id`, `TenChienThuat`, `NoiDungChienThuat`) VALUES
 -- Cấu trúc bảng cho bảng `doihinh`
 --
 
-DROP TABLE IF EXISTS `doihinh`;
-CREATE TABLE IF NOT EXISTS `doihinh` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `doihinh` (
+  `id` int(11) NOT NULL,
   `TenDoiHinh` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `HinhAnhDoiHinh` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `SoTranThang` int(11) DEFAULT NULL,
   `SoTranThua` int(11) DEFAULT NULL,
-  `SoTranHoa` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `SoTranHoa` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `doihinh`
 --
 
 INSERT INTO `doihinh` (`id`, `TenDoiHinh`, `HinhAnhDoiHinh`, `SoTranThang`, `SoTranThua`, `SoTranHoa`) VALUES
-(1, '4-4-2 Cổ Điển', '4-4-2 Cổ Điển.png', 51, 5, 14),
-(2, '4-3-3', '4-3-3.png', 40, 1, 1),
-(3, '5-3-2', '5-3-2.png', 5, 1, 0),
-(4, '4-2-3-1', '4-2-3-1.png', 0, 5, 1);
+(1, '4-4-2 Cổ Điển', '4-4-2 Cổ Điển.png', 1, 2, 3),
+(2, '4-3-3', '4-3-3.png', 5, 0, 1),
+(7, '5-3-2', '15299132905-3-2.png', 1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -258,23 +246,22 @@ INSERT INTO `doihinh` (`id`, `TenDoiHinh`, `HinhAnhDoiHinh`, `SoTranThang`, `SoT
 -- Cấu trúc bảng cho bảng `giaidau`
 --
 
-DROP TABLE IF EXISTS `giaidau`;
-CREATE TABLE IF NOT EXISTS `giaidau` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `giaidau` (
+  `id` int(11) NOT NULL,
   `TenGiaiDau` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `NamBatDauMuaGiai` date DEFAULT NULL,
   `NamKetThucMuaGiai` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `MuaGiaiHienTai` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `giaidau`
 --
 
-INSERT INTO `giaidau` (`id`, `TenGiaiDau`, `NamBatDauMuaGiai`, `NamKetThucMuaGiai`) VALUES
-(1, 'Premier league', '2017-09-05', '2018-05-10'),
-(2, 'FA', '2017-09-05', '2018-05-10'),
-(4, 'Premier league', '2016-09-14', '2017-05-27');
+INSERT INTO `giaidau` (`id`, `TenGiaiDau`, `NamBatDauMuaGiai`, `NamKetThucMuaGiai`, `MuaGiaiHienTai`) VALUES
+(1, 'Premier league', '2017-09-05', '2018-05-10', 1),
+(2, 'FA', '2017-09-05', '2018-05-10', 0),
+(4, 'Premier league', '2018-09-14', '2019-05-27', 0);
 
 -- --------------------------------------------------------
 
@@ -282,14 +269,12 @@ INSERT INTO `giaidau` (`id`, `TenGiaiDau`, `NamBatDauMuaGiai`, `NamKetThucMuaGia
 -- Cấu trúc bảng cho bảng `giaotrinhtap`
 --
 
-DROP TABLE IF EXISTS `giaotrinhtap`;
-CREATE TABLE IF NOT EXISTS `giaotrinhtap` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `giaotrinhtap` (
+  `id` int(11) NOT NULL,
   `TenBaiTap` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `NoiDungBaiTap` text COLLATE utf8_unicode_ci,
-  `ThoiLuongTapToiDa` int(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `ThoiLuongTapToiDa` int(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `giaotrinhtap`
@@ -321,8 +306,8 @@ INSERT INTO `giaotrinhtap` (`id`, `TenBaiTap`, `NoiDungBaiTap`, `ThoiLuongTapToi
 (27, 'Tập kỹ thuật ( Đấm bóng)', '<p><span style=\"font-size:14px\">Bước 1: Người phục vụ tung hoặc s&uacute;t b&oacute;ng v&agrave;o tầm trung v&agrave;o người thủ m&ocirc;n.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Bước 2: Thủ m&ocirc;n x&aacute;c định hướng b&oacute;ng v&agrave; điểm rơi của b&oacute;ng.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Bước 3:&nbsp;</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Nếu b&oacute;ng lăn v&agrave;o giữa thủ m&ocirc;n th&igrave;:</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Hai ch&acirc;n của thủ m&ocirc;n đứng rộng bằng vai.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Người hơi c&uacute;i xuống.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Hai tay vươn d&agrave;i nắm s&aacute;t v&agrave;o nhau &nbsp;v&agrave; đấm thẳng v&agrave;o quả b&oacute;ng.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Nếu b&oacute;ng lăn sang hai b&ecirc;n của thủ m&ocirc;n th&igrave;:</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Ch&acirc;n trụ của thủ m&ocirc;n chếch l&ecirc;n 1 g&oacute;c 30 độ.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Đổ người theo hướng mũi ch&acirc;n.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Đến đ&acirc;y th&igrave; thủ m&ocirc;n c&oacute; thể thực hiện theo 2 c&aacute;ch:</span></p>\r\n\r\n<p><span style=\"font-size:14px\">C&aacute;ch 1: Đấm b&oacute;ng bằng 1 tay khi b&oacute;ng đến thủ m&ocirc;n vươn 1 tay l&ecirc;n đến vị tr&iacute; thuận lơi nhất th&igrave; đấm thẳng v&agrave;o phần dưới của quả b&oacute;ng.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">C&aacute;ch 2: Đấm b&oacute;ng bằng 2 tay khi b&oacute;ng đến thủ m&ocirc;n đưa hai tay l&ecirc;n nắm s&aacute;t lại v&agrave; đấm thẳng v&agrave;o quả b&oacute;ng.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Ch&uacute; &yacute;</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Thủ m&ocirc;n cần x&aacute;c định ch&iacute;nh x&aacute;c hướng v&agrave; điểm rơi của quả b&oacute;ng.</span></p>', 60),
 (28, 'Tập kỹ thuật ( Sút bóng bằng lòng bàn chân)', '<p><span style=\"font-size:14px\"><img alt=\"\" src=\"https://sites.google.com/site/caulacbohvbp/_/rsrc/1346755618529/home/huan-luyen-dhao-tao/huan-luyen-thu-mon/bai-3-ky-thuat-da-bong-bang-long-ban-chan/2.png\" /></span></p>\r\n\r\n<p><span style=\"font-size:14px\">+&nbsp;<strong>B1</strong>: Quan s&aacute;t</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Ngắm mục ti&ecirc;u dứt điểm, đường b&oacute;ng dứt điểm</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+&nbsp;<strong>B2</strong>: Chạy đ&agrave;&nbsp;</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Để s&uacute;t được mạnh ngo&agrave;i điểm tiếp x&uacute;c b&oacute;ng với b&agrave;n ch&acirc;n th&igrave; c&aacute;c bạn phải chạy đ&agrave; hoặc lấy đ&agrave; tốt, v&agrave; quan trọng ở bước cuối c&ugrave;ng trụ ch&acirc;n tr&aacute;i, hoặc ch&acirc;n phải đối với người thuận ch&acirc;n tr&aacute;i phải vững, đồng thời lấy thế của đ&agrave; chạy s&uacute;t b&oacute;ng co ch&acirc;n nhiều về đăng sau</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+&nbsp;<strong>B3</strong>: S&uacute;t b&oacute;ng ( c&oacute; 2 kiểu )</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Điểm tiếp x&uacute;c giữa ch&acirc;n v&agrave; b&oacute;ng l&agrave; l&ograve;ng&nbsp;của b&agrave;n ch&acirc;n</span></p>\r\n\r\n<p><span style=\"font-size:14px\">. S&uacute;t thẳng</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Điểm tiếp x&uacute;c giữa ch&acirc;n v&agrave; b&oacute;ng l&agrave; 1 g&oacute;c 90 độ sẽ gi&uacute;p b&oacute;ng đi thẳng về hướng mục ti&ecirc;u</span></p>\r\n\r\n<p><span style=\"font-size:14px\">. S&uacute;t xo&aacute;y</span></p>\r\n\r\n<p><span style=\"font-size:14px\">Điểm tiếp x&uacute;c giữa ch&acirc;n v&agrave; b&oacute;ng l&agrave; 1 g&oacute;c 30 &ndash; 40 độ t&ugrave;y v&agrave;o độ xo&aacute;y đồng thời đưa ch&acirc;n l&ecirc;n theo hướng s&uacute;t</span></p>\r\n\r\n<p><span style=\"font-size:14px\"><em><strong>Ch&uacute; &yacute;&nbsp;</strong></em></span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ S&uacute;t b&oacute;ng bằng l&ograve;ng&nbsp;b&agrave;n ch&acirc;n b&agrave;n ch&acirc;n</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ S&uacute;t thẳng&nbsp;sẽ gi&uacute;p b&oacute;ng đi mạnh v&agrave; chuẩn x&aacute;c theo hướng thẳng về ph&iacute;a thủ m&ocirc;n</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ S&uacute;t xo&aacute;y sẽ l&agrave;m cho tr&aacute;i b&oacute;ng c&oacute; quỹ đạo kh&oacute; lường, thủ m&ocirc;n sẽ kh&oacute; bắt được b&oacute;ng hơn nhưng độ ch&iacute;nh x&aacute;c kh&ocirc;ng cao</span></p>', 60),
 (29, 'Tập kỹ thuật ( Phối hợp)', '<h2><span style=\"font-size:16px\">B&agrave;i tập 1:&nbsp;Phối hợp giữa 2 cầu thủ A v&agrave; B</span></h2>\r\n\r\n<p><span style=\"font-size:16px\"><strong>C&aacute;c bước thực hiện:</strong></span></p>\r\n\r\n<p><span style=\"font-size:16px\">1. A, B đứng thẳng h&agrave;ng nhau.</span></p>\r\n\r\n<p><span style=\"font-size:16px\">2. Cầu thủ A chuyền b&oacute;ng cho B, B l&agrave;m tường bật ch&eacute;o sang tr&aacute;i hoặc phải cho cầu thủ A lao v&agrave;o đỡ b&oacute;ng rồi dứt điểm ch&eacute;o g&oacute;c.</span></p>\r\n\r\n<p><span style=\"font-size:16px\">Xem video hướng dẫn sau:</span></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<h2><span style=\"font-size:16px\">B&agrave;i tập 2: Phối hợp 3 cầu thủ A, B, C</span></h2>\r\n\r\n<p><span style=\"font-size:16px\"><strong>C&aacute;c bước thực hiện:</strong></span></p>\r\n\r\n<p><span style=\"font-size:16px\">1. A, B, C đứng thẳng h&agrave;ng. C đứng ở giữa s&acirc;n, A đứng ở v&ograve;ng cung 16m50, B đứng ở giữa A v&agrave; C.</span></p>\r\n\r\n<p><span style=\"font-size:16px\">2. Cầu thủ C chuyền b&oacute;ng ch&eacute;o sang tr&aacute;i hoặc phải.</span></p>\r\n\r\n<p><span style=\"font-size:16px\">3. B di chuyển đ&oacute;n b&oacute;ng ở hướng C chuyền. Đồng thời A di chuyển theo hướng ngược với B.</span></p>\r\n\r\n<p><span style=\"font-size:16px\">4. B chuyền b&oacute;ng v&agrave;o giữa v&ograve;ng cấm. A di chuyển đ&oacute;n b&oacute;ng v&agrave; dứt điểm ch&eacute;o g&oacute;c.</span></p>', 120),
-(30, 'Tập kỹ thuật ( Đá Vô-lê)', '<h3><span style=\"font-size:14px\">Bước 1: Quan s&aacute;t</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">Ngắm mục ti&ecirc;u dứt điểm, đường b&oacute;ng dứt điểm</span></p>\r\n\r\n<h3><span style=\"font-size:14px\">Bước 2: Chạy đ&agrave;</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">Cần nắm r&otilde; quỹ đạo của b&oacute;ng để chạy đ&agrave; ph&ugrave; hợp dứt điểm đ&uacute;ng tr&aacute;i b&oacute;ng</span></p>\r\n\r\n<h3><span style=\"font-size:14px\">Bước 3: S&uacute;t b&oacute;ng</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">S&uacute;t b&oacute;ng khi b&oacute;ng vẫn c&ograve;n đang ở tr&ecirc;n cao v&agrave; dứt điểm thẳng về ph&iacute;a khung th&agrave;nh</span></p>\r\n\r\n<p><span style=\"font-size:14px\"><strong>Ch&uacute; &yacute;:</strong></span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ V&ocirc; l&ecirc; sẽ gi&uacute;p b&oacute;ng đi rất mạnh v&agrave; căng nhưng sẽ kh&oacute; chuẩn x&aacute;c</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ X&aacute;c định quỹ đạo của b&oacute;ng v&agrave; đường b&oacute;ng thật chuẩn x&aacute;c mới thực hiện được kỹ thuật n&agrave;y</span></p>', 30),
-(31, 'Tập kỹ thuật ( Đá phạt)', '<h3><span style=\"font-size:14px\">Bước 1: Quan s&aacute;t</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">+ Đ&aacute; phạt trực tiếp: Cần x&aacute;c định&nbsp;đường b&oacute;ng hướng hướng b&oacute;ng s&uacute;t phạt</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Đ&aacute; phạt gi&aacute;n tiếp: Cần định hướng hướng chuyền v&agrave; chiến thuật đ&aacute; phạt của đội b&oacute;ng</span></p>\r\n\r\n<h3><span style=\"font-size:14px\">Bước 2: Lấy đ&agrave;</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">Lấy đ&agrave; c&aacute;ch b&oacute;ng 3 &ndash; 5 bước ch&acirc;n rồi thực hiện c&aacute;c kỹ thuật chuyền b&oacute;ng s&uacute;t b&oacute;ng cho ph&ugrave; hợp</span></p>\r\n\r\n<h3><span style=\"font-size:14px\">Bước 3: Đ&aacute; phạt</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">+ Đ&aacute; phạt trực tiếp: Thực hiện kỹ thuật s&uacute;t b&oacute;ng để s&uacute;t b&oacute;ng về ph&iacute;a cầu g&ocirc;n</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Đ&aacute; phạt gi&aacute;n tiếp: Thực hiện kỹ thuật chuyền b&oacute;ng, tạt b&oacute;ng để thực hiện đ&aacute; phạt</span></p>\r\n\r\n<p><span style=\"font-size:14px\"><strong>Ch&uacute; &yacute;:</strong></span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Cần tu&acirc;n thủ luật đ&aacute; phạt để tr&aacute;nh phạm luật</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ C&oacute; thể phối hợp đ&aacute; phạt để g&acirc;y bất ngờ cho thủ m&ocirc;n</span></p>', 60),
+(30, 'Tập kỹ thuật ( Đá Vô-lê)', '<h3><span style=\"font-size:14px\">Bước 1: Quan s&aacute;t</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">Ngắm mục ti&ecirc;u dứt điểm, đường b&oacute;ng dứt điểm</span></p>\r\n\r\n<h3><span style=\"font-size:14px\">Bước 2: Chạy đ&agrave;</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">Cần nắm r&otilde; quỹ đạo của b&oacute;ng để chạy đ&agrave; ph&ugrave; hợp dứt điểm đ&uacute;ng tr&aacute;i b&oacute;ng</span></p>\r\n\r\n<h3><span style=\"font-size:14px\">Bước 3: S&uacute;t b&oacute;ng</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">S&uacute;t b&oacute;ng khi b&oacute;ng vẫn c&ograve;n đang ở tr&ecirc;n cao v&agrave; dứt điểm thẳng về ph&iacute;a khung th&agrave;nh</span></p>\r\n\r\n<p><span style=\"font-size:14px\"><strong>Ch&uacute; &yacute;:</strong></span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ V&ocirc; l&ecirc; sẽ gi&uacute;p b&oacute;ng đi rất mạnh v&agrave; căng nhưng sẽ kh&oacute; chuẩn x&aacute;c</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ X&aacute;c định quỹ đạo của b&oacute;ng v&agrave; đường b&oacute;ng thật chuẩn x&aacute;c mới thực hiện được kỹ thuật n&agrave;y</span></p>', 35),
+(31, 'Tập kỹ thuật ( Đá phạt)', '<h3><span style=\"font-size:14px\">Bước 1: Quan s&aacute;t</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">+ Đ&aacute; phạt trực tiếp: Cần x&aacute;c định&nbsp;đường b&oacute;ng hướng hướng b&oacute;ng s&uacute;t phạt</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Đ&aacute; phạt gi&aacute;n tiếp: Cần định hướng hướng chuyền v&agrave; chiến thuật đ&aacute; phạt của đội b&oacute;ng</span></p>\r\n\r\n<h3><span style=\"font-size:14px\">Bước 2: Lấy đ&agrave;</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">Lấy đ&agrave; c&aacute;ch b&oacute;ng 3 &ndash; 5 bước ch&acirc;n rồi thực hiện c&aacute;c kỹ thuật chuyền b&oacute;ng s&uacute;t b&oacute;ng cho ph&ugrave; hợp</span></p>\r\n\r\n<h3><span style=\"font-size:14px\">Bước 3: Đ&aacute; phạt</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">+ Đ&aacute; phạt trực tiếp: Thực hiện kỹ thuật s&uacute;t b&oacute;ng để s&uacute;t b&oacute;ng về ph&iacute;a cầu g&ocirc;n</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Đ&aacute; phạt gi&aacute;n tiếp: Thực hiện kỹ thuật chuyền b&oacute;ng, tạt b&oacute;ng để thực hiện đ&aacute; phạt</span></p>\r\n\r\n<p><span style=\"font-size:14px\"><strong>Ch&uacute; &yacute;:</strong></span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ Cần tu&acirc;n thủ luật đ&aacute; phạt để tr&aacute;nh phạm luật</span></p>\r\n\r\n<p><span style=\"font-size:14px\">+ C&oacute; thể phối hợp đ&aacute; phạt để g&acirc;y bất ngờ cho thủ m&ocirc;n</span></p>', 65),
 (32, 'Tập kỹ thuật ( Phản xạ)', '<h3><span style=\"font-size:14px\">B&agrave;i tập 1: Phản xạ bắt b&oacute;ng ở vị tr&iacute; bất k&igrave;</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">&ndash; Chuẩn bị:</span></p>\r\n\r\n<ul>\r\n	<li><span style=\"font-size:14px\">HLV chuẩn bị 10 quả b&oacute;ng xếp ngang khu vực 16m50 v&agrave; song song với khung th&agrave;nh.</span></li>\r\n	<li><span style=\"font-size:14px\">Mỗi quả b&oacute;ng đặt c&aacute;ch nhau khoảng 30 cm.</span></li>\r\n	<li><span style=\"font-size:14px\">Cần 1 đến 2 người phục vụ.</span></li>\r\n</ul>\r\n\r\n<p><span style=\"font-size:14px\">&ndash; C&aacute;c bước thực hiện:</span></p>\r\n\r\n<p><span style=\"font-size:14px\">B1: Cầu thủ thực hiện s&uacute;t lần lượt c&aacute;c quả b&oacute;ng từ tr&aacute;i qua phải hoặc ngược lại t&ugrave;y v&agrave;o ch&acirc;n thuận của người phục vụ. S&uacute;t b&oacute;ng v&agrave;o vị tr&iacute; bất k&igrave; trong khung th&agrave;nh.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">B2: Thủ m&ocirc;n thực hiện phản xạ bắt b&oacute;ng theo từng c&uacute; s&uacute;t của người phục vụ.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">B3: Khi thủ m&ocirc;n vừa bắt được tr&aacute;i b&oacute;ng th&igrave; người phục vụ lập tức s&uacute;t tr&aacute;i b&oacute;ng tiếp theo.</span></p>\r\n\r\n<h3><span style=\"font-size:14px\">B&agrave;i tập 2: Phản xạ bắt b&oacute;ng Tennis</span></h3>\r\n\r\n<p><span style=\"font-size:14px\">&ndash; Chuẩn bị:</span></p>\r\n\r\n<ul>\r\n	<li><span style=\"font-size:14px\">Vợt Tennis, nhiều b&oacute;ng Tennis.</span></li>\r\n	<li><span style=\"font-size:14px\">Cần tối thiểu 2 người phục vụ.</span></li>\r\n</ul>\r\n\r\n<p><span style=\"font-size:14px\">&ndash; C&aacute;c bước thực hiện:</span></p>\r\n\r\n<p><span style=\"font-size:14px\">B1: 1 người phục vụ tiếp b&oacute;ng. 1 người cầm vợt Tennis đ&aacute;nh b&oacute;ng về ph&iacute;a cầu m&ocirc;n với lực vừa phải.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">B2: Thủ m&ocirc;n thực hiện phản xạ bắt b&oacute;ng.</span></p>\r\n\r\n<p><span style=\"font-size:14px\">B3: Sau khi thủ m&ocirc;n vừa bắt b&oacute;ng th&igrave; lập tức đ&aacute;nh quả b&oacute;ng tiếp theo về ph&iacute;a khung th&agrave;nh.</span></p>', 65);
 
 -- --------------------------------------------------------
@@ -331,17 +316,12 @@ INSERT INTO `giaotrinhtap` (`id`, `TenBaiTap`, `NoiDungBaiTap`, `ThoiLuongTapToi
 -- Cấu trúc bảng cho bảng `giaotrinh_luyentap_cauthu`
 --
 
-DROP TABLE IF EXISTS `giaotrinh_luyentap_cauthu`;
-CREATE TABLE IF NOT EXISTS `giaotrinh_luyentap_cauthu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `giaotrinh_luyentap_cauthu` (
+  `id` int(11) NOT NULL,
   `idCauThu` int(11) NOT NULL,
   `idGiaoTrinhTap` int(11) NOT NULL,
-  `idLichLuyenTap` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauThu` (`idCauThu`),
-  KEY `idGiaoTrinhTap` (`idGiaoTrinhTap`),
-  KEY `idLichLuyenTap` (`idLichLuyenTap`)
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idLichLuyenTap` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `giaotrinh_luyentap_cauthu`
@@ -350,77 +330,33 @@ CREATE TABLE IF NOT EXISTS `giaotrinh_luyentap_cauthu` (
 INSERT INTO `giaotrinh_luyentap_cauthu` (`id`, `idCauThu`, `idGiaoTrinhTap`, `idLichLuyenTap`) VALUES
 (2, 1, 2, 1),
 (3, 5, 2, 1),
-(4, 1, 4, 2),
 (6, 1, 3, 1),
-(7, 1, 2, 2),
-(8, 1, 3, 2),
-(9, 1, 4, 2),
-(10, 1, 8, 2),
-(11, 1, 10, 2),
-(12, 1, 11, 2),
-(13, 1, 12, 2),
-(14, 2, 2, 2),
-(16, 2, 4, 2),
-(17, 2, 8, 2),
-(18, 2, 10, 2),
-(19, 2, 11, 2),
-(20, 2, 12, 2),
-(21, 3, 2, 2),
-(22, 3, 3, 2),
-(24, 3, 8, 2),
-(25, 3, 10, 2),
-(26, 3, 11, 2),
-(27, 3, 12, 2),
-(28, 4, 2, 2),
-(29, 4, 3, 2),
-(30, 4, 4, 2),
-(31, 4, 8, 2),
-(33, 4, 10, 2),
-(36, 10, 19, 8),
-(38, 10, 21, 8),
-(40, 10, 23, 8),
-(42, 6, 2, 2),
-(43, 6, 3, 2),
-(44, 6, 10, 2),
-(45, 6, 8, 2),
-(46, 6, 10, 2),
-(48, 6, 12, 2),
-(53, 7, 32, 7),
-(56, 8, 2, 2),
-(57, 8, 3, 2),
-(58, 8, 4, 2),
-(59, 8, 8, 2),
-(60, 8, 10, 2),
-(61, 8, 11, 2),
-(62, 8, 12, 2),
-(63, 9, 4, 2),
-(64, 9, 8, 2),
-(65, 9, 10, 2),
-(66, 9, 11, 2),
-(67, 9, 19, 2),
-(68, 9, 30, 2),
-(69, 9, 31, 2),
-(70, 10, 2, 2),
-(71, 10, 3, 2),
-(72, 10, 4, 2),
-(73, 10, 8, 2),
-(74, 10, 10, 2),
-(75, 10, 11, 2),
-(76, 10, 12, 2),
-(77, 11, 2, 2),
-(103, 4, 11, 2),
 (104, 8, 28, 8),
 (105, 8, 30, 8),
-(106, 7, 18, 7),
-(107, 7, 24, 7),
-(108, 8, 18, 7),
-(109, 8, 24, 7),
-(110, 5, 20, 7),
-(111, 5, 22, 7),
-(114, 13, 23, 7),
-(115, 13, 25, 7),
-(118, 5, 24, 7),
-(124, 12, 12, 2);
+(145, 7, 15, 2),
+(146, 7, 17, 2),
+(147, 7, 20, 2),
+(163, 13, 15, 2),
+(164, 13, 17, 2),
+(165, 13, 20, 2),
+(172, 7, 12, 2),
+(178, 13, 12, 2),
+(191, 10, 19, 8),
+(192, 10, 23, 8),
+(199, 9, 12, 7),
+(200, 9, 14, 7),
+(201, 5, 10, 9),
+(202, 5, 12, 9),
+(203, 5, 14, 9),
+(204, 6, 10, 9),
+(205, 6, 12, 9),
+(206, 6, 14, 9),
+(207, 5, 2, 8),
+(208, 5, 4, 8),
+(209, 5, 12, 8),
+(210, 11, 2, 8),
+(211, 11, 3, 8),
+(212, 11, 20, 8);
 
 -- --------------------------------------------------------
 
@@ -428,15 +364,11 @@ INSERT INTO `giaotrinh_luyentap_cauthu` (`id`, `idCauThu`, `idGiaoTrinhTap`, `id
 -- Cấu trúc bảng cho bảng `huanluyenvien`
 --
 
-DROP TABLE IF EXISTS `huanluyenvien`;
-CREATE TABLE IF NOT EXISTS `huanluyenvien` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `huanluyenvien` (
+  `id` int(11) NOT NULL,
   `LuocSuHuanLuyen` longtext COLLATE utf8_unicode_ci,
-  `idNguoiDung` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauThu` (`idNguoiDung`),
-  KEY `idNguoiDung` (`idNguoiDung`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idNguoiDung` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `huanluyenvien`
@@ -451,13 +383,11 @@ INSERT INTO `huanluyenvien` (`id`, `LuocSuHuanLuyen`, `idNguoiDung`) VALUES
 -- Cấu trúc bảng cho bảng `kynang`
 --
 
-DROP TABLE IF EXISTS `kynang`;
-CREATE TABLE IF NOT EXISTS `kynang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `kynang` (
+  `id` int(11) NOT NULL,
   `TenKyNang` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `ChiTiet` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `ChiTiet` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `kynang`
@@ -475,15 +405,11 @@ INSERT INTO `kynang` (`id`, `TenKyNang`, `ChiTiet`) VALUES
 -- Cấu trúc bảng cho bảng `kynang_cauthu`
 --
 
-DROP TABLE IF EXISTS `kynang_cauthu`;
-CREATE TABLE IF NOT EXISTS `kynang_cauthu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `kynang_cauthu` (
+  `id` int(11) NOT NULL,
   `idKyNang` int(11) NOT NULL,
-  `idCauThu` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idKyNang` (`idKyNang`),
-  KEY `idCauThu` (`idCauThu`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idCauThu` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `kynang_cauthu`
@@ -501,17 +427,14 @@ INSERT INTO `kynang_cauthu` (`id`, `idKyNang`, `idCauThu`) VALUES
 -- Cấu trúc bảng cho bảng `lichkham`
 --
 
-DROP TABLE IF EXISTS `lichkham`;
-CREATE TABLE IF NOT EXISTS `lichkham` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lichkham` (
+  `id` int(11) NOT NULL,
   `NgayKham` date NOT NULL,
   `CaKham` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DiaDiem` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `NoiDungDieuTri` text COLLATE utf8_unicode_ci,
-  `idPhacDoDieuTri` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idPhacDoDieuTri` (`idPhacDoDieuTri`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idPhacDoDieuTri` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `lichkham`
@@ -531,15 +454,13 @@ INSERT INTO `lichkham` (`id`, `NgayKham`, `CaKham`, `DiaDiem`, `NoiDungDieuTri`,
 -- Cấu trúc bảng cho bảng `lichluyentap`
 --
 
-DROP TABLE IF EXISTS `lichluyentap`;
-CREATE TABLE IF NOT EXISTS `lichluyentap` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lichluyentap` (
+  `id` int(11) NOT NULL,
   `NgayLuyenTap` date NOT NULL,
   `GioLuyenTap` time DEFAULT NULL,
   `CaLuyenTap` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `DiaDiem` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `DiaDiem` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `lichluyentap`
@@ -551,7 +472,8 @@ INSERT INTO `lichluyentap` (`id`, `NgayLuyenTap`, `GioLuyenTap`, `CaLuyenTap`, `
 (3, '2018-06-14', '08:00:00', 'Ca sáng', 'Sân tập B'),
 (7, '2018-07-15', '08:00:00', 'Ca sáng', 'Sân tập A'),
 (8, '2018-07-10', '08:00:00', 'Ca sáng', 'Sân tập A'),
-(9, '2018-07-15', '13:30:00', 'Ca chiều', 'Sân tập A');
+(9, '2018-07-15', '13:30:00', 'Ca trưa', 'Sân tập A'),
+(13, '2018-06-24', '13:30:00', 'Ca trưa', 'Sân tập B');
 
 -- --------------------------------------------------------
 
@@ -559,9 +481,8 @@ INSERT INTO `lichluyentap` (`id`, `NgayLuyenTap`, `GioLuyenTap`, `CaLuyenTap`, `
 -- Cấu trúc bảng cho bảng `nguoidung`
 --
 
-DROP TABLE IF EXISTS `nguoidung`;
-CREATE TABLE IF NOT EXISTS `nguoidung` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `nguoidung` (
+  `id` int(11) NOT NULL,
   `username` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `HoTen` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -572,28 +493,36 @@ CREATE TABLE IF NOT EXISTS `nguoidung` (
   `GioiTinh` tinyint(1) DEFAULT NULL,
   `NoiSinh` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `HinhDaiDien` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `remember_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `nguoidung`
 --
 
-INSERT INTO `nguoidung` (`id`, `username`, `password`, `HoTen`, `ChucVu`, `Email`, `NgaySinh`, `QuocTich`, `GioiTinh`, `NoiSinh`, `HinhDaiDien`) VALUES
-(1, 'admin', '123456', 'Admin Admin', 'admin', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(2, 'ThuMon', '123456', 'Thủ Môn', 'cauthu', 'cauthu1@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(3, 'HauVe1', '123456', 'Hậu vệ 1', 'cauthu', 'cauthu2@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(4, 'HauVe2', '123456', 'Hậu vệ 2', 'cauthu', 'cauthu3@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(5, 'HauVe3', '123456', 'Hậu vệ 3', 'cauthu', 'cauthu4@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(6, 'HauVe4', '123456', 'Hậu vệ 4', 'cauthu', 'manager@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(7, 'TienVePhongNgu', '123456', 'Santi Cazorla', 'cauthu', 'MohamedSalah@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(8, 'TienVe1', '123456', 'Xavi', 'cauthu', 'Xavi@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(9, 'TienVe2', '123456', 'Iniesta', 'cauthu', 'Iniesta@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(10, 'TienDaoCanh1', '123456', 'C.Ronaldo', 'cauthu', 'Ronaldo@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(11, 'TienDaoCanh2', '123456', 'L.Messi', 'cauthu', 'Messi@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(12, 'Henry', '123456', 'T.Henry', 'cauthu', 'Henry@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(13, 'DuBi1', '123456', 'M.Salah', 'cauthu', 'salah@gmail.com', NULL, NULL, NULL, NULL, NULL),
-(14, 'DuBi2', '123456', 'M.Sane', 'cauthu', 'sane@gmail.com', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `nguoidung` (`id`, `username`, `password`, `HoTen`, `ChucVu`, `Email`, `NgaySinh`, `QuocTich`, `GioiTinh`, `NoiSinh`, `HinhDaiDien`, `remember_token`) VALUES
+(1, 'admin', '$2y$10$UKdgdmsTQxr5.RAX6XOvLuMcukMU5g5qS3JWgq2O21mOyESJ54CiC', 'Admin Admin', 'admin', 'admin@gmail.com', NULL, NULL, NULL, NULL, NULL, '0bCa1xLY1GlkHCwDHLAwG1PQyD7VSZWLRmWtkpcSi8tV2gH1j8idYxbxLf9X'),
+(2, 'ThuMon', '$2y$10$UKdgdmsTQxr5.RAX6XOvLuMcukMU5g5qS3JWgq2O21mOyESJ54CiC', 'Thủ Môn', 'cauthu', 'cauthu1@gmail.com', NULL, NULL, NULL, NULL, NULL, 'EWIYJ6sa75KaYHRQjaxy5WqWvVWh5bRdyj2rXyEv0SYp8mhD2i3H7TuSyV6y'),
+(3, 'HauVe1', '123456', 'Hậu vệ 1', 'cauthu', 'cauthu2@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 'HauVe2', '123456', 'Hậu vệ 2', 'cauthu', 'cauthu3@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 'HauVe3', '123456', 'Hậu vệ 3', 'cauthu', 'cauthu4@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 'HauVe4', '123456', 'Hậu vệ 4', 'cauthu', 'manager@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 'TienVePhongNgu', '123456', 'Santi Cazorla', 'cauthu', 'MohamedSalah@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 'TienVe1', '123456', 'Xavi', 'cauthu', 'Xavi@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'TienVe2', '123456', 'Iniesta', 'cauthu', 'Iniesta@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(10, 'TienDaoCanh1', '123456', 'C.Ronaldo', 'cauthu', 'Ronaldo@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(11, 'TienDaoCanh2', '123456', 'L.Messi', 'cauthu', 'Messi@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 'Henry', '$2y$10$UKdgdmsTQxr5.RAX6XOvLuMcukMU5g5qS3JWgq2O21mOyESJ54CiC', 'T.Henry', 'cauthu', 'Henry@gmail.com', NULL, NULL, NULL, NULL, NULL, 'lwgelb5WcupSNlWT7f8VbJAm3UvmxzDq8PXasUEmk6v0InQ7Ek5CNZ5f2vMt'),
+(13, 'DuBi1', '123456', 'M.Salah', 'cauthu', 'salah@gmail.com', '1996-06-06', 'Ai Cập', 1, 'Asguard', 'Players_Home4.png', NULL),
+(14, 'DuBi2', '123456', 'M.Sane', 'cauthu', 'sane@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 'thumon2', '123456', 'Thủ Môn 2', 'cauthu', 'thumon2@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(16, 'Camera', '123456', 'Steven Camera', 'cauthu', 'camera@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
+(17, 'MinhHoang', '123456', 'Hoàng Đức Minh', 'cauthu', 'minhhoang@gmail.com', '1995-05-02', 'Nga', 1, 'Berlin', NULL, NULL),
+(18, 'MinhThi', '123456', 'Thi Trường Minh', 'cauthu', 'minhthi@gmail.com', '1996-12-25', 'Nam Phi', 1, 'TP.HCM', NULL, NULL),
+(19, 'anhkhoa', '123456', 'Vương Anh Khoa', 'cauthu', 'vuonganhkhoa96@gmail.com', '1996-11-07', 'Việt Nam', 1, 'TP.HCM', NULL, NULL),
+(20, 'sendai', '123456', 'Ying Bu', 'cauthu', 'sendai@gmail.com', '1959-12-05', 'Trung Hoa', 1, 'TP.HCM', NULL, NULL),
+(21, 'huanluyenvien', '$2y$10$UKdgdmsTQxr5.RAX6XOvLuMcukMU5g5qS3JWgq2O21mOyESJ54CiC', 'huanluyenvien', 'huanluyenvien', 'huanluyenvien@gmail.com', '1980-07-02', 'Việt Nam', 0, 'Đà Nẵng', '1530501889manager.png', '5j6UJngu4dckTyAmkzmxdt285tDl8EZ4p3PMk42Z6uCnrJFMBzlLGZsU29lp'),
+(22, 'nhanvienyte', '$2y$10$UKdgdmsTQxr5.RAX6XOvLuMcukMU5g5qS3JWgq2O21mOyESJ54CiC', 'Nhan Vien Y Te', 'nhanvienyte', 'nhanvienyte@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -601,14 +530,12 @@ INSERT INTO `nguoidung` (`id`, `username`, `password`, `HoTen`, `ChucVu`, `Email
 -- Cấu trúc bảng cho bảng `phacdodieutri`
 --
 
-DROP TABLE IF EXISTS `phacdodieutri`;
-CREATE TABLE IF NOT EXISTS `phacdodieutri` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `phacdodieutri` (
+  `id` int(11) NOT NULL,
   `TrinhTuThucHien` text COLLATE utf8_unicode_ci,
   `TienDoHoiPhuc` tinyint(3) DEFAULT NULL,
-  `GhiChu` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `GhiChu` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `phacdodieutri`
@@ -625,12 +552,10 @@ INSERT INTO `phacdodieutri` (`id`, `TrinhTuThucHien`, `TienDoHoiPhuc`, `GhiChu`)
 -- Cấu trúc bảng cho bảng `phongdo`
 --
 
-DROP TABLE IF EXISTS `phongdo`;
-CREATE TABLE IF NOT EXISTS `phongdo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ChiSoPhongDo` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `phongdo` (
+  `id` int(11) NOT NULL,
+  `ChiSoPhongDo` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `phongdo`
@@ -649,13 +574,9 @@ INSERT INTO `phongdo` (`id`, `ChiSoPhongDo`) VALUES
 -- Cấu trúc bảng cho bảng `phongdo_cauthu`
 --
 
-DROP TABLE IF EXISTS `phongdo_cauthu`;
-CREATE TABLE IF NOT EXISTS `phongdo_cauthu` (
+CREATE TABLE `phongdo_cauthu` (
   `idCauThu` int(11) NOT NULL,
-  `idPhongDo` int(11) NOT NULL,
-  PRIMARY KEY (`idCauThu`),
-  KEY `idCauThu` (`idCauThu`),
-  KEY `idPhongDo` (`idPhongDo`)
+  `idPhongDo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -664,7 +585,18 @@ CREATE TABLE IF NOT EXISTS `phongdo_cauthu` (
 
 INSERT INTO `phongdo_cauthu` (`idCauThu`, `idPhongDo`) VALUES
 (1, 1),
-(2, 3);
+(3, 1),
+(11, 1),
+(13, 1),
+(4, 2),
+(6, 2),
+(8, 2),
+(12, 2),
+(14, 2),
+(2, 3),
+(9, 3),
+(10, 3),
+(7, 4);
 
 -- --------------------------------------------------------
 
@@ -672,9 +604,8 @@ INSERT INTO `phongdo_cauthu` (`idCauThu`, `idPhongDo`) VALUES
 -- Cấu trúc bảng cho bảng `thanhtichcauthu`
 --
 
-DROP TABLE IF EXISTS `thanhtichcauthu`;
-CREATE TABLE IF NOT EXISTS `thanhtichcauthu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `thanhtichcauthu` (
+  `id` int(11) NOT NULL,
   `DiemSo` double DEFAULT NULL,
   `SoDuongChuyen` int(11) DEFAULT NULL,
   `ChuyenThanhCong` int(11) DEFAULT NULL,
@@ -686,11 +617,8 @@ CREATE TABLE IF NOT EXISTS `thanhtichcauthu` (
   `TheVang` int(5) DEFAULT NULL,
   `TheDo` int(5) DEFAULT NULL,
   `idCauThu` int(11) NOT NULL,
-  `idTranDau` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauThu` (`idCauThu`),
-  KEY `idTranDau` (`idTranDau`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idTranDau` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `thanhtichcauthu`
@@ -712,20 +640,15 @@ INSERT INTO `thanhtichcauthu` (`id`, `DiemSo`, `SoDuongChuyen`, `ChuyenThanhCong
 -- Cấu trúc bảng cho bảng `thongtinchanthuong_cauthu`
 --
 
-DROP TABLE IF EXISTS `thongtinchanthuong_cauthu`;
-CREATE TABLE IF NOT EXISTS `thongtinchanthuong_cauthu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `thongtinchanthuong_cauthu` (
+  `id` int(11) NOT NULL,
   `ngaychanthuong` date NOT NULL,
   `NgayHoiPhuc` date DEFAULT NULL,
   `TinhTrangChanThuong` tinyint(4) NOT NULL,
   `idCauThu` int(11) NOT NULL,
   `idChanThuong` int(11) NOT NULL,
-  `idPhacDoDieuTri` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauThu` (`idCauThu`),
-  KEY `idChanThuong` (`idChanThuong`),
-  KEY `idPhacDoDieuTri` (`idPhacDoDieuTri`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idPhacDoDieuTri` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `thongtinchanthuong_cauthu`
@@ -744,13 +667,11 @@ INSERT INTO `thongtinchanthuong_cauthu` (`id`, `ngaychanthuong`, `NgayHoiPhuc`, 
 -- Cấu trúc bảng cho bảng `thuoc`
 --
 
-DROP TABLE IF EXISTS `thuoc`;
-CREATE TABLE IF NOT EXISTS `thuoc` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `thuoc` (
+  `id` int(11) NOT NULL,
   `TenThuoc` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `GhiChu` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `GhiChu` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `thuoc`
@@ -768,15 +689,13 @@ INSERT INTO `thuoc` (`id`, `TenThuoc`, `GhiChu`) VALUES
 -- Cấu trúc bảng cho bảng `tintuc`
 --
 
-DROP TABLE IF EXISTS `tintuc`;
-CREATE TABLE IF NOT EXISTS `tintuc` (
+CREATE TABLE `tintuc` (
   `id` int(11) NOT NULL,
   `TieuDe` text,
   `TomTat` text,
   `NoiDung` longtext,
   `Hinh` varchar(255) DEFAULT NULL,
-  `NgayDang` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `NgayDang` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -785,7 +704,8 @@ CREATE TABLE IF NOT EXISTS `tintuc` (
 
 INSERT INTO `tintuc` (`id`, `TieuDe`, `TomTat`, `NoiDung`, `Hinh`, `NgayDang`) VALUES
 (2, 'Ba Lan không chỉ có Lewandowski', '<p>&quot;Lewan l&agrave; thủ lĩnh t&agrave;i năng v&agrave; l&agrave; một trong những cầu thủ xuất sắc nhất thế giới nhưng c&aacute;c cầu thủ c&ograve;n lại của ch&uacute;ng t&ocirc;i cũng rất đ&aacute;ng gờm.&quot; HLV Ba Lan ph&aacute;t biểu.</p>', '<p>Ai cũng biết Robert Lewandowski l&agrave; c&acirc;y săn b&agrave;n h&agrave;ng đầu Ch&acirc;u &Acirc;u trong những năm gần đ&acirc;y n&ecirc;n khi nh&igrave;n v&agrave;o đội tuyển&nbsp;<a href=\"http://www.bongda.com.vn/Ba+Lan-search/\" target=\"_blank\">Ba Lan</a>, người h&acirc;m mộ chỉ thấy anh l&agrave; cầu thủ nổi bật nhất. HLV Nawalka đ&atilde; cố gắng k&eacute;o sự ch&uacute; &yacute; của mọi người bớt khỏi cầu thủ n&agrave;y, &ocirc;ng cho rằng&nbsp;<strong>&lsquo;Đại b&agrave;ng trắng&rsquo; c&ograve;n rất nhiều cầu thủ đ&aacute;ng gờm kh&aacute;c</strong>.</p>\r\n\r\n<p><img alt=\"Ba Lan không chỉ có Lewandowski - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hoanghai.nguyen/2018/06/19/glik-1-1653.jpg\" style=\"height:365px; width:648px\" /></p>\r\n\r\n<h2>&nbsp;Glik l&agrave; chốt chặn đ&aacute;ng tin cậy ở h&agrave;ng ph&ograve;ng ngự.</h2>\r\n\r\n<p>Sự chuẩn bị của Ba Lan trước&nbsp;<a href=\"http://www.bongda.com.vn/22h00-ngay-19-06-ba-lan-vs-senegal-ki-thuat-dau-suc-manh-d450759.html\" target=\"_blank\">trận đấu gặp Senegal</a>&nbsp;đang rất su&ocirc;n sẻ. Vấn đề duy nhất họ gặp phải l&agrave; chấn thương lưng của Kamil Glik &ndash; hậu vệ tốt nhất của họ trong l&uacute;c tập luyện. Nhiều khả năng trung vệ của Monaco sẽ vắng mặt trong trận tranh t&agrave;i n&agrave;y nhưng HLV của Ba Lan cho rằng anh sẽ kịp b&igrave;nh phục.</p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/truoc-dai-chien-ba-lan-thuyen-truong-senegal-tang-tro-cung-len-tan-may-xanh-d450800.html\">Trước đại chiến Ba Lan, thuyền trưởng Senegal t&acirc;ng tr&ograve; cưng l&ecirc;n tận m&acirc;y xanh</a></p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/22h00-ngay-19-06-ba-lan-vs-senegal-ki-thuat-dau-suc-manh-d450759.html\">22h00 ng&agrave;y 19/06, Ba Lan vs Senegal: Kĩ thuật đấu sức mạnh</a></p>\r\n\r\n<p>Ngo&agrave;i ra ở h&agrave;ng ph&ograve;ng ngự họ cũng c&oacute; sự g&oacute;p mặt của Łukasz Piszczek (Dortmund), hậu vệ c&aacute;nh phải vẫn giữ được phong độ tốt của m&igrave;nh từ khi gia nhập đội b&oacute;ng của Đức từ năm 2010. Sự chắc chắn trong ph&ograve;ng ngự của anh đ&atilde; khiến CLB n&agrave;y&nbsp;k&iacute; hợp đồng với&nbsp;anh tới 2020.</p>\r\n\r\n<p><img alt=\"Ba Lan không chỉ có Lewandowski - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hoanghai.nguyen/2018/06/19/skysports-poland-arsenal_4323563-1654.jpg\" style=\"height:432px; width:768px\" /></p>\r\n\r\n<h2>&nbsp;Ba Lan c&oacute; hai thủ m&ocirc;n giỏi l&agrave; Szczesny v&agrave;&nbsp;Fabianski.</h2>\r\n\r\n<p>Trước khung th&agrave;nh, Ba Lan sở hữu kh&ocirc;ng chỉ một hay hai thủ m&ocirc;n rất xuất sắc l&agrave; Fabianski (Swansea) v&agrave; Szczesny (Juventus). Fabianski đ&atilde; c&oacute; một m&agrave;n tr&igrave;nh diễn rất ấn tượng ở Premier League m&ugrave;a giải qua d&ugrave; CLB của anh xuống hạng. Kh&ocirc;ng thủ th&agrave;nh n&agrave;o c&oacute; số lần cứu thua nhiều hơn anh (137).<br />\r\nTrong khi người g&aacute;c đền của Juve cũng c&oacute; tới 14/20 trận ở mọi giải đấu giữ sạch lưới cho CLB m&igrave;nh d&ugrave; phải chia sẻ vị tr&iacute; với Gianluigi Buffon.</p>\r\n\r\n<p>Ở h&agrave;ng tiền vệ, Jakub Blaszczykowski (Wolfburg) sẽ c&oacute; lần thứ 100 kho&aacute;c &aacute;o đội tuyển quốc gia. Tuy m&ugrave;a giải qua cầu thủ n&agrave;y rất hiếm khi được ra s&acirc;n ở CLB nhưng Ba Lan vẫn rất cần kinh nghiệm qu&iacute; b&aacute;u của anh.</p>\r\n\r\n<p><img alt=\"Ba Lan không chỉ có Lewandowski - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hoanghai.nguyen/2018/06/19/piotr-zielinski-controls-the-ball-during-the-international-friendly-match-1655.jpg\" style=\"height:409px; width:615px\" /></p>\r\n\r\n<h2>&nbsp;Piotr Zielinski đang được Liverpool r&aacute;o riết săn đ&oacute;n.</h2>\r\n\r\n<p>Hỗ trợ cho&nbsp;<a href=\"http://www.bongda.com.vn/Lewandowski-search/\" target=\"_blank\">Lewandowski</a>&nbsp;ở h&agrave;ng c&ocirc;ng sẽ l&agrave; cầu thủ Piotr Zielinski của Napoli. Cầu thủ 24 tuổi người Ba Lan l&agrave; một mẫu tiền vệ tuyệt vời. Anh được xem l&agrave; thủ lĩnh của&nbsp;tuyến giữa&nbsp;khi thể hiện được lối chơi s&aacute;ng tạo v&agrave; hỗ trợ đồng đội hết m&igrave;nh. Hiện Zielinski đang được Liverpool li&ecirc;n hệ.</p>\r\n\r\n<p>V&agrave; nếu Ba Lan cần một người s&aacute;t c&aacute;nh cạnh tiền đạo Bayern Munich th&igrave; đ&atilde; c&oacute; trung phong Arkadiusz Milik. Trong m&ugrave;a giải qua ở Napoli, Milik lại gặp v&ocirc; v&agrave;n kh&oacute; khăn v&igrave; chấn thương nhưng nếu đ&aacute; đ&uacute;ng phong độ của m&igrave;nh anh sẽ rất đ&aacute;ng sợ với khả năng dứt điểm cực tốt của m&igrave;nh.</p>', '1529412091piotr-zielinski-controls-the-ball-during-the-international-friendly-match-1655.jpg', '2018-06-19'),
-(3, 'World Cup 2018 là một giải đấu kì lạ!', '<p>Giải đấu b&oacute;ng đ&aacute; lớn nhất năm nay mới chỉ chưa đi hết một v&ograve;ng đấu đầu ti&ecirc;n, nhưng c&oacute; vẻ n&oacute; đ&atilde; đem đến cho nhiều người sự bất ngờ kh&ocirc;ng thể tả.</p>', '<p>Hệ thống ph&acirc;n cấp ở&nbsp;c&aacute;c giải đấu b&oacute;ng đ&aacute;&nbsp;vẫn thường được ban tổ chức giải đấu quyết định khi đưa ra 4 nh&oacute;m kh&aacute;c nhau, v&agrave; tr&ecirc;n thực tế, chẳng ai nghi ngờ việc&nbsp;<a href=\"http://www.bongda.com.vn/brazil-search/\" target=\"_blank\">Brazil</a>, Đức, Argentina lại c&ugrave;ng đẳng cấp với Thuỵ Sĩ, Mexico hay Iceland... N&oacute;i như vậy để ch&uacute;ng ta hiểu được tại sao giải đấu năm nay lại l&agrave; một giải đấu k&igrave; lạ.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/sport-preview-golden-boot-1451.jpg\" style=\"height:420px; width:630px\" /></p>\r\n\r\n<h2>&nbsp;Gi&aacute; trị của 3 ng&ocirc;i sao n&agrave;y c&oacute; thể nhiều hơn cả một đội h&igrave;nh tại World Cup.</h2>\r\n\r\n<p>Trong lịch sử của c&aacute;c v&ograve;ng chung kết&nbsp;<a href=\"http://www.bongda.com.vn/world+cup+2018-search/\" target=\"_blank\">World Cup</a>, dĩ nhi&ecirc;n l&agrave; vẫn c&oacute; những bất ngờ như Hungary h&ugrave;ng mạnh vẫn bị T&acirc;y Đức đ&aacute;nh bại 3-2 ở trận chung kết năm 1954, d&ugrave; trước đ&oacute; 2 đội đ&atilde; gặp nhau ở v&ograve;ng bảng v&agrave; tỉ số khi đ&oacute; l&agrave; 8-3 cho đội b&oacute;ng của Ferenc Puskas. Nhưng nếu chỉ t&iacute;nh trong một giải đấu th&igrave; trước giờ chưa c&oacute; một k&igrave; đại hội n&agrave;o &quot;kh&oacute; hiểu&quot; như năm nay.</p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/bi-an-chan-thuong-salah-tat-ca-deu-ngo-ngang-d450855.html\">B&iacute; ẩn chấn thương Salah: Tất cả đều ngỡ ng&agrave;ng!</a></p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/thua-mexico-tuyen-duc-gian-lay-truyen-thong-d450812.html\">Thua Mexico, tuyển Đức &#39;giận lẫy&#39; truyền th&ocirc;ng</a></p>\r\n\r\n<p>M&agrave;n &quot;hạ s&aacute;t&quot; Ả Rập X&ecirc; &Uacute;t của chủ nh&agrave; Nga ho&aacute; ra lại l&agrave; một sự &quot;giả dối&quot; với con mắt người h&acirc;m mộ. Bởi nếu chỉ t&iacute;nh 8 đội tuyển được đ&aacute;nh gi&aacute; cao nhất l&agrave; Brazil,&nbsp;<a href=\"http://www.bongda.com.vn/T%C3%A2y+Ban+Nha-search/\" target=\"_blank\">T&acirc;y Ban Nha</a>, Đức, Ph&aacute;p, Anh, Bỉ, Argentina, Bồ Đ&agrave;o Nha, th&igrave; kh&ocirc;ng ai trong số n&agrave;y c&oacute; m&agrave;n tr&igrave;nh diễn qu&aacute; ấn tượng, thậm ch&iacute; họ c&ograve;n bị l&ocirc;i ra l&agrave;m tr&ograve; cười sau khi trận đấu với c&aacute;c đối thủ chiếu dưới kết th&uacute;c.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/15292712627954-1455.jpg\" style=\"height:370px; width:629px\" /></p>\r\n\r\n<h2>&nbsp;Đ&atilde; rất l&acirc;u rồi Brazil mới phải kh&oacute; khăn trước những đội b&oacute;ng nhỏ như vậy.</h2>\r\n\r\n<p>Đội tuyển&nbsp;<a href=\"http://www.bongda.com.vn/b%E1%BB%89-search/\" target=\"_blank\">Bỉ</a>&nbsp;thắng 3-0 trước Panama nhưng ai cũng biết họ gần như bế tắc cả 45 ph&uacute;t đầu ti&ecirc;n, v&agrave; nếu kh&ocirc;ng c&oacute; Dries Mertens bỗng ngẫu hứng với c&uacute; dứt điểm tuyệt đẹp th&igrave; kh&ocirc;ng ai biết Bỉ c&oacute; thể l&agrave;m c&aacute;ch n&agrave;o m&agrave; xuy&ecirc;n ph&aacute; được h&agrave;ng ph&ograve;ng ngự của Roman Torres v&agrave; c&aacute;c đồng đội.</p>\r\n\r\n<p>Trong khi đ&oacute; Ph&aacute;p v&agrave;&nbsp;<a href=\"http://www.bongda.com.vn/5-diem-nhan-tunisia-1-2-anh-khi-var-khong-phai-la-dong-minh-d450795.html\" target=\"_blank\">Anh phải thực sự h&uacute; v&iacute;a v&igrave; đối thủ</a>, họ cần nhờ đến những t&igrave;nh huống may mắn hoặc cuối trận mới c&oacute; thể kết liễu được đối thủ. C&ograve;n Argentina v&agrave; Brazil đ&atilde; để lại một sự thất vọng c&ugrave;ng cực khi chỉ kiếm được 1 điểm trong thế trận chẳng biết chơi b&oacute;ng thế n&agrave;o.</p>\r\n\r\n<p>Thậm ch&iacute; đương kim v&ocirc; địch thế giới&nbsp;<a href=\"http://www.bongda.com.vn/%C4%91%E1%BB%A9c-search/\" target=\"_blank\">Đức</a>&nbsp;c&ograve;n &quot;chết gục&quot; trước một Mexico kh&ocirc;ng được đ&aacute;nh gi&aacute; cao. Nếu điều n&agrave;y được n&oacute;i ở trước giải đấu c&oacute; lẽ kh&ocirc;ng c&oacute; ai tin trừ người d&acirc;n Mexico. Bởi Đức kh&ocirc;ng giống với 2 &ocirc;ng lớn ở Nam Mỹ, họ lu&ocirc;n c&oacute; sự ổn định rất cao v&agrave; c&aacute;c tuyển thủ đều l&agrave; những người qu&aacute; quen thuộc với kh&aacute;n giả.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/germany-mexico-lozano-earthquake-1459.jpg\" style=\"height:351px; width:630px\" /></p>\r\n\r\n<h2>&nbsp;Thậm ch&iacute; ĐKVĐ Đức c&ograve;n thất bại &ecirc; chề trước Mexico, điều chưa bao giờ xảy ra trước đ&oacute;.</h2>\r\n\r\n<p>Những kết quả bất ngờ n&agrave;y đ&atilde; cho thấy, kh&ocirc;ng phải c&aacute;c đội b&oacute;ng lớn đ&atilde; yếu đi m&agrave; do những kẻ &quot;l&oacute;t đường&quot; đ&atilde; lột x&aacute;c với c&aacute;ch l&agrave;m b&oacute;ng đ&aacute; trong nhiều năm qua. Giờ đ&acirc;y World Cup c&oacute; vẻ tương đồng với giải Ngoại hạng Anh, khi m&agrave; bất cứ đội b&oacute;ng n&agrave;o cũng c&oacute; thể bị đ&aacute;nh bại hoặc cầm ch&acirc;n bởi những c&aacute;i t&ecirc;n m&agrave; kh&ocirc;ng ai d&aacute;m nghĩ họ sẽ l&agrave;m được.</p>\r\n\r\n<p>C&oacute; thể n&oacute;i, đ&acirc;y l&agrave; một t&iacute;n hiệu đ&aacute;ng mừng với sự ph&aacute;t triển chung của m&ocirc;n thể thao n&agrave;y. Những đội b&oacute;ng nhỏ đ&atilde; thực sự đi đ&uacute;ng hướng trong kế hoạch ph&aacute;t triển kỹ năng chuy&ecirc;n m&ocirc;n. v&agrave; như vậy sự cạnh tranh cũng sẽ được đưa l&ecirc;n một tầm mới. C&aacute;c giải đấu sẽ kh&ocirc;ng c&ograve;n l&agrave; cuộc chơi ri&ecirc;ng của những đội b&oacute;ng quen thuộc với kh&aacute;n giả m&agrave; sẽ trải đều cơ hội cho tất cả những th&agrave;nh vi&ecirc;n kh&aacute;c.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/iceland-team-1502.jpg\" style=\"height:419px; width:630px\" /></p>\r\n\r\n<h2>&nbsp;Trước đ&oacute; kh&ocirc;ng nhiều người để &yacute; đến đội tuyển Iceland.</h2>\r\n\r\n<p>Th&ecirc;m nữa, b&oacute;ng đ&aacute; ph&aacute;t triển ở một khu vực nhất định n&agrave;o đ&oacute; cũng k&eacute;o theo người h&acirc;m mộ, v&agrave; d&acirc;n tr&iacute; từ đ&oacute; cũng sẽ được tăng l&ecirc;n, &iacute;t nhất ở kh&iacute;a cạnh giải tr&iacute;. Ngo&agrave;i ra, c&aacute;i lợi của b&oacute;ng đ&aacute; về những sự ph&acirc;n biệt sắc tộc hay quan điểm ch&iacute;nh trị c&oacute; khi cũng sẽ dung ho&agrave; với m&ocirc;n thể thao n&agrave;y với người h&acirc;m mộ.</p>\r\n\r\n<p><strong>World Cup 2018 l&agrave; một giải đấu k&igrave; lạ</strong>&nbsp;nhưng n&oacute; lại mang đến một điều t&iacute;ch cực lớn lao cho sự ph&aacute;t triển chung của b&oacute;ng đ&aacute;. Trước mắt ch&uacute;ng ta vẫn c&ograve;n rất nhiều trận đấu hấp dẫn, v&agrave; h&atilde;y c&ugrave;ng thưởng thức trọn vẹn để thấy được sự cuốn h&uacute;t của n&oacute;!</p>', '1529412303iceland-team-1502.jpg', '2018-06-19');
+(3, 'World Cup 2018 là một giải đấu kì lạ!', '<p>Giải đấu b&oacute;ng đ&aacute; lớn nhất năm nay mới chỉ chưa đi hết một v&ograve;ng đấu đầu ti&ecirc;n, nhưng c&oacute; vẻ n&oacute; đ&atilde; đem đến cho nhiều người sự bất ngờ kh&ocirc;ng thể tả.</p>', '<p>Hệ thống ph&acirc;n cấp ở&nbsp;c&aacute;c giải đấu b&oacute;ng đ&aacute;&nbsp;vẫn thường được ban tổ chức giải đấu quyết định khi đưa ra 4 nh&oacute;m kh&aacute;c nhau, v&agrave; tr&ecirc;n thực tế, chẳng ai nghi ngờ việc&nbsp;<a href=\"http://www.bongda.com.vn/brazil-search/\" target=\"_blank\">Brazil</a>, Đức, Argentina lại c&ugrave;ng đẳng cấp với Thuỵ Sĩ, Mexico hay Iceland... N&oacute;i như vậy để ch&uacute;ng ta hiểu được tại sao giải đấu năm nay lại l&agrave; một giải đấu k&igrave; lạ.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/sport-preview-golden-boot-1451.jpg\" style=\"height:420px; width:630px\" /></p>\r\n\r\n<h2>&nbsp;Gi&aacute; trị của 3 ng&ocirc;i sao n&agrave;y c&oacute; thể nhiều hơn cả một đội h&igrave;nh tại World Cup.</h2>\r\n\r\n<p>Trong lịch sử của c&aacute;c v&ograve;ng chung kết&nbsp;<a href=\"http://www.bongda.com.vn/world+cup+2018-search/\" target=\"_blank\">World Cup</a>, dĩ nhi&ecirc;n l&agrave; vẫn c&oacute; những bất ngờ như Hungary h&ugrave;ng mạnh vẫn bị T&acirc;y Đức đ&aacute;nh bại 3-2 ở trận chung kết năm 1954, d&ugrave; trước đ&oacute; 2 đội đ&atilde; gặp nhau ở v&ograve;ng bảng v&agrave; tỉ số khi đ&oacute; l&agrave; 8-3 cho đội b&oacute;ng của Ferenc Puskas. Nhưng nếu chỉ t&iacute;nh trong một giải đấu th&igrave; trước giờ chưa c&oacute; một k&igrave; đại hội n&agrave;o &quot;kh&oacute; hiểu&quot; như năm nay.</p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/bi-an-chan-thuong-salah-tat-ca-deu-ngo-ngang-d450855.html\">B&iacute; ẩn chấn thương Salah: Tất cả đều ngỡ ng&agrave;ng!</a></p>\r\n\r\n<p><a href=\"http://www.bongda.com.vn/thua-mexico-tuyen-duc-gian-lay-truyen-thong-d450812.html\">Thua Mexico, tuyển Đức &#39;giận lẫy&#39; truyền th&ocirc;ng</a></p>\r\n\r\n<p>M&agrave;n &quot;hạ s&aacute;t&quot; Ả Rập X&ecirc; &Uacute;t của chủ nh&agrave; Nga ho&aacute; ra lại l&agrave; một sự &quot;giả dối&quot; với con mắt người h&acirc;m mộ. Bởi nếu chỉ t&iacute;nh 8 đội tuyển được đ&aacute;nh gi&aacute; cao nhất l&agrave; Brazil,&nbsp;<a href=\"http://www.bongda.com.vn/T%C3%A2y+Ban+Nha-search/\" target=\"_blank\">T&acirc;y Ban Nha</a>, Đức, Ph&aacute;p, Anh, Bỉ, Argentina, Bồ Đ&agrave;o Nha, th&igrave; kh&ocirc;ng ai trong số n&agrave;y c&oacute; m&agrave;n tr&igrave;nh diễn qu&aacute; ấn tượng, thậm ch&iacute; họ c&ograve;n bị l&ocirc;i ra l&agrave;m tr&ograve; cười sau khi trận đấu với c&aacute;c đối thủ chiếu dưới kết th&uacute;c.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/15292712627954-1455.jpg\" style=\"height:370px; width:629px\" /></p>\r\n\r\n<h2>&nbsp;Đ&atilde; rất l&acirc;u rồi Brazil mới phải kh&oacute; khăn trước những đội b&oacute;ng nhỏ như vậy.</h2>\r\n\r\n<p>Đội tuyển&nbsp;<a href=\"http://www.bongda.com.vn/b%E1%BB%89-search/\" target=\"_blank\">Bỉ</a>&nbsp;thắng 3-0 trước Panama nhưng ai cũng biết họ gần như bế tắc cả 45 ph&uacute;t đầu ti&ecirc;n, v&agrave; nếu kh&ocirc;ng c&oacute; Dries Mertens bỗng ngẫu hứng với c&uacute; dứt điểm tuyệt đẹp th&igrave; kh&ocirc;ng ai biết Bỉ c&oacute; thể l&agrave;m c&aacute;ch n&agrave;o m&agrave; xuy&ecirc;n ph&aacute; được h&agrave;ng ph&ograve;ng ngự của Roman Torres v&agrave; c&aacute;c đồng đội.</p>\r\n\r\n<p>Trong khi đ&oacute; Ph&aacute;p v&agrave;&nbsp;<a href=\"http://www.bongda.com.vn/5-diem-nhan-tunisia-1-2-anh-khi-var-khong-phai-la-dong-minh-d450795.html\" target=\"_blank\">Anh phải thực sự h&uacute; v&iacute;a v&igrave; đối thủ</a>, họ cần nhờ đến những t&igrave;nh huống may mắn hoặc cuối trận mới c&oacute; thể kết liễu được đối thủ. C&ograve;n Argentina v&agrave; Brazil đ&atilde; để lại một sự thất vọng c&ugrave;ng cực khi chỉ kiếm được 1 điểm trong thế trận chẳng biết chơi b&oacute;ng thế n&agrave;o.</p>\r\n\r\n<p>Thậm ch&iacute; đương kim v&ocirc; địch thế giới&nbsp;<a href=\"http://www.bongda.com.vn/%C4%91%E1%BB%A9c-search/\" target=\"_blank\">Đức</a>&nbsp;c&ograve;n &quot;chết gục&quot; trước một Mexico kh&ocirc;ng được đ&aacute;nh gi&aacute; cao. Nếu điều n&agrave;y được n&oacute;i ở trước giải đấu c&oacute; lẽ kh&ocirc;ng c&oacute; ai tin trừ người d&acirc;n Mexico. Bởi Đức kh&ocirc;ng giống với 2 &ocirc;ng lớn ở Nam Mỹ, họ lu&ocirc;n c&oacute; sự ổn định rất cao v&agrave; c&aacute;c tuyển thủ đều l&agrave; những người qu&aacute; quen thuộc với kh&aacute;n giả.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/germany-mexico-lozano-earthquake-1459.jpg\" style=\"height:351px; width:630px\" /></p>\r\n\r\n<h2>&nbsp;Thậm ch&iacute; ĐKVĐ Đức c&ograve;n thất bại &ecirc; chề trước Mexico, điều chưa bao giờ xảy ra trước đ&oacute;.</h2>\r\n\r\n<p>Những kết quả bất ngờ n&agrave;y đ&atilde; cho thấy, kh&ocirc;ng phải c&aacute;c đội b&oacute;ng lớn đ&atilde; yếu đi m&agrave; do những kẻ &quot;l&oacute;t đường&quot; đ&atilde; lột x&aacute;c với c&aacute;ch l&agrave;m b&oacute;ng đ&aacute; trong nhiều năm qua. Giờ đ&acirc;y World Cup c&oacute; vẻ tương đồng với giải Ngoại hạng Anh, khi m&agrave; bất cứ đội b&oacute;ng n&agrave;o cũng c&oacute; thể bị đ&aacute;nh bại hoặc cầm ch&acirc;n bởi những c&aacute;i t&ecirc;n m&agrave; kh&ocirc;ng ai d&aacute;m nghĩ họ sẽ l&agrave;m được.</p>\r\n\r\n<p>C&oacute; thể n&oacute;i, đ&acirc;y l&agrave; một t&iacute;n hiệu đ&aacute;ng mừng với sự ph&aacute;t triển chung của m&ocirc;n thể thao n&agrave;y. Những đội b&oacute;ng nhỏ đ&atilde; thực sự đi đ&uacute;ng hướng trong kế hoạch ph&aacute;t triển kỹ năng chuy&ecirc;n m&ocirc;n. v&agrave; như vậy sự cạnh tranh cũng sẽ được đưa l&ecirc;n một tầm mới. C&aacute;c giải đấu sẽ kh&ocirc;ng c&ograve;n l&agrave; cuộc chơi ri&ecirc;ng của những đội b&oacute;ng quen thuộc với kh&aacute;n giả m&agrave; sẽ trải đều cơ hội cho tất cả những th&agrave;nh vi&ecirc;n kh&aacute;c.</p>\r\n\r\n<p><img alt=\"World 2018 tại nước Nga thật kì lạ! - Bóng Đá\" src=\"http://media.bongda.com.vn/files/toan.vu/2018/06/19/iceland-team-1502.jpg\" style=\"height:419px; width:630px\" /></p>\r\n\r\n<h2>&nbsp;Trước đ&oacute; kh&ocirc;ng nhiều người để &yacute; đến đội tuyển Iceland.</h2>\r\n\r\n<p>Th&ecirc;m nữa, b&oacute;ng đ&aacute; ph&aacute;t triển ở một khu vực nhất định n&agrave;o đ&oacute; cũng k&eacute;o theo người h&acirc;m mộ, v&agrave; d&acirc;n tr&iacute; từ đ&oacute; cũng sẽ được tăng l&ecirc;n, &iacute;t nhất ở kh&iacute;a cạnh giải tr&iacute;. Ngo&agrave;i ra, c&aacute;i lợi của b&oacute;ng đ&aacute; về những sự ph&acirc;n biệt sắc tộc hay quan điểm ch&iacute;nh trị c&oacute; khi cũng sẽ dung ho&agrave; với m&ocirc;n thể thao n&agrave;y với người h&acirc;m mộ.</p>\r\n\r\n<p><strong>World Cup 2018 l&agrave; một giải đấu k&igrave; lạ</strong>&nbsp;nhưng n&oacute; lại mang đến một điều t&iacute;ch cực lớn lao cho sự ph&aacute;t triển chung của b&oacute;ng đ&aacute;. Trước mắt ch&uacute;ng ta vẫn c&ograve;n rất nhiều trận đấu hấp dẫn, v&agrave; h&atilde;y c&ugrave;ng thưởng thức trọn vẹn để thấy được sự cuốn h&uacute;t của n&oacute;!</p>', '1529412303iceland-team-1502.jpg', '2018-06-19'),
+(4, 'Liverpool chơi tất tay, phá kỷ lục chuyển nhượng 158 triệu bảng', '<p>Trước sự cạnh tranh của Chelsea, Liverpool buộc phải nhanh ch&oacute;ng ho&agrave;n tất mục ti&ecirc;u chuyển nhượng m&agrave; họ theo đuổi suốt m&ugrave;a H&egrave; năm nay.</p>', '<p>Sau thất bại ở trận chung kết Champions League, HLV Jurgen Klopp muốn tăng cường lực lượng để trở lại mạnh mẽ hơn. Ch&iacute;nh v&igrave; thế,&nbsp;Liverpool&nbsp;nhanh ch&oacute;ng&nbsp;c&ocirc;ng bố thương vụ Fabinho đến từ AS Monaco với gi&aacute; 44 triệu bảng. Tuy nhi&ecirc;n, bất nhi&ecirc;u th&ocirc;i l&agrave; chưa đủ để l&agrave;m h&agrave;i l&ograve;ng HLV Jurgen Klopp.</p>\r\n\r\n<p><img alt=\"SỐC: Liverpool chơi tất tay, giật thương vụ 158 triệu bảng - Bóng Đá\" src=\"http://media.bongda.com.vn/files/hai.phan/2018/06/25/asasas-2319.jpg\" style=\"height:525px; width:787px\" /></p>\r\n\r\n<p>Theo đ&oacute;, &ocirc;ng đ&atilde; c&oacute; &yacute; định mang Nabil Fekir về s&acirc;n Anfield nhưng thương vụ n&agrave;y đ&atilde; thất bại. Ngay lập tức,&nbsp;<strong>The Kop chuyển hướng sang t&agrave;i năng trẻ đang đ&aacute; ng&agrave;y c&agrave;ng l&ecirc;n ch&acirc;n của Real Madrid, Marco Asensio.</strong></p>\r\n\r\n<p>Để thuyết phục Real Madrid ngồi v&agrave;o b&agrave;n đ&agrave;m ph&aacute;n, b&aacute;o ch&iacute; T&acirc;y Ban Nha loan tin, Liverpool đ&atilde; đưa ra lời đề nghị trị gi&aacute; 158 triệu bảng, qua đ&oacute; c&oacute; thể ph&aacute; kỷ lục chuyển nhượng của CLB do&nbsp;Virgil van Dijk đang nắm giữ với gi&aacute; 75 triệu bảng.</p>\r\n\r\n<p>Lợi thế cho Liverpool l&agrave; Real Madrid cũng đang rất cần tiền để bổ sung lực lượng khi m&agrave; Cristiano Ronaldo đ&atilde; c&oacute; dấu hiệu tuổi t&aacute;c, c&ograve;n tương lai Gareth Bale th&igrave; bất định. Chưa kể, Liverpool cũng muốn sớm ho&agrave;n tất thương vụ n&agrave;y trước sự d&ograve;m ng&oacute; từ ph&iacute;a Liverpool.</p>', '1530078005gettyimages-983819216.jpg', '2018-06-27');
 
 -- --------------------------------------------------------
 
@@ -793,35 +713,32 @@ INSERT INTO `tintuc` (`id`, `TieuDe`, `TomTat`, `NoiDung`, `Hinh`, `NgayDang`) V
 -- Cấu trúc bảng cho bảng `tiso`
 --
 
-DROP TABLE IF EXISTS `tiso`;
-CREATE TABLE IF NOT EXISTS `tiso` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tiso` (
+  `id` int(11) NOT NULL,
   `idCauLacBo` int(11) NOT NULL,
   `idTranDau` int(11) NOT NULL,
   `idGiaiDau` int(11) NOT NULL,
   `TiSo` int(3) DEFAULT NULL,
-  `TrangThai` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauLacBo` (`idCauLacBo`),
-  KEY `idTranDau` (`idTranDau`),
-  KEY `idGiaiDau` (`idGiaiDau`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `TrangThai` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `tiso`
 --
 
 INSERT INTO `tiso` (`id`, `idCauLacBo`, `idTranDau`, `idGiaiDau`, `TiSo`, `TrangThai`) VALUES
-(1, 2, 1, 1, 1, 1),
+(1, 2, 1, 1, 2, 1),
 (2, 1, 1, 1, 0, -1),
-(3, 2, 2, 1, 0, 0),
-(4, 4, 2, 1, 0, 0),
+(3, 2, 2, 1, NULL, NULL),
+(4, 4, 2, 1, NULL, NULL),
 (5, 2, 3, 1, NULL, NULL),
 (6, 4, 3, 1, NULL, NULL),
 (7, 3, 4, 1, NULL, NULL),
 (8, 2, 4, 1, NULL, NULL),
 (9, 1, 5, 1, NULL, NULL),
-(10, 2, 5, 1, NULL, NULL);
+(10, 2, 5, 1, NULL, NULL),
+(11, 4, 6, 1, NULL, NULL),
+(12, 3, 6, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -829,16 +746,13 @@ INSERT INTO `tiso` (`id`, `idCauLacBo`, `idTranDau`, `idGiaiDau`, `TiSo`, `Trang
 -- Cấu trúc bảng cho bảng `toathuoc`
 --
 
-DROP TABLE IF EXISTS `toathuoc`;
-CREATE TABLE IF NOT EXISTS `toathuoc` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `toathuoc` (
+  `id` int(11) NOT NULL,
   `NgayKham` date NOT NULL,
   `NgayTaiKham` date DEFAULT NULL,
   `ChanDoan` text COLLATE utf8_unicode_ci NOT NULL,
-  `idLichKham` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idLichKham` (`idLichKham`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idLichKham` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `toathuoc`
@@ -857,18 +771,14 @@ INSERT INTO `toathuoc` (`id`, `NgayKham`, `NgayTaiKham`, `ChanDoan`, `idLichKham
 -- Cấu trúc bảng cho bảng `toathuoc_thuoc`
 --
 
-DROP TABLE IF EXISTS `toathuoc_thuoc`;
-CREATE TABLE IF NOT EXISTS `toathuoc_thuoc` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `toathuoc_thuoc` (
+  `id` int(11) NOT NULL,
   `idToaThuoc` int(11) NOT NULL,
   `idThuoc` int(11) NOT NULL,
   `SoLuong` int(5) DEFAULT NULL,
   `LieuLuong` text COLLATE utf8_unicode_ci,
-  `GhiChu` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`),
-  KEY `idToaThuoc` (`idToaThuoc`),
-  KEY `idThuoc` (`idThuoc`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `GhiChu` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `toathuoc_thuoc`
@@ -888,30 +798,28 @@ INSERT INTO `toathuoc_thuoc` (`id`, `idToaThuoc`, `idThuoc`, `SoLuong`, `LieuLuo
 -- Cấu trúc bảng cho bảng `trandau`
 --
 
-DROP TABLE IF EXISTS `trandau`;
-CREATE TABLE IF NOT EXISTS `trandau` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `trandau` (
+  `id` int(11) NOT NULL,
   `VongDau` int(11) NOT NULL,
   `NgayThiDau` date NOT NULL,
   `GioThiDau` time NOT NULL,
   `DiaDiem` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `idDoiHinh` int(11) NOT NULL,
-  `idChienThuat` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idDoiHinh` (`idDoiHinh`),
-  KEY `idChienThuat` (`idChienThuat`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idDoiHinh` int(11) DEFAULT NULL,
+  `idChienThuat` int(11) DEFAULT NULL,
+  `TranDauCuaCLB` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `trandau`
 --
 
-INSERT INTO `trandau` (`id`, `VongDau`, `NgayThiDau`, `GioThiDau`, `DiaDiem`, `idDoiHinh`, `idChienThuat`) VALUES
-(1, 1, '2018-06-01', '10:00:00', 'Sân nhà Anfield', 2, 4),
-(2, 2, '2018-06-05', '02:00:00', 'Sân khách', 2, 3),
-(3, 3, '2018-06-10', '09:00:00', 'Anfield Stadium', 2, 1),
-(4, 4, '2018-06-15', '07:00:00', 'Old Stranford', 3, 4),
-(5, 5, '2018-06-19', '10:00:00', 'Mỹ Đình Stadium', 1, 1);
+INSERT INTO `trandau` (`id`, `VongDau`, `NgayThiDau`, `GioThiDau`, `DiaDiem`, `idDoiHinh`, `idChienThuat`, `TranDauCuaCLB`) VALUES
+(1, 1, '2018-06-01', '10:00:00', 'Sân nhà Anfield', 1, 1, 1),
+(2, 2, '2018-06-05', '02:00:00', 'Sân khách', 2, 3, 1),
+(3, 3, '2018-06-10', '09:00:00', 'Anfield Stadium', NULL, NULL, 1),
+(4, 4, '2018-06-15', '07:00:00', 'Old Stranford', NULL, NULL, 1),
+(5, 5, '2018-06-19', '10:00:00', 'Mỹ Đình Stadium', NULL, NULL, 1),
+(6, 5, '2018-06-19', '17:00:00', 'Sân Anfiekd', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -919,13 +827,11 @@ INSERT INTO `trandau` (`id`, `VongDau`, `NgayThiDau`, `GioThiDau`, `DiaDiem`, `i
 -- Cấu trúc bảng cho bảng `vaitro`
 --
 
-DROP TABLE IF EXISTS `vaitro`;
-CREATE TABLE IF NOT EXISTS `vaitro` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `vaitro` (
+  `id` int(11) NOT NULL,
   `TenVaiTro` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `MieuTa` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `MieuTa` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `vaitro`
@@ -946,13 +852,9 @@ INSERT INTO `vaitro` (`id`, `TenVaiTro`, `MieuTa`) VALUES
 -- Cấu trúc bảng cho bảng `vaitro_cauthu`
 --
 
-DROP TABLE IF EXISTS `vaitro_cauthu`;
-CREATE TABLE IF NOT EXISTS `vaitro_cauthu` (
+CREATE TABLE `vaitro_cauthu` (
   `idVaiTro` int(11) NOT NULL,
-  `idCauThu` int(11) NOT NULL,
-  PRIMARY KEY (`idVaiTro`),
-  KEY `idVaiTro` (`idVaiTro`),
-  KEY `idCauThu` (`idCauThu`)
+  `idCauThu` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -973,31 +875,30 @@ INSERT INTO `vaitro_cauthu` (`idVaiTro`, `idCauThu`) VALUES
 -- Cấu trúc bảng cho bảng `vaitro_cauthu_trandau`
 --
 
-DROP TABLE IF EXISTS `vaitro_cauthu_trandau`;
-CREATE TABLE IF NOT EXISTS `vaitro_cauthu_trandau` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `vaitro_cauthu_trandau` (
+  `id` int(11) NOT NULL,
   `idCauThu` int(11) NOT NULL,
   `idVaiTro` int(11) NOT NULL,
-  `idTranDau` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauThu` (`idCauThu`),
-  KEY `idVaiTro` (`idVaiTro`),
-  KEY `idTranDau` (`idTranDau`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idTranDau` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `vaitro_cauthu_trandau`
 --
 
 INSERT INTO `vaitro_cauthu_trandau` (`id`, `idCauThu`, `idVaiTro`, `idTranDau`) VALUES
-(1, 1, 1, 3),
-(2, 6, 2, 3),
-(3, 2, 4, 3),
-(4, 2, 3, 3),
-(5, 5, 5, 3),
-(6, 5, 6, 3),
-(7, 13, 7, 3),
-(8, 12, 7, 3);
+(51, 7, 1, 1),
+(52, 7, 2, 1),
+(53, 8, 3, 1),
+(54, 8, 4, 1),
+(55, 10, 5, 1),
+(56, 7, 6, 1),
+(69, 5, 1, 2),
+(70, 5, 2, 2),
+(71, 6, 3, 2),
+(72, 6, 4, 2),
+(73, 4, 5, 2),
+(74, 3, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -1005,36 +906,37 @@ INSERT INTO `vaitro_cauthu_trandau` (`id`, `idCauThu`, `idVaiTro`, `idTranDau`) 
 -- Cấu trúc bảng cho bảng `vitri`
 --
 
-DROP TABLE IF EXISTS `vitri`;
-CREATE TABLE IF NOT EXISTS `vitri` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `TenViTri` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `ChuThich` text COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE `vitri` (
+  `id` int(11) NOT NULL,
+  `TenViTri` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ChiSoDong` tinyint(4) DEFAULT NULL,
+  `ChiSoCot` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `vitri`
 --
 
-INSERT INTO `vitri` (`id`, `TenViTri`, `ChuThich`) VALUES
-(1, 'GK', NULL),
-(2, 'LB', NULL),
-(3, 'LCB', NULL),
-(4, 'RCB', NULL),
-(5, 'CB', NULL),
-(6, 'RB', NULL),
-(7, 'CDM', NULL),
-(8, 'CF', NULL),
-(9, 'LCM', NULL),
-(10, 'RCM', NULL),
-(11, 'LM', NULL),
-(12, 'RM', NULL),
-(13, 'CAM', NULL),
-(14, 'SS', NULL),
-(15, 'LW', NULL),
-(16, 'RW', NULL),
-(17, 'Dự Bị', NULL);
+INSERT INTO `vitri` (`id`, `TenViTri`, `ChiSoDong`, `ChiSoCot`) VALUES
+(1, 'GK', 7, 2),
+(2, 'LB', 6, 0),
+(3, 'LCB', 6, 1),
+(4, 'RCB', 6, 3),
+(5, 'CB', 6, 2),
+(6, 'RB', 6, 4),
+(7, 'CDM', 4, 2),
+(8, 'CF', 0, 2),
+(9, 'LCM', 3, 1),
+(10, 'RCM', 3, 3),
+(11, 'LM', 3, 0),
+(12, 'RM', 3, 4),
+(13, 'CAM', 2, 2),
+(14, 'SS', 1, 2),
+(15, 'LW', 1, 0),
+(16, 'RW', 1, 4),
+(17, 'Dự Bị', NULL, NULL),
+(18, 'LS', 0, 1),
+(19, 'RS', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -1042,15 +944,11 @@ INSERT INTO `vitri` (`id`, `TenViTri`, `ChuThich`) VALUES
 -- Cấu trúc bảng cho bảng `vitri_cauthu`
 --
 
-DROP TABLE IF EXISTS `vitri_cauthu`;
-CREATE TABLE IF NOT EXISTS `vitri_cauthu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `vitri_cauthu` (
+  `id` int(11) NOT NULL,
   `idCauThu` int(11) NOT NULL,
-  `idViTri` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauThu` (`idCauThu`),
-  KEY `idViTri` (`idViTri`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idViTri` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `vitri_cauthu`
@@ -1069,8 +967,8 @@ INSERT INTO `vitri_cauthu` (`id`, `idCauThu`, `idViTri`) VALUES
 (12, 10, 16),
 (13, 11, 8),
 (14, 12, 16),
-(15, 13, 15),
-(16, 12, 16),
+(15, 13, 13),
+(16, 12, 15),
 (17, 13, 15);
 
 -- --------------------------------------------------------
@@ -1079,36 +977,54 @@ INSERT INTO `vitri_cauthu` (`id`, `idCauThu`, `idViTri`) VALUES
 -- Cấu trúc bảng cho bảng `vitri_cauthu_trandau`
 --
 
-DROP TABLE IF EXISTS `vitri_cauthu_trandau`;
-CREATE TABLE IF NOT EXISTS `vitri_cauthu_trandau` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `vitri_cauthu_trandau` (
+  `id` int(11) NOT NULL,
   `idCauThu` int(11) NOT NULL,
-  `idViTri` int(11) NOT NULL,
-  `idTranDau` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idCauThu` (`idCauThu`),
-  KEY `idViTri` (`idViTri`),
-  KEY `idTranDau` (`idTranDau`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idViTri` int(11) DEFAULT NULL,
+  `idTranDau` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `vitri_cauthu_trandau`
 --
 
 INSERT INTO `vitri_cauthu_trandau` (`id`, `idCauThu`, `idViTri`, `idTranDau`) VALUES
-(1, 1, 1, 3),
-(2, 2, 2, 3),
-(3, 3, 3, 3),
-(4, 4, 4, 3),
-(5, 6, 6, 3),
-(6, 5, 7, 3),
-(7, 7, 9, 3),
-(8, 8, 10, 3),
-(9, 9, 15, 3),
-(10, 10, 16, 3),
-(11, 11, 8, 3),
-(12, 12, 16, 3),
-(13, 13, 16, 3);
+(84, 14, 1, 1),
+(85, 2, 2, 1),
+(86, 3, 3, 1),
+(87, 4, 4, 1),
+(88, 6, 6, 1),
+(89, 5, 11, 1),
+(90, 7, 9, 1),
+(91, 8, 10, 1),
+(92, 9, 12, 1),
+(93, 10, 18, 1),
+(94, 11, 19, 1),
+(95, 13, NULL, 1),
+(96, 12, NULL, 1),
+(97, 15, NULL, 1),
+(116, 16, NULL, 1),
+(117, 17, NULL, 1),
+(118, 18, NULL, 1),
+(119, 19, NULL, 1),
+(138, 14, 1, 2),
+(139, 2, 2, 2),
+(140, 3, 3, 2),
+(141, 4, 4, 2),
+(142, 6, 6, 2),
+(143, 15, 7, 2),
+(144, 8, 9, 2),
+(145, 5, 10, 2),
+(146, 9, 8, 2),
+(147, 10, 15, 2),
+(148, 7, 16, 2),
+(149, 16, NULL, 2),
+(150, 17, NULL, 2),
+(151, 18, NULL, 2),
+(152, 19, NULL, 2),
+(153, 11, NULL, 2),
+(154, 12, NULL, 2),
+(155, 13, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -1116,15 +1032,11 @@ INSERT INTO `vitri_cauthu_trandau` (`id`, `idCauThu`, `idViTri`, `idTranDau`) VA
 -- Cấu trúc bảng cho bảng `vitri_doihinh`
 --
 
-DROP TABLE IF EXISTS `vitri_doihinh`;
-CREATE TABLE IF NOT EXISTS `vitri_doihinh` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `vitri_doihinh` (
+  `id` int(11) NOT NULL,
   `idViTri` int(11) NOT NULL,
-  `idDoiHinh` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idViTri` (`idViTri`),
-  KEY `idDoiHinh` (`idDoiHinh`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `idDoiHinh` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `vitri_doihinh`
@@ -1141,7 +1053,486 @@ INSERT INTO `vitri_doihinh` (`id`, `idViTri`, `idDoiHinh`) VALUES
 (8, 10, 2),
 (9, 8, 2),
 (10, 15, 2),
-(11, 16, 2);
+(11, 16, 2),
+(12, 1, 1),
+(13, 2, 1),
+(14, 3, 1),
+(15, 4, 1),
+(16, 6, 1),
+(17, 11, 1),
+(18, 9, 1),
+(19, 10, 1),
+(20, 12, 1),
+(21, 18, 1),
+(22, 19, 1),
+(35, 1, 7),
+(36, 2, 7),
+(37, 3, 7),
+(38, 5, 7),
+(39, 4, 7),
+(40, 6, 7),
+(41, 7, 7),
+(42, 9, 7),
+(43, 10, 7),
+(44, 18, 7),
+(45, 19, 7);
+
+--
+-- Chỉ mục cho các bảng đã đổ
+--
+
+--
+-- Chỉ mục cho bảng `bangxephangclb`
+--
+ALTER TABLE `bangxephangclb`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauLacBo` (`idCauLacBo`);
+
+--
+-- Chỉ mục cho bảng `bangxephangclbgiaidau`
+--
+ALTER TABLE `bangxephangclbgiaidau`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idGiaiDau` (`idGiaiDau`),
+  ADD KEY `idCauLacBo` (`idCauLacBo`);
+
+--
+-- Chỉ mục cho bảng `caulacbo`
+--
+ALTER TABLE `caulacbo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `caulacbo_giaidau`
+--
+ALTER TABLE `caulacbo_giaidau`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauLacBo` (`idCauLacBo`),
+  ADD KEY `idGiaiDau` (`idGiaiDau`);
+
+--
+-- Chỉ mục cho bảng `cauthu`
+--
+ALTER TABLE `cauthu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idNguoiDung` (`idNguoiDung`);
+
+--
+-- Chỉ mục cho bảng `chanthuong`
+--
+ALTER TABLE `chanthuong`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `chienthuat`
+--
+ALTER TABLE `chienthuat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `doihinh`
+--
+ALTER TABLE `doihinh`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `giaidau`
+--
+ALTER TABLE `giaidau`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `giaotrinhtap`
+--
+ALTER TABLE `giaotrinhtap`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `giaotrinh_luyentap_cauthu`
+--
+ALTER TABLE `giaotrinh_luyentap_cauthu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauThu` (`idCauThu`),
+  ADD KEY `idGiaoTrinhTap` (`idGiaoTrinhTap`),
+  ADD KEY `idLichLuyenTap` (`idLichLuyenTap`);
+
+--
+-- Chỉ mục cho bảng `huanluyenvien`
+--
+ALTER TABLE `huanluyenvien`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauThu` (`idNguoiDung`),
+  ADD KEY `idNguoiDung` (`idNguoiDung`) USING BTREE;
+
+--
+-- Chỉ mục cho bảng `kynang`
+--
+ALTER TABLE `kynang`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `kynang_cauthu`
+--
+ALTER TABLE `kynang_cauthu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idKyNang` (`idKyNang`),
+  ADD KEY `idCauThu` (`idCauThu`);
+
+--
+-- Chỉ mục cho bảng `lichkham`
+--
+ALTER TABLE `lichkham`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idPhacDoDieuTri` (`idPhacDoDieuTri`);
+
+--
+-- Chỉ mục cho bảng `lichluyentap`
+--
+ALTER TABLE `lichluyentap`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `nguoidung`
+--
+ALTER TABLE `nguoidung`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `phacdodieutri`
+--
+ALTER TABLE `phacdodieutri`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `phongdo`
+--
+ALTER TABLE `phongdo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `phongdo_cauthu`
+--
+ALTER TABLE `phongdo_cauthu`
+  ADD PRIMARY KEY (`idCauThu`),
+  ADD KEY `idCauThu` (`idCauThu`),
+  ADD KEY `idPhongDo` (`idPhongDo`);
+
+--
+-- Chỉ mục cho bảng `thanhtichcauthu`
+--
+ALTER TABLE `thanhtichcauthu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauThu` (`idCauThu`),
+  ADD KEY `idTranDau` (`idTranDau`);
+
+--
+-- Chỉ mục cho bảng `thongtinchanthuong_cauthu`
+--
+ALTER TABLE `thongtinchanthuong_cauthu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauThu` (`idCauThu`),
+  ADD KEY `idChanThuong` (`idChanThuong`),
+  ADD KEY `idPhacDoDieuTri` (`idPhacDoDieuTri`);
+
+--
+-- Chỉ mục cho bảng `thuoc`
+--
+ALTER TABLE `thuoc`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `tintuc`
+--
+ALTER TABLE `tintuc`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `tiso`
+--
+ALTER TABLE `tiso`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauLacBo` (`idCauLacBo`),
+  ADD KEY `idTranDau` (`idTranDau`),
+  ADD KEY `idGiaiDau` (`idGiaiDau`);
+
+--
+-- Chỉ mục cho bảng `toathuoc`
+--
+ALTER TABLE `toathuoc`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idLichKham` (`idLichKham`);
+
+--
+-- Chỉ mục cho bảng `toathuoc_thuoc`
+--
+ALTER TABLE `toathuoc_thuoc`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idToaThuoc` (`idToaThuoc`),
+  ADD KEY `idThuoc` (`idThuoc`);
+
+--
+-- Chỉ mục cho bảng `trandau`
+--
+ALTER TABLE `trandau`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idDoiHinh` (`idDoiHinh`),
+  ADD KEY `idChienThuat` (`idChienThuat`);
+
+--
+-- Chỉ mục cho bảng `vaitro`
+--
+ALTER TABLE `vaitro`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `vaitro_cauthu`
+--
+ALTER TABLE `vaitro_cauthu`
+  ADD PRIMARY KEY (`idVaiTro`),
+  ADD KEY `idVaiTro` (`idVaiTro`),
+  ADD KEY `idCauThu` (`idCauThu`);
+
+--
+-- Chỉ mục cho bảng `vaitro_cauthu_trandau`
+--
+ALTER TABLE `vaitro_cauthu_trandau`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauThu` (`idCauThu`),
+  ADD KEY `idVaiTro` (`idVaiTro`),
+  ADD KEY `idTranDau` (`idTranDau`);
+
+--
+-- Chỉ mục cho bảng `vitri`
+--
+ALTER TABLE `vitri`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `vitri_cauthu`
+--
+ALTER TABLE `vitri_cauthu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauThu` (`idCauThu`),
+  ADD KEY `idViTri` (`idViTri`);
+
+--
+-- Chỉ mục cho bảng `vitri_cauthu_trandau`
+--
+ALTER TABLE `vitri_cauthu_trandau`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idCauThu` (`idCauThu`),
+  ADD KEY `idViTri` (`idViTri`),
+  ADD KEY `idTranDau` (`idTranDau`) USING BTREE;
+
+--
+-- Chỉ mục cho bảng `vitri_doihinh`
+--
+ALTER TABLE `vitri_doihinh`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idViTri` (`idViTri`),
+  ADD KEY `idDoiHinh` (`idDoiHinh`);
+
+--
+-- AUTO_INCREMENT cho các bảng đã đổ
+--
+
+--
+-- AUTO_INCREMENT cho bảng `bangxephangclb`
+--
+ALTER TABLE `bangxephangclb`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `bangxephangclbgiaidau`
+--
+ALTER TABLE `bangxephangclbgiaidau`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `caulacbo`
+--
+ALTER TABLE `caulacbo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `caulacbo_giaidau`
+--
+ALTER TABLE `caulacbo_giaidau`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `cauthu`
+--
+ALTER TABLE `cauthu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT cho bảng `chanthuong`
+--
+ALTER TABLE `chanthuong`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `chienthuat`
+--
+ALTER TABLE `chienthuat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `doihinh`
+--
+ALTER TABLE `doihinh`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT cho bảng `giaidau`
+--
+ALTER TABLE `giaidau`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `giaotrinhtap`
+--
+ALTER TABLE `giaotrinhtap`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT cho bảng `giaotrinh_luyentap_cauthu`
+--
+ALTER TABLE `giaotrinh_luyentap_cauthu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+
+--
+-- AUTO_INCREMENT cho bảng `huanluyenvien`
+--
+ALTER TABLE `huanluyenvien`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT cho bảng `kynang`
+--
+ALTER TABLE `kynang`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `kynang_cauthu`
+--
+ALTER TABLE `kynang_cauthu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `lichkham`
+--
+ALTER TABLE `lichkham`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `lichluyentap`
+--
+ALTER TABLE `lichluyentap`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT cho bảng `nguoidung`
+--
+ALTER TABLE `nguoidung`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT cho bảng `phacdodieutri`
+--
+ALTER TABLE `phacdodieutri`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT cho bảng `phongdo`
+--
+ALTER TABLE `phongdo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `thanhtichcauthu`
+--
+ALTER TABLE `thanhtichcauthu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT cho bảng `thongtinchanthuong_cauthu`
+--
+ALTER TABLE `thongtinchanthuong_cauthu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `thuoc`
+--
+ALTER TABLE `thuoc`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `tintuc`
+--
+ALTER TABLE `tintuc`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `tiso`
+--
+ALTER TABLE `tiso`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT cho bảng `toathuoc`
+--
+ALTER TABLE `toathuoc`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `toathuoc_thuoc`
+--
+ALTER TABLE `toathuoc_thuoc`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `trandau`
+--
+ALTER TABLE `trandau`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT cho bảng `vaitro`
+--
+ALTER TABLE `vaitro`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT cho bảng `vaitro_cauthu_trandau`
+--
+ALTER TABLE `vaitro_cauthu_trandau`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+
+--
+-- AUTO_INCREMENT cho bảng `vitri`
+--
+ALTER TABLE `vitri`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT cho bảng `vitri_cauthu`
+--
+ALTER TABLE `vitri_cauthu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT cho bảng `vitri_cauthu_trandau`
+--
+ALTER TABLE `vitri_cauthu_trandau`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+
+--
+-- AUTO_INCREMENT cho bảng `vitri_doihinh`
+--
+ALTER TABLE `vitri_doihinh`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

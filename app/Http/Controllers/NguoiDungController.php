@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Hash;
 use App\NguoiDung;
 use App\CauThu;
 
@@ -25,20 +26,10 @@ class NguoiDungController extends Controller
 
     		'tendangnhap'		=>		'required|
                                          unique:nguoidung,username|
-                                         regex:/^[a-z0-9]+$/',
-
-    		'matkhau' 			=>		'required|
-                                         min:6|
-                                         max:10|
                                          regex:/^[a-zA-Z0-9]+$/',
 
-    		'nhaplaimatkhau'	=>		'required|
-                                         same:matkhau', 
-
     		'email'             =>      'required|
-                                         email|
-                                         unique:nguoidung,Email,'.$id.',id',
-
+                                         unique:nguoidung,Email',  
             'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
 
     		'quoctich'			=> 		'required|
@@ -59,14 +50,6 @@ class NguoiDungController extends Controller
     		'tendangnhap.required'			=>		'Không được để trống tên đăng nhập',
     		'tendangnhap.unique'			=>		'Tên đăng nhập đã tồn tại',
             'tendangnhap.regex'             =>      'Vui lòng nhập chữ thường và số',
-
-    		'matkhau.required'				=>		'Không được để trống mật khẩu',
-    		'matkhau.min'					=>		'Mật khẩu tối thiểu 6 ký tự',
-            'matkhau.max'                   =>      'Mật khẩu tối thiểu 10 ký tự',
-            'matkhau.regex'                 =>      'Vui lòng nhập chữ cái và số',
-
-    		'nhaplaimatkhau.required'		=>		'Không được để trống mật khẩu',
-    		'nhaplaimatkhau.same'			=>		'Mật khẩu nhập lại không trùng khớp',
 
     		'email.required'				=>		'Không được để trống email',
     		'email.email'					=>		'Email không hợp lệ',
@@ -96,9 +79,9 @@ class NguoiDungController extends Controller
             return redirect()->route('ThemNguoiDung')->with('error', 'Bạn chưa đủ tuổi để tham gia');
         }
 
-        if($date - date_format($ngaysinh, 'Y') > 60){
-            return redirect()->route('ThemNguoiDung')->with('error', 'Bạn đã quá số tuổi tham gia');
-        }
+        // if($date - date_format($ngaysinh, 'Y') > 60){ 
+        //     return redirect()->route('ThemNguoiDung')->with('error', 'Bạn đã quá số tuổi tham gia');
+        // }
 
         
 
@@ -107,7 +90,7 @@ class NguoiDungController extends Controller
     	$nguoidung->HoTen 			= 		$request->hoten;
     	$nguoidung->ChucVu	 		= 		$request->chucvu;
     	$nguoidung->username 		= 		$request->tendangnhap;
-    	$nguoidung->password 		=		$request->matkhau;
+    	$nguoidung->password 		=		Hash::make($request->tendangnhap);
     	$nguoidung->Email 			= 		$request->email;
     	$nguoidung->NgaySinh 		= 		$request->ngaysinh;
     	$nguoidung->QuocTich 		= 		$request->quoctich;
@@ -153,7 +136,7 @@ class NguoiDungController extends Controller
 
             'tendangnhap'       =>      'required|
                                          unique:nguoidung,username,'.$id.',id|
-                                         regex:/^[a-z0-9]+$/',
+                                         regex:/^[a-zA-Z0-9]+$/',
 
             'email'             =>      'required|
                                          email|
@@ -208,16 +191,15 @@ class NguoiDungController extends Controller
             return redirect('admin/nguoi-dung/sua/'.$id.'')->with('error', 'Bạn chưa đủ tuổi để tham gia');
         }
 
-        if($date - date_format($ngaysinh, 'Y') > 60){
-            return redirect('admin/nguoi-dung/sua/'.$id.'')->with('error', 'Bạn đã quá số tuổi tham gia');
-        }
+        // if($date - date_format($ngaysinh, 'Y') > 60){
+        //     return redirect('admin/nguoi-dung/sua/'.$id.'')->with('error', 'Bạn đã quá số tuổi tham gia');
+        // }
 
     	$nguoidung = NguoiDung::find($id);
 
     	$nguoidung->HoTen 			= 		$request->hoten;
     	$nguoidung->ChucVu	 		= 		$request->chucvu;
     	$nguoidung->username 		= 		$request->tendangnhap;
-    	
     	$nguoidung->Email 			= 		$request->email;
     	$nguoidung->NgaySinh 		= 		$request->ngaysinh;
     	$nguoidung->QuocTich 		= 		$request->quoctich;

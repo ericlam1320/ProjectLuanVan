@@ -12,7 +12,7 @@ use App\CauLacBo;
 class BangXepHangCLBController extends Controller
 {
     public function getDanhSach(){
-    	$bangxephangclb = BangXepHangCLB::with('CauLacBo')->orderBy('HangCauLacBo', 'ASC')->get();
+    	$bangxephangclb = BangXepHangCLB::with('CauLacBo')->orderBy('Diem', 'DESC')->get();
     	return view('admin.pages.bangxephang.danhsach', compact('bangxephangclb'));
     }
 

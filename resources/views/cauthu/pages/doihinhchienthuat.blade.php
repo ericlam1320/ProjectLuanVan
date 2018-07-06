@@ -21,7 +21,7 @@ Liverpool FC - {{  $tenCauThu  }}
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="cau-thu/{{ $tenCauThu }}">Trang chủ</a></li>
+				<li><a href="cau-thu/{{ Auth::user()->username }}">Trang chủ</a></li>
 				<li class="active">Đội hình chiến thuật</li>
 			</ul>
 		</div>
@@ -93,7 +93,7 @@ Liverpool FC - {{  $tenCauThu  }}
 								<tr class="
 											kode_ply_two 
 											kode_ThongKe 
-											{{ $cauthu->id === 3 ? 'DuocThiDau'  : ''}} 
+											{{ $cauthu->id === $idCauThu ? 'DuocThiDau'  : ''}} 
 											@foreach ($VaiTroCauThu as $vaitro)
 											{{ ($cauthu->id === $vaitro->id && $vaitro->TenVaiTro === 'Dự bị' ) ? 'DuBi' : '' }}
 											@endforeach
@@ -101,11 +101,12 @@ Liverpool FC - {{  $tenCauThu  }}
 								>
 									<td>{{ ++$stt }}</td>
 									<td>{{ $cauthu->HoTen }}</td>
-									<td>{{ $cauthu->TenViTri }}</td>
+									<td>{{ $cauthu->TenViTri ? $cauthu->TenViTri : '-' }}</td>
 									<td>
 										@foreach ($VaiTroCauThu as $vaitro)
 											{{ $cauthu->id === $vaitro->id ? $vaitro->TenVaiTro.' ' : '' }}
 										@endforeach
+											{{ $cauthu->TenViTri ? '' : 'Dự Bị' }}
 									</td>
 								</tr>
 								@endforeach

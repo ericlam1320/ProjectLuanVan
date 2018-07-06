@@ -33,7 +33,7 @@ Liverpool FC - Quản lý chiến thuật
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
 				<li class="active">Quản lý chiến thuật</li>
 			</ul>
 		</div>
@@ -57,7 +57,7 @@ Liverpool FC - Quản lý chiến thuật
 						<div class="alert alert-danger">{{ session('loi') }}</div>
 						@endif
 
-						<a href="huan-luyen-vien/1/chien-thuat/them" class="btn btn-success"><i class="fa fa-plus"></i> Thêm chiến thuật</a>
+						<a href="huan-luyen-vien/chien-thuat/them" class="btn btn-success"><i class="fa fa-plus"></i> Thêm chiến thuật</a>
 
 						<div class="ftb-tabs-wrap">
 							<div class="tab-content">
@@ -78,8 +78,8 @@ Liverpool FC - Quản lý chiến thuật
 											<td  class="text-center" style="width: 50px">{{ ++$stt }}</td>
 											<td>{{ $ChienThuat->TenChienThuat }}</td>
 											<td class="text-center" style="width: 180px">
-												<a href="huan-luyen-vien/1/chien-thuat/sua/{{ $ChienThuat->id }}" class="btn btn-info"><i class="fa fa-edit"></i> Sửa</a>
-												<a onclick="return XacNhanXoa('Bạn có muốn xóa chiến thuật này?')" href="huan-luyen-vien/1/chien-thuat/xoa/{{ $ChienThuat->id }}" class="btn btn-danger"><i class="fa fa-trash"></i> Xóa</a>
+												<a href="huan-luyen-vien/chien-thuat/sua/{{ $ChienThuat->id }}" class="btn btn-info"><i class="fa fa-edit"></i> Sửa</a>
+												<a onclick="return XacNhanXoa('Bạn có muốn xóa chiến thuật này?')" href="huan-luyen-vien/chien-thuat/xoa/{{ $ChienThuat->id }}" class="btn btn-danger"><i class="fa fa-trash"></i> Xóa</a>
 											</td>
 										</tr>
 										@endforeach

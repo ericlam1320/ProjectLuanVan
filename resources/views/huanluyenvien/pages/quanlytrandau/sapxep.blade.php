@@ -36,7 +36,7 @@ Liverpool FC - Đội hình chiến thuật
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
 				<li class="active">Quản lý trận đấu</li>
 			</ul>
 		</div>
@@ -198,8 +198,8 @@ Liverpool FC - Đội hình chiến thuật
 										<td class="text-center">{{ $TranDau->TenChienThuat }}</td>
 										<td class="text-center">{{ $TranDau->TiSo }}</td>
 										<td class="text-center" style="width: 180px">
-											<a href="huan-luyen-vien/1/doi-hinh-chien-thuat/sua/{{ $TranDau->id }}" class="btn btn-info"><i class="fa fa-edit"></i> Sửa</a>
-											<a onclick="return XacNhanXoa('Bạn có muốn xóa đội hình này?')" href="huan-luyen-vien/1/doi-hinh-chien-thuat/xoa/{{ $TranDau->id }}" class="btn btn-danger"><i class="fa fa-trash"></i> Xóa</a>
+											<a href="huan-luyen-vien/doi-hinh-chien-thuat/sua/{{ $TranDau->id }}" class="btn btn-info"><i class="fa fa-edit"></i> Sửa</a>
+											<a onclick="return XacNhanXoa('Bạn có muốn xóa đội hình này?')" href="huan-luyen-vien/doi-hinh-chien-thuat/xoa/{{ $TranDau->id }}" class="btn btn-danger"><i class="fa fa-trash"></i> Xóa</a>
 										</td>
 									</tr>
 									@endforeach

@@ -27,8 +27,8 @@ Liverpool FC - Thêm giáo trình tập
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
-				<li><a href="huan-luyen-vien/1/giao-trinh-tap">Giáo trình tập</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien/giao-trinh-tap">Giáo trình tập</a></li>
 				<li class="active">Thêm giáo trình tập</li>
 			</ul>
 		</div>
@@ -43,7 +43,7 @@ Liverpool FC - Thêm giáo trình tập
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<form class="form-horizontal" method="POST" action="huan-luyen-vien/1/giao-trinh-tap/them">
+						<form class="form-horizontal" method="POST" action="huan-luyen-vien/giao-trinh-tap/them">
 							{{ csrf_field() }}
 							<div class="form-group {{ $errors->has('TenBaiTap') ? 'has-error' : '' }}">
 								<label class="control-label col-sm-2" >Tên bài tập:</label>

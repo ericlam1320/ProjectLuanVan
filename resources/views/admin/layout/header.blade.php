@@ -7,7 +7,14 @@
 				<div class="logo">
 					<a href="#">
 						<h1>Liverpool FC</h1>
-						<span>Admin</span>
+						<span> 
+							@if(Auth::user()->ChucVu == 'admin')
+								{{'Admin'}}
+							@endif
+							@if(Auth::user()->ChucVu == 'nhanvienyte')
+								{{'Nhân viên y tế'}}
+							@endif
+						</span>
 					</a>
 				</div>
 				<!--//logo-->
@@ -31,10 +38,17 @@
 						<li class="dropdown profile_details_drop">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 								<div class="profile_img">	
-									<span class="prfil-img"><img src="AdminAssets/images/a.png" alt=""> </span> 
+									<span class="prfil-img"><img height="50" src="Client/images/players/{{Auth::user()->HinhDaiDien}}" alt=""> </span> 
 									<div class="user-name">
-										<p>Vương Anh Khoa</p>
-										<span>Administrator</span>
+										<p>{{Auth::user()->HoTen}}</p>
+										<span>
+											@if(Auth::user()->ChucVu == 'admin')
+												{{'Admin'}}
+											@endif
+											@if(Auth::user()->ChucVu == 'nhanvienyte')
+												{{'Nhân viên y tế'}}
+											@endif
+										</span>
 									</div>
 									<i class="fa fa-angle-down lnr"></i>
 									<i class="fa fa-angle-up lnr"></i>
@@ -42,9 +56,8 @@
 								</div>	
 							</a>
 							<ul class="dropdown-menu drp-mnu">
-								<li> <a href="#"><i class="fa fa-cog"></i> Cài đặt</a> </li> 
 								<li> <a href="#"><i class="fa fa-user"></i> Trang cá nhân</a> </li> 
-								<li> <a href="#"><i class="fa fa-sign-out"></i> Đăng xuất</a> </li>
+								<li> <a href="{{ route('Logout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a> </li>
 							</ul>
 						</li>
 					</ul>

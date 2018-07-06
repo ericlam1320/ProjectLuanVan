@@ -28,7 +28,7 @@ Liverpool FC - Sửa chiến thuật
 		<div class="container kf_container">
 			<ul class="breadcrumb">
 				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
-				<li><a href="huan-luyen-vien/1/chien-thuat">Chiến thuật</a></li>
+				<li><a href="huan-luyen-vien/chien-thuat">Chiến thuật</a></li>
 				<li class="active">Sửa chiến thuật</li>
 			</ul>
 		</div>
@@ -43,7 +43,7 @@ Liverpool FC - Sửa chiến thuật
 			<div class="panel-group">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<form class="form-horizontal" method="POST" action="huan-luyen-vien/1/chien-thuat/sua/{{ $chienthuat->id }}">
+						<form class="form-horizontal" method="POST" action="huan-luyen-vien/chien-thuat/sua/{{ $chienthuat->id }}">
 							{{ csrf_field() }}
 							<div class="form-group {{ $errors->has('TenChienThuat') ? 'has-error' : '' }}">
 								<label class="control-label col-sm-3" >Tên chiến thuật:</label>

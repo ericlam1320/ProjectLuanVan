@@ -25,7 +25,7 @@ class CauLacBoController extends Controller
     	$this->validate($request, [
     		'tendaydu' 						=>		'required|
                                                      unique:caulacbo,TenDayDu|
-                                                     regex:/^[a-zA-Z0-9\s]+$/',
+                                                     regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
 
     		'tenviettat'					=>		'required|
                                                      unique:caulacbo,TenVietTat|
@@ -35,7 +35,7 @@ class CauLacBoController extends Controller
 
     		'bietdanh'						=>		'required|
                                                      unique:caulacbo,BietDanh|
-                                                     regex:/^[a-zA-Z\s]+$/',
+                                                     regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
 
     		'lichsu'						=>		'required',
 
@@ -177,7 +177,7 @@ class CauLacBoController extends Controller
     	$this->validate($request, [
             'tendaydu'                      =>      'required|
                                                      unique:caulacbo,TenDayDu,'.$id.',id|
-                                                     regex:/^[a-zA-Z0-9\s]+$/',
+                                                     regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
 
             'tenviettat'                    =>      'required|
                                                      unique:caulacbo,TenVietTat,'.$id.',id|
@@ -187,7 +187,7 @@ class CauLacBoController extends Controller
 
             'bietdanh'                      =>      'required|
                                                      unique:caulacbo,BietDanh,'.$id.',id|
-                                                     regex:/^[a-zA-Z\s]+$/',
+                                                     regex:/^[a-zA-Z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
 
             'lichsu'                        =>      'required',
 

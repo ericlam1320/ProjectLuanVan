@@ -13,7 +13,7 @@ Liverpool FC - {{  $tenCauThu  }}
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="cau-thu/{{ $tenCauThu }}">Trang chủ</a></li>
+				<li><a href="cau-thu/{{ Auth::user()->username }}">Trang chủ</a></li>
 				<li class="active">Lịch luyện tập</li>
 			</ul>
 		</div>

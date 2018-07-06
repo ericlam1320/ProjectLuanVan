@@ -2,17 +2,20 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class NguoiDung extends Model
+class NguoiDung extends Authenticatable
 {
-    protected $table = 'nguoidung';
+	use Notifiable;
+
+	protected $table = 'nguoidung';
 	public $timestamps = false;
 
     public function HuanLuyenVien(){
         return $this->hasOne('App\HuanLuyenVien', 'idNguoiDung', 'id');
     }
     public function CauThu(){
-        return $this->hasOne('App\CauThu', 'idNguoiDung', 'id');
-    }
+         return $this->hasOne('App\CauThu', 'idNguoiDung', 'id');
+     }
 }

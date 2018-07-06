@@ -13,7 +13,7 @@ Liverpool FC - Thông tin cá nhân
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luuyen-vien/1">Trang chủ</a></li>
+				<li><a href="huan-luuyen-vien">Trang chủ</a></li>
 				<li class="active">Thông tin cá nhân</li>
 			</ul>
 		</div>
@@ -29,7 +29,7 @@ Liverpool FC - Thông tin cá nhân
 					<div class="col-md-4">
 						<div class="kode_player_fig">
 							<figure>
-								<img height="300" src="Client/images/managers/manager.png" alt="">
+								<img height="300" src="Client/images/players/{{$HuanLuyenVien->HinhDaiDien}}" alt="">
 							</figure>
 
 						</div>
@@ -42,32 +42,32 @@ Liverpool FC - Thông tin cá nhân
 									<div>
 										<div class="col-md-6 col-sm-6 col-xs-6">
 											<div class="kode_ply_list">
-												<a >Tên:<span>Roberto Firmino</span></a>
+												<a >Tên:<span>{{$HuanLuyenVien->HoTen}}</span></a>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-6 col-xs-6">
 											<div class="kode_ply_list">
-												<a >Email:<span> KloppppolK@gmail.com</span></a>
+												<a >Email:<span>{{$HuanLuyenVien->Email}}</span></a>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-6 col-xs-6">
 											<div class="kode_ply_list">
-												<a >Quốc tịch:<span>Brazil</span></a>
+												<a >Quốc tịch:<span>{{$HuanLuyenVien->QuocTich}}</span></a>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-6 col-xs-6">
 											<div class="kode_ply_list">
-												<a >Nơi sinh:<span> Alagoas, Brasil</span></a>
+												<a >Nơi sinh:<span>{{$HuanLuyenVien->NoiSinh}}</span></a>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-6 col-xs-6">
 											<div class="kode_ply_list">
-												<a >Ngày sinh:<span>02 - 10 - 1991</span></a>
+												<a >Ngày sinh:<span>{{date('d/m/Y', strtotime($HuanLuyenVien->NgaySinh))}}</span></a>
 											</div>
 										</div>
 										<div class="col-md-6 col-sm-6 col-xs-6">
 											<div class="kode_ply_list">
-												<a >Tuổi : : <span>27 tuổi</span></a>
+												<a >Tuổi : <span>{{$Tuoi}} tuổi</span></a>
 											</div>
 										</div>
 
@@ -90,7 +90,7 @@ Liverpool FC - Thông tin cá nhân
 									<div class="col-md-1">
 									<div class="kode_ply_text">
 										<div class="kode_ply_icon">
-											<h6><a href="huan-luyen-vien/1/thong-tin-ca-nhan/sua"><i class="fa fa-edit" style="font-size:30px; float:right"></i></a></h6>
+											<h6><a href="huan-luyen-vien/thong-tin-ca-nhan/sua"><i class="fa fa-edit" style="font-size:30px; float:right"></i></a></h6>
 										</div>
 									</div>
 									</div>

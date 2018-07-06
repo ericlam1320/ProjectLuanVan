@@ -19,7 +19,7 @@ Liverpool F.C - Sức khỏe cầu thủ
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
 				<li class="active">Thông tin sức khỏe</li>
 			</ul>
 		</div>

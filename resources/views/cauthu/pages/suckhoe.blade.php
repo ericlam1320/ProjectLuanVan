@@ -1,7 +1,7 @@
 @extends ('cauthu.layouts.master')
 
 @section ('title')
-Liverpool F.C - {{ $tenCauThu }}
+Liverpool F.C - {{ Auth::user()->username }}
 @stop
 
 @section ('style')
@@ -19,7 +19,7 @@ Liverpool F.C - {{ $tenCauThu }}
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="./cau-thu/TenCauThu">Trang chủ</a></li>
+				<li><a href="cau-thu/{{Auth::user()->username}}">Trang chủ</a></li>
 				<li class="active">Thông tin sức khỏe</li>
 			</ul>
 		</div>

@@ -42,11 +42,11 @@
 
 								<?php $stt=0; ?>
 								@foreach ($BangXepHang as $bxh)
-								<tr class="kode_ply_two {{ $bxh->caulacbo->TenDayDu==='Liverpool'?'three':'' }}">
+								<tr class="kode_ply_two {{ $bxh->TenDayDu==='Liverpool'?'three':'' }}">
 									<td>{{ ++$stt }}</td>
 									<td style="text-align: left">
-										<img height="30" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $bxh->caulacbo->HinhAnhCauLacBo }}" alt="">
-										{{ $bxh->caulacbo->TenDayDu }}
+										<img height="30" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $bxh->HinhAnhCauLacBo }}" alt="">
+										{{ $bxh->TenDayDu }}
 									</td>
 									<td>{{ $bxh->SoTran }}</td>
 									<td>{{ $bxh->SoTranThang }}</td>

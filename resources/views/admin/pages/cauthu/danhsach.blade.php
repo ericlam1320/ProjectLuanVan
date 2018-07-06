@@ -43,7 +43,7 @@
 									<td>{{ $ct->NguoiDung->Email }}</td>
 									<td class="text-center">{{ $ct->ViTriSoTruong }}</td>
 									<td class="text-center">{{ $ct->SoAo }}</td>
-									<td>Hình ảnh cầu thủ</td>
+									<td><img height="70px" src="./Client/images/players/{{ $ct->NguoiDung->HinhDaiDien }}" alt=""></td>
 									<td class="text-center" style="width: 135px">
 										<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="admin/cau-thu/xoa/{{ $ct->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
 

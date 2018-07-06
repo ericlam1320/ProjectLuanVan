@@ -6,143 +6,127 @@ Liverpool FC - {{  $tenCauThu  }}
 
 @section ('content')
 
-<section class="ftb-resultbg">
-	<div class="container" style="margin-top: 200px;">
+@if (!empty($KetQuaTranDauGanDay))
+<section class="ftb-resultbg" style="margin-top: 170px">
+	<div class="container">
 		<div class="heading5">
-			<h4>Trận đấu <span>tiếp theo</span></h4>
+			<h4>Kết quả trận đấu <span>gần đây</span></h4>
 		</div>
 		<div class="ftb-result-wrap">
 			<div class="ftb-result1">
 				<div class="ftb-result-logo">
-					<a href="#"><img src="Client/images/logos/Liverpool_big.png" alt=""></a>
+					<a><img src="Client/images/logos/{{ $KetQuaTranDauGanDay[0]->HinhAnhCauLacBo_lon }}" alt=""></a>
 				</div>
 				<div class="text">
-					<h6><a href="#">Liverpool</a></h6>
+					<h6><a>{{ $KetQuaTranDauGanDay[0]->TenDayDu }}</a></h6>
 				</div>
 			</div>
 
 			<div class="ftb-final-result">
-				<em>27/05/2018 | 9:00 pm <i>Kiev Stadium</i></em>
-				<a class="btn-4"  href="./cau-thu/TenCauThu/doi-hinh-chien-thuat">Xem đội hình chiến thuật</a>
+				<em>{{ date('d/m/Y', strtotime($KetQuaTranDauGanDay[0]->NgayThiDau)) }} | {{ date('G:i', strtotime($KetQuaTranDauGanDay[0]->GioThiDau)) }} PM <i>{{ $KetQuaTranDauGanDay[0]->DiaDiem }}</i></em>
+				<p><span class="grater">{{ $KetQuaTranDauGanDay[0]->TiSo }}</span> - <span>{{ $KetQuaTranDauGanDay[1]->TiSo }}</span></p>
 			</div>
 
 			<div class="ftb-result1 ftb-result2">
 				<div class="ftb-result-logo">
-					<a href="#"><img src="Client/images/logos/RealMadrid_big.png" alt=""></a>
+					<a><img src="Client/images/logos/{{ $KetQuaTranDauGanDay[1]->HinhAnhCauLacBo_lon }}" alt=""></a>
 				</div>
 				<div class="text">
-					<h6><a href="#">Real Madrid</a></h6>
+					<h6><a>{{ $KetQuaTranDauGanDay[1]->TenDayDu }}</a></h6>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+@else
+<section class="ftb-resultbg">
+	<div class="container">
+		<div class="heading5">
+			<h4>Kết quả trận đấu <span>gần đây</span></h4>
+		</div>
+		<div class="alert alert-danger">Chưa có thông tin trận đấu tiếp theo.</div>
+	</div>
+</section>
+@endif
 
 
 <!--// Main Content //-->
 <div class="kode-content">
 	<div class="ft-match-slider">
+		
 		<div class="owl-carousel-3 owl-theme" id="owl-demo6">
-			<!--// SLIDER ITEM //-->
+			
+			@for ($i=0;$i<count($CacTranDauTiepTheo);$i++)
 			<div class="ft-match-dec">
-				<span>27/05/2018</span>
+				<span>{{ date('d/m/Y' , strtotime($CacTranDauTiepTheo[$i]->NgayThiDau)) }}</span>
 				<div class="ft-match-teams">
 					<div class="ft-team-1">
-						<h5><a href="#">Liverpool</a></h5>
-						<a href="#"><img src="Client/images/logos/Liverpool.png" alt=""></a>
+						<h5><a>{{ $CacTranDauTiepTheo[$i]->TenDayDu }}</a></h5>
+						<a><img src="Client/images/logos/{{ $CacTranDauTiepTheo[$i]->HinhAnhCauLacBo }}" alt=""></a>
 					</div>
-					<span>3 - 1</span>
+					<span> VS </span>
 					<div class="ft-team-1 ft-team-2">
-						<h5><a href="#">Real Madrid</a></h5>
-						<a href="#"><img src="Client/images/logos/RealMadrid.png" alt=""></a>
+						<h5><a>{{ $CacTranDauTiepTheo[$i+1]->TenDayDu }}</a></h5>
+						<a><img src="Client/images/logos/{{ $CacTranDauTiepTheo[$i+1]->HinhAnhCauLacBo }}" alt=""></a>
 					</div>
 				</div>
 			</div>
-			<!--// SLIDER ITEM //-->
-			<!--// SLIDER ITEM //-->
-			<div class="ft-match-dec">
-				<span>08/08/2018</span>
-				<div class="ft-match-teams">
-					<div class="ft-team-1">
-						<h5><a href="#">Liverpool</a></h5>
-						<a href="#"><img src="Client/images/logos/Liverpool.png" alt=""></a>
-					</div>
-					<span>21 : 00</span>
-					<div class="ft-team-1 ft-team-2">
-						<h5><a href="#">Arsenal</a></h5>
-						<a href="#"><img src="Client/images/logos/Arsenal.png" alt=""></a>
-					</div>
-				</div>
-			</div>
-			<!--// SLIDER ITEM //-->
-			<!--// SLIDER ITEM //-->
-			<div class="ft-match-dec">
-				<span>16/8/2018</span>
-				<div class="ft-match-teams">
-					<div class="ft-team-1">
-						<h5><a href="#">Manchester Utd</a></h5>
-						<a href="#"><img src="Client/images/logos/MU.png" alt=""></a>
-					</div>
-					<span>18 : 00</span>
-					<div class="ft-team-1 ft-team-2">
-						<h5><a href="#">Liverpool</a></h5>
-						<a href="#"><img src="Client/images/logos/Liverpool.png" alt=""></a>
-					</div>
-				</div>
-			</div>
+			<?php $i++; ?>
+			@endfor
+
 		</div>
 
-	<div class="ftb-latestnew-wrap">
-		<div class="container">
-			<div class="row">
-				<!--// FOOTBALL LATEST NEWS //-->
-				<div class="col-md-7">
-					<!--// HEADING 5 //-->
-					<div class="heading5 text-left">
-						<h4>Tin tức <span>Mới nhất</span></h4>
-					</div>
-					<!--// HEADING 5 //-->
-					<div class="ftb-latestnew">
-						<figure><img height="500" src="Client/images/banner/liverpool_img2.jpg" alt=""></figure>
-						<div class="ftb-new-dec">
+		<div class="ftb-latestnew-wrap">
+				  <div class="container">
+					<div class="row">
+					  <!--// FOOTBALL LATEST NEWS //-->
+					  <div class="col-md-7">
+						<!--// HEADING 5 //-->
+						<div class="heading5 text-left">
+						  <h4>Tin tức <span>Mới nhất</span></h4>
+						</div>
+						<!--// HEADING 5 //-->
+						<div class="ftb-latestnew">
+						  <figure><img height="500" src="AdminAssets/img/photos/{{ $TinTucMoiNhat->Hinh }}" alt=""></figure>
+						  <div class="ftb-new-dec">
 							<span>
-								<b>Tháng 5</b>
-								27
+							  <b>Tháng {{ date('m', strtotime($TinTucMoiNhat->NgayDang)) }}</b>
+							  {{ date('d', strtotime($TinTucMoiNhat->NgayDang)) }}
 							</span>
 							<div class="text">
-								<h4><a href="tin-tuc/chi-tiet">Great Win Over Real Madrid</a></h4>
-								<p>This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor lo's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet.Aenean sollicitudin, lorem quis bibe ...</p>
-								<a href="tin-tuc/chi-tiet">Xem chi tiết</a>
+							  <h4 style="line-height: 1"><a href="tin-tuc/chi-tiet/{{ $TinTucMoiNhat->id }}">{{ $TinTucMoiNhat->TieuDe }}</a></h4>
+							  <p>{!! $TinTucMoiNhat->TomTat !!}</p>
+							  <a href="tin-tuc/chi-tiet/{{ $TinTucMoiNhat->id }}">Xem chi tiết</a>
 							</div>
+						  </div>
 						</div>
-					</div>
-				</div>
-				<!--// FOOTBALL LATEST NEWS //-->
-				<!--// FOOTBALL LATEST NEWS //-->
-				<div class="col-md-5 ftb-latestnew2-wrap">
-					<!--// HEADING 5 //-->
-					<div class="heading5 text-left">
-						<a href="tin-tuc/chi-tiet"><h4>Xem thêm <span>></span> </h4></a>
-					</div>
-					<!--// HEADING 5 //-->
-					<!--// FOOTBALL LATEST NEWS //-->
+					  </div>
+					  <!--// FOOTBALL LATEST NEWS //-->
+					  <!--// FOOTBALL LATEST NEWS //-->
+					  <div class="col-md-5 ftb-latestnew2-wrap">
+						<!--// HEADING 5 //-->
+						<div class="heading5 text-left">
+						  <a href="tin-tuc"><h4>Xem thêm <span>></span> </h4></a>
+						</div>
+						<!--// HEADING 5 //-->
+						<!--// FOOTBALL LATEST NEWS //-->
 
-					@for ($i=1;$i<=4;$i++)
-					<div class="ftb-latestnew2">
-						<div class="ftb-new-dec">
-							<figure><img height="140" src="Client/images/banner/liverpool_img3.jpg" alt=""></figure>
+						@foreach ($CacTinTucKhac as $tintuc)
+						<div class="ftb-latestnew2">
+						  <div class="ftb-new-dec">
+							<figure><img height="140" src="AdminAssets/img/photos/{{ $tintuc->Hinh }}" alt=""></figure>
 							<div class="text">
-								<h4><a href="tin-tuc/chi-tiet">Tin tức {{$i}}</a></h4>
-								<p>This is Photoshop's version is theveltiocv sollicitudin, lorem quis bibe .This is Photoshop's version is ti ...</p>
-								<a href="tin-tuc/chi-tiet">Xem chi tiết</a>
+							  <h4><a href="tin-tuc/chi-tiet/{{ $tintuc->id }}">{{ $tintuc->TieuDe }}</a></h4>
+							  <p>{!! $tintuc->TomTat !!}</p>
+							  <a href="tin-tuc/chi-tiet/{{ $tintuc->id }}">Xem chi tiết</a>
 							</div>
+						  </div>
 						</div>
-					</div>
-					@endfor
+						@endforeach
 
+					  </div>
+					  <!--// FOOTBALL LATEST NEWS //-->
+					</div>
+				  </div>
 				</div>
-				<!--// FOOTBALL LATEST NEWS //-->
-			</div>
-		</div>
-	</div>
-	@stop
+		@stop

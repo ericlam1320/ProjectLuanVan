@@ -33,7 +33,7 @@ Liverpool FC - Quản lý đội hình
 	<div class="kode_benner1_cols">
 		<div class="container kf_container">
 			<ul class="breadcrumb">
-				<li><a href="huan-luyen-vien/1">Trang chủ</a></li>
+				<li><a href="huan-luyen-vien">Trang chủ</a></li>
 				<li class="active">Quản lý đội hình</li>
 			</ul>
 		</div>
@@ -57,7 +57,7 @@ Liverpool FC - Quản lý đội hình
 						<div class="alert alert-danger">{{ session('loi') }}</div>
 						@endif
 
-						<a href="huan-luyen-vien/1/doi-hinh/them" class="btn btn-success"><i class="fa fa-plus"></i> Thêm đội hình</a>
+						<a href="huan-luyen-vien/doi-hinh/them" class="btn btn-success"><i class="fa fa-plus"></i> Thêm đội hình</a>
 
 						<div class="ftb-tabs-wrap">
 							<div class="tab-content">
@@ -80,8 +80,8 @@ Liverpool FC - Quản lý đội hình
 											<td  class="text-center">{{ $DoiHinh->TenDoiHinh }}</td>
 											<td class="text-center"><img height="120" src="./Client/images/formations/{{ $DoiHinh->HinhAnhDoiHinh }}"></td>
 											<td class="text-center" style="width: 180px">
-												<a href="huan-luyen-vien/1/doi-hinh/sua/{{ $DoiHinh->id }}" class="btn btn-info"><i class="fa fa-edit"></i> Sửa</a>
-												<a onclick="return XacNhanXoa('Bạn có muốn xóa đội hình này?')" href="huan-luyen-vien/1/doi-hinh/xoa/{{ $DoiHinh->id }}" class="btn btn-danger"><i class="fa fa-trash"></i> Xóa</a>
+												<a href="huan-luyen-vien/doi-hinh/sua/{{ $DoiHinh->id }}" class="btn btn-info"><i class="fa fa-edit"></i> Sửa</a>
+												<a onclick="return XacNhanXoa('Bạn có muốn xóa đội hình này?')" href="huan-luyen-vien/doi-hinh/xoa/{{ $DoiHinh->id }}" class="btn btn-danger"><i class="fa fa-trash"></i> Xóa</a>
 											</td>
 										</tr>
 										@endforeach

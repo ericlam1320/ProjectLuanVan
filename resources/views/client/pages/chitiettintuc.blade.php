@@ -31,10 +31,11 @@
 							<img src="AdminAssets/img/photos/{{ $TinTuc->Hinh }}" alt="">
 						</figure>
 						<div class="kode_detail_admin">
-							<span>{{ date('d/m/Y', strtotime($TinTuc->NgayDang)) }}<strong></strong></span>
-							<div class="kode_detail_title">
-								<h2>{!! $TinTuc->TieuDe !!}</h2>
-							</div>
+							<div class="title_2"><span><strong>{{ date('d/m/Y', strtotime($TinTuc->NgayDang)) }}</strong></span></div><br><br>
+											<div class="title_2">
+												<h2><a href="tin-tuc/chi-tiet/{{ $TinTuc->id }}">{!! $TinTuc->TieuDe !!}</a></h2>
+
+											</div>
 						</div>
 						<div class="kode_detail_text">
 							{!! $TinTuc->TomTat !!}

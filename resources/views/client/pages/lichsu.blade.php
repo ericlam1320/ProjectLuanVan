@@ -38,14 +38,14 @@
 									</figure>
 									</div> 
 									
-									<p>Câu lạc bộ bóng đá Liverpool (viết tắt Liverpool F.C.) là một câu lạc bộ bóng đá chuyên nghiệp Anh, có trụ sở tại thành phố Liverpool, hạt Merseyside, hiện đang chơi tại giải bóng đá Ngoại hạng Anh. Tính đến nay, Liverpool đã 18 lần vô địch nước Anh, giành được 7 Cúp FA, 8 Cúp Liên đoàn Anh, 15 Siêu cúp Anh, 5 Cúp vô địch châu Âu (Cúp C1), 3 Cúp UEFA (Cúp C2) và 3 Siêu cúp châu Âu.</p>
+									<p>{{ $CauLacBo->LichSu }}</p>
 									<ul>
-										<li><a href="#"><b>Năm thành lập: </b>	1892  </a></li>
-										<li><a href="#"><b>Biệt danh: </b>	The Reds </a></li>
-										<li><a href="#"><b>Sân vận động: </b>Anfiled</a></li>
-										<li><a href="#"><b>Sức chứa: </b>	54.074</a></li>
-										<li><a href="#"><b>Chủ sở hữu</b>	Tập đoàn Feway Sports</a></li>
-										<li><a href="#"><b>Chủ tịch: </b>	Tom Werner </a></li>
+										<li><a href="#"><b>Năm thành lập: </b>	{{ date('Y', strtotime($CauLacBo->NamThanhLap)) }}  </a></li>
+										<li><a href="#"><b>Biệt danh: </b>	{{ $CauLacBo->BietDanh }} </a></li>
+										<li><a href="#"><b>Sân vận động: </b>{{ $CauLacBo->SanVanDong }}</a></li>
+										<li><a href="#"><b>Sức chứa: </b>	{{ $CauLacBo->SucChua }}</a></li>
+										<li><a href="#"><b>Chủ sở hữu</b>	{{ $CauLacBo->TruSo }}</a></li>
+										<li><a href="#"><b>Chủ tịch: </b>	{{ $CauLacBo->ChuTich }} </a></li>
 									</ul><br>
 
 								</div>
