@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Hash;
 use App\CauThu;
+use App\PhongDo_CauThu;
 use App\NguoiDung;
 
 class CauThuAdminController extends Controller
@@ -129,6 +130,11 @@ class CauThuAdminController extends Controller
 
     	$cauthu->save();
 
+        $cauthu_phongdo = new PhongDo_CauThu;
+        $cauthu_phongdo->idCauThu           =       $cauthu->id;
+        $cauthu_phongdo->idPhongDo          =       3;
+        $cauthu_phongdo->save();
+
 
     	return redirect()->route('DanhSachCauThu')->with('success','Thêm cầu thủ thành công');
 
@@ -233,13 +239,12 @@ class CauThuAdminController extends Controller
     	$nguoidung->QuocTich 		= 		$request->quoctich;
     	$nguoidung->GioiTinh 		= 		'1';
     	$nguoidung->NoiSinh 		= 		$request->noisinh;
-    	$nguoidung->HinhDaiDien 	= 		$request->hinhdaidien;
 
     	if($request->hasFile('hinhdaidien')){
-    		$img = $request->file('hinhdaidien');
-    		$img->move('Client/images/players/', time().$img->getClientOriginalName());
-    		$nguoidung->HinhDaiDien =  time().$img->getClientOriginalName();
-    	}
+            $img = $request->file('hinhdaidien');
+            $img->move('Client/images/players/', time().$img->getClientOriginalName());
+            $nguoidung->HinhDaiDien =  time().$img->getClientOriginalName();
+        }
 
     	$nguoidung->save();
     	

@@ -23,7 +23,7 @@
       <div class="main-page">
 
         <div class="row">
-            <h3 class="title1">Cập nhậ người dùng :</h3>
+            <h3 class="title1">Cập nhật người dùng :</h3>
 
             @if(session('success'))
               <div class="alert alert-success">

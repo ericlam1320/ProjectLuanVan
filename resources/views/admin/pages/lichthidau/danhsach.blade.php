@@ -44,7 +44,7 @@
 										<td style="width: 35px" class="text-center">{{ $lichthidau[$i]->VongDau }}</td>
 										<td ><img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $lichthidau[$i]->HinhAnhCauLacBo }}" alt=""> &nbsp;{{ $lichthidau[$i]->TenDayDu }}</td>
 										<td ><img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $lichthidau[$i+1]->HinhAnhCauLacBo }}" alt=""> &nbsp;{{ $lichthidau[$i+1]->TenDayDu }}</td>
-										<td class="text-center">{{ $lichthidau[$i]->NgayThiDau }}</td>
+										<td class="text-center">{{ date('d-m-Y' ,strtotime($lichthidau[$i]->NgayThiDau)) }}</td>
 										<td class="text-center">{{ $lichthidau[$i]->DiaDiem }}</td>
 										<td class="text-center" style="width: 265px">
 

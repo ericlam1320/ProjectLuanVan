@@ -3,6 +3,17 @@
 @section('content')
 	<div id="page-wrapper">
 			<div class="main-page">
+				@if(session('success'))
+					<div class="alert alert-success">
+						{{ session('success') }}
+					</div>
+					@endif
+
+					@if(session('error'))
+					<div class="alert alert-danger">
+						{{ session('error') }}
+					</div>
+				@endif
 				<div style="margin-left: 400px " class="col-md-4 profile widget-shadow">
 						<h4 class="title3">Thông tin cá nhân</h4>
 						<div class="profile-top">
@@ -26,10 +37,10 @@
 									<i class="fa fa-calendar profile-icon"></i>
 								</div>
 								<div class="profile-right">
-									<h4>{{ Auth::user()->NgaySinh }}</h4>
+									<h4>{{ date('d/m/Y', strtotime(Auth::user()->NgaySinh)) }}</h4>
 									<p>Ngày sinh</p>
 								</div> 
-								<div class="clearfix"> </div>	
+								<div class="clearfix"></div>	
 							</div>
 							<div class="profile-row">
 								<div class="profile-left">
@@ -44,7 +55,7 @@
 						</div>
 						<div class="profile-btm">
 							
-								<a style="margin-left: 110px; margin-bottom: 10px ; height: 35px " href="#" title="Sửa" class="btn btn-info">
+								<a style="margin-left: 110px; margin-bottom: 10px ; height: 35px " href="admin/cap-nhat-thong-tin" title="Sửa" class="btn btn-info">
 									<i class="fa fa-edit" ></i> Chỉnh sửa thông tin
 								</a>
 							

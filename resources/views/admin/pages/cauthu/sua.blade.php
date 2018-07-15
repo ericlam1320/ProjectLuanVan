@@ -181,7 +181,7 @@
                           <label for="txtarea1" class="col-md-4 control-label">Hình đại diện:</label>
                           <div class="col-md-3">
                             <input style="width: 190px" type="file" name="hinhdaidien" value="" class="form-control" accept="image/x-png,image/gif,image/jpeg,image/jpg" onchange="preview_image(event)" >
-                            <img id="output_image" height="190" src="AdminAssets/images/default-user-image.png" />
+                            <img id="output_image" height="190" src="Client/images/players/{{$cauthu->NguoiDung->HinhDaiDien}}" />
                           </div>
                           <div class="col-md-5">
                             @if ($errors->has('hinhdaidien'))

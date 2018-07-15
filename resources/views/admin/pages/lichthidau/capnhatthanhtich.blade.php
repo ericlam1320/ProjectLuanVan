@@ -7,7 +7,7 @@
 			<div class="main-page">
 
 				<div class="row">
-						<h3 class="title1">Cập nhật tỉ số :</h3>
+						<h3 class="title1">Cập nhật thành tích cầu thủ :</h3>
 
 						@if(session('success'))
 						<div class="alert alert-success">
@@ -117,12 +117,7 @@
 										</div>
 
 										<div class="col-md-4">
-											<div class="form-group">
-												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Điểm số:</label>
-												<div class="col-md-5">
-													<input style="width: 50px; height: 25px" type="number" min="0" max="10" name="diemso[]" value="{{$thanhtich[$i]->DiemSo}}">
-												</div>
-											</div>
+											
 										</div>
 
 									</div>
@@ -188,9 +183,9 @@
 
 										<div class="col-md-4">
 											<div class="form-group">
-												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Số trận giữ sạch lưới:</label>
+												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Trận giữ sạch lưới:</label>
 												<div class="col-md-5">
-													<input style="width: 50px; height: 25px" type="number" min="0" max="300" name="sotrangiusachluoi[]" value="{{$thanhtich[$i]->SoTranGiuSachLuoi}}">
+													<input style="width: 50px; height: 25px" type="number" min="0" max="1" name="sotrangiusachluoi[]" value="{{$thanhtich[$i]->SoTranGiuSachLuoi}}">
 												</div>
 											</div>
 										</div>

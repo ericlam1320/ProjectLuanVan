@@ -26,10 +26,9 @@
 								<tr> 
 									<th>#</th> 
 									<th class="text-center">Ngày khám</th>
-									<th class="text-center">Tên thuốc</th> 
-									<th class="text-center">Số lượng</th> 
-									<th class="text-center">Liều lượng</th> 
-									<th class="text-center">Ghi chú</th> 
+									<th class="text-center">Tên cầu thủ</th>
+									<th class="text-center">Nội dung điều trị</th>
+									<th class="text-center">Chẩn đoán</th>
 									<th class="text-center">Ngày tái khám</th> 
 									<th class="text-center">Hành động</th>
 								</tr> 
@@ -40,16 +39,15 @@
 								@foreach ($toathuoc as $tt)
 								<tr class="odd gradeX">
 										<td>{{ 	$stt }}</td>
-										<td>{{ 	$tt->NgayKham  }}</td>
-										<td>{{ 	$tt->TenThuoc  }}</td>
-										<td class="text-center">{{ 	$tt->SoLuong  }}</td>
-										<td>{{ 	$tt->LieuLuong  }}</td>
-										<td>{{  $tt->GhiChu  }}</td> 
-										<td>{{ 	$tt->NgayTaiKham  }}</td>
+										<td class="text-center">{{ 	date('d-m-Y',strtotime($tt->NgayKham))  }}</td>
+										<td>{{ 	$tt->HoTen  }}</td>
+										<td>{{ 	$tt->NoiDungDieuTri  }}</td>
+										<td>{{ 	$tt->ChanDoan  }}</td>
+										<td class="text-center">{{ 	date('d-m-Y',strtotime($tt->NgayTaiKham))  }}</td>
 										<td class="text-center" style="width: 135px">
-											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="nhan-vien-y-te/toa-thuoc/xoa" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
+											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="nhan-vien-y-te/toa-thuoc/xoa/{{$tt->id}}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
 
-											<a href="nhan-vien-y-te/toa-thuoc/sua" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
+											<a href="nhan-vien-y-te/toa-thuoc/sua/{{$tt->id}}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
 										</td>
 								</tr> 
 								<?php $stt++; ?>

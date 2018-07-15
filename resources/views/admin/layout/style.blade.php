@@ -60,4 +60,5 @@
 	<link href="AdminAssets/css/owl.carousel.css" rel="stylesheet">
 	<!--FLEX SLIDER CSS-->
 	<link href="AdminAssets/css/flexslider.css" rel="stylesheet">
+
 </head> 

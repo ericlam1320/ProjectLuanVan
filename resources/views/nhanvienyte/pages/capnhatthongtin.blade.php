@@ -1,4 +1,4 @@
-@extends ('admin.layout.master_admin')
+@extends ('nhanvienyte.layout.master_nhanvienyte')
 @section ('title', 'Thông tin cá nhân')
 @section('content')
 @section ('style')
@@ -100,7 +100,7 @@
         
 
         <div class="form-three widget-shadow">
-              <form method="POST" class="form-horizontal" action="admin/cap-nhat-thong-tin" enctype="multipart/form-data">
+              <form method="POST" class="form-horizontal" action="nhan-vien-y-te/cap-nhat-thong-tin" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                 

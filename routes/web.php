@@ -104,6 +104,9 @@ Route::group(['prefix'                                =>'huan-luyen-vien', 'midd
 Route::group(['prefix'=>'admin', 'middleware'=>'loginAdmin'],function(){
 	Route::get('', 'AdminController@getIndex')->name('TrangChu_Admin');
 
+	Route::get('cap-nhat-thong-tin', 'NguoiDungController@getCapNhatAdmin')->name('CapNhatThongTinAdmin');
+	Route::post('cap-nhat-thong-tin', 'NguoiDungController@postCapNhatAdmin');
+
 	Route::group(['prefix'=>'bang-xep-hang'],function(){
 		Route::get('danh-sach'		, 	'BangXepHangCLBController@getDanhSach')	->name('DanhSachBangXepHangCLB');
 		Route::get('them'			, 	'BangXepHangCLBController@getThem')		->name('ThemBangXepHangCLB');
@@ -224,6 +227,8 @@ Route::group(['prefix'=>'admin', 'middleware'=>'loginAdmin'],function(){
 Route::group(['prefix'=>'nhan-vien-y-te', 'middleware'=>'loginNhanVienYTe'],function(){
 
 	Route::get('', 'NhanVienYTeController@getIndex' )->name('TrangChu_NhanVienYTe');
+	Route::get('cap-nhat-thong-tin', 'NguoiDungController@getCapNhatNhanVienYTe')->name('CapNhatThongTinNhanVienYTe');
+	Route::post('cap-nhat-thong-tin', 'NguoiDungController@postCapNhatNhanVienYTe');
 
 	Route::group(['prefix'=>'chan-thuong'], function(){
 		Route::get('danh-sach'		, 	'ChanThuongController@getDanhSach')		->name('DanhSachChanThuong');
@@ -253,9 +258,10 @@ Route::group(['prefix'=>'nhan-vien-y-te', 'middleware'=>'loginNhanVienYTe'],func
 	});
 
 	Route::group(['prefix'=>'lich-kham'], function(){
-		Route::get('danh-sach'		, 	'LichKhamController@getDanhSach')		->name('DanhSachLichKham');
-		Route::get('them'			, 	'LichKhamController@getThem')			->name('ThemLichKham');
-     	Route::post('them'			, 	'LichKhamController@postThem');
+		Route::get('danh-sach-cau-thu'		, 	'LichKhamController@getDanhSachCauThu')		->name('DanhSachCauThu');
+		Route::get('danh-sach-lich-kham'	, 	'LichKhamController@getDanhSachLichKham')		->name('DanhSachLichKham');
+		Route::get('them/{id}'		, 	'LichKhamController@getThem')			->name('ThemLichKham');
+     	Route::post('them/{id}'		, 	'LichKhamController@postThem');
      	Route::get('xoa/{id}'		, 	'LichKhamController@getXoa');
 		Route::get('sua/{id}'		, 	'LichKhamController@getSua')			->name('SuaLichKham');
      	Route::post('sua/{id}'		, 	'LichKhamController@postSua');

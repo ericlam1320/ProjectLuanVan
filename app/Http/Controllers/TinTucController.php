@@ -76,8 +76,8 @@ class TinTucController extends Controller
     }
 
     public function getSua($id){
-        $tintuc = TinTuc::find($id);
-    	return view('admin.pages.tintuc.sua', compact('tintuc'));
+        $TinTuc = TinTuc::find($id);
+    	return view('admin.pages.tintuc.sua', compact('TinTuc'));
     }
 
     public function postSua($id, Request $request){

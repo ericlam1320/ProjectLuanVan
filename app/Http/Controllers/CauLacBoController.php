@@ -29,7 +29,7 @@ class CauLacBoController extends Controller
 
     		'tenviettat'					=>		'required|
                                                      unique:caulacbo,TenVietTat|
-                                                     regex:/^[A-Z\s]{3}+$/',
+                                                     regex:/^[A-Z\s]+$/',
 
     		'truso'							=>		'required',
 
@@ -181,7 +181,7 @@ class CauLacBoController extends Controller
 
             'tenviettat'                    =>      'required|
                                                      unique:caulacbo,TenVietTat,'.$id.',id|
-                                                     regex:/^[A-Z\s]{3}+$/',
+                                                     regex:/^[A-Z\s]+$/',
 
             'truso'                         =>      'required',
 

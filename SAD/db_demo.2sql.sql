@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 13, 2018 lúc 05:49 PM
+-- Thời gian đã tạo: Th7 10, 2018 lúc 01:25 PM
 -- Phiên bản máy phục vụ: 10.1.30-MariaDB
 -- Phiên bản PHP: 7.2.1
 
@@ -73,8 +73,8 @@ CREATE TABLE `bangxephangclbgiaidau` (
 
 INSERT INTO `bangxephangclbgiaidau` (`id`, `SoTran`, `SoTranThang`, `SoTranHoa`, `SoTranThua`, `BanThang`, `BanThua`, `HieuSo`, `TheVang`, `TheDo`, `ChiSoFairplay`, `Diem`, `idGiaiDau`, `idCauLacBo`) VALUES
 (1, 1, 0, 0, 1, 1, 3, -2, 2, 0, -3, 0, 1, 1),
-(2, 3, 2, 1, 0, 9, 4, 5, 4, 0, -5, 7, 1, 2),
-(3, 1, 0, 1, 0, 2, 2, 0, 0, 0, 0, 1, 1, 3),
+(2, 2, 2, 0, 0, 7, 2, 5, 4, 0, -5, 6, 1, 2),
+(3, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 0, 1, 3),
 (4, 1, 0, 0, 1, 1, 4, -3, 6, 1, -13, 0, 1, 4);
 
 -- --------------------------------------------------------
@@ -171,8 +171,7 @@ INSERT INTO `cauthu` (`id`, `ChieuCao`, `CanNang`, `ViTriSoTruong`, `SoAo`, `Cha
 (17, 191, 89, 'Thủ môn', 1, 1, NULL, 18),
 (18, 188, 95, 'Tiền vệ', 8, 1, NULL, 19),
 (19, 198, 98, 'Tiền vệ', 5, 1, NULL, 20),
-(20, 175, 71, 'tiendao', 11, 1, '<p>lược sử MO</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>', 23),
-(22, 181, 71, 'tiendao', 92, 2, '<p>LS Firmino</p>', 26);
+(20, 175, 71, 'tiendao', 11, 1, '<p>lược sử MO</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>\r\n\r\n<p>&quot;</p>', 23);
 
 -- --------------------------------------------------------
 
@@ -240,7 +239,7 @@ CREATE TABLE `doihinh` (
 
 INSERT INTO `doihinh` (`id`, `TenDoiHinh`, `HinhAnhDoiHinh`, `SoTranThang`, `SoTranThua`, `SoTranHoa`) VALUES
 (1, '4-4-2 Cổ Điển', '4-4-2 Cổ Điển.png', 3, 2, 3),
-(2, '4-3-3', '4-3-3.png', 6, 0, 3),
+(2, '4-3-3', '4-3-3.png', 6, 0, 2),
 (7, '5-3-2', '15299132905-3-2.png', 1, 2, 1);
 
 -- --------------------------------------------------------
@@ -526,8 +525,7 @@ INSERT INTO `nguoidung` (`id`, `username`, `password`, `HoTen`, `ChucVu`, `Email
 (21, 'huanluyenvien', '$2y$10$UKdgdmsTQxr5.RAX6XOvLuMcukMU5g5qS3JWgq2O21mOyESJ54CiC', 'huanluyenvien', 'huanluyenvien', 'huanluyenvien@gmail.com', '1980-07-02', 'Việt Nam', 0, 'Đà Nẵng', '1530501889manager.png', '5j6UJngu4dckTyAmkzmxdt285tDl8EZ4p3PMk42Z6uCnrJFMBzlLGZsU29lp'),
 (22, 'nhanvienyte', '$2y$10$UKdgdmsTQxr5.RAX6XOvLuMcukMU5g5qS3JWgq2O21mOyESJ54CiC', 'Nhan Vien Y Te', 'nhanvienyte', 'nhanvienyte@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL),
 (23, 'mohamedsalah', '$2y$10$Xn.xfPFgokj5JQWPQ4zEdusLcfjoLoYknSSOqgD2nqc/6GbByteqy', 'Mohamed Salah', 'cauthu', 'mohamedsalah@liverpoolfc.com', '1993-07-05', 'Ai Cập', 1, 'Nagrir, Ai Cập', '15311332421531133019Players_Home4.png', NULL),
-(24, 'truongminh', '$2y$10$KbWmfuBZihySDRY.1Bg31O2f3MxLO6fcAvHs/tL1tXzMgT/5tukQG', 'Thi Trường Minh', 'admin', 'truongminh@gmail.com', '1996-08-29', 'Việt Nam', 0, 'Hồ Chí Minh', '1530799986Liverpool_big.png', NULL),
-(26, 'robertofirmino', '$2y$10$RVfaOdzYK1Zs1iOioI/JbO8skVAaB2GnXmvCT2maL3BvkmsLZ4c/6', 'Roberto Firmino', 'cauthu', 'firmino@gmail.com', '1996-07-13', 'Brazil', 1, 'Brazil', '1531483935Players_Home3.png', NULL);
+(24, 'truongminh', '$2y$10$atLw8dq.kvVdgXEVbPfRbOQ0uLHOJ/bLQ8FKev0hFv9rYn2AoeLxa', 'Thi Trường Minh', 'admin', 'truongminh@gmail.com', '1996-08-29', 'Việt Nam', 0, 'Hồ Chí Minh', '1530799986Liverpool_big.png', NULL);
 
 -- --------------------------------------------------------
 
@@ -580,7 +578,6 @@ INSERT INTO `phongdo` (`id`, `ChiSoPhongDo`) VALUES
 --
 
 CREATE TABLE `phongdo_cauthu` (
-  `id` int(11) NOT NULL,
   `idCauThu` int(11) NOT NULL,
   `idPhongDo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -589,23 +586,20 @@ CREATE TABLE `phongdo_cauthu` (
 -- Đang đổ dữ liệu cho bảng `phongdo_cauthu`
 --
 
-INSERT INTO `phongdo_cauthu` (`id`, `idCauThu`, `idPhongDo`) VALUES
-(1, 1, 1),
-(2, 2, 5),
-(3, 3, 5),
-(4, 4, 5),
-(5, 6, 5),
-(6, 7, 5),
-(7, 8, 5),
-(8, 9, 5),
-(9, 10, 5),
-(10, 11, 3),
-(11, 12, 2),
-(12, 13, 1),
-(13, 14, 5),
-(14, 22, 3),
-(15, 5, 5),
-(16, 15, 5);
+INSERT INTO `phongdo_cauthu` (`idCauThu`, `idPhongDo`) VALUES
+(1, 1),
+(3, 1),
+(11, 1),
+(13, 1),
+(4, 2),
+(6, 2),
+(8, 2),
+(12, 2),
+(14, 2),
+(2, 3),
+(9, 3),
+(10, 3),
+(7, 4);
 
 -- --------------------------------------------------------
 
@@ -615,7 +609,7 @@ INSERT INTO `phongdo_cauthu` (`id`, `idCauThu`, `idPhongDo`) VALUES
 
 CREATE TABLE `thanhtichcauthu` (
   `id` int(11) NOT NULL,
-  `DiemSo` float(10,1) DEFAULT NULL,
+  `DiemSo` double DEFAULT NULL,
   `SoDuongChuyen` int(11) DEFAULT NULL,
   `ChuyenThanhCong` int(11) DEFAULT NULL,
   `SoKienTao` int(5) DEFAULT NULL,
@@ -634,28 +628,14 @@ CREATE TABLE `thanhtichcauthu` (
 --
 
 INSERT INTO `thanhtichcauthu` (`id`, `DiemSo`, `SoDuongChuyen`, `ChuyenThanhCong`, `SoKienTao`, `SoLanSut`, `SoBanThang`, `SoTranGiuSachLuoi`, `SoLanCanPha`, `TheVang`, `TheDo`, `idCauThu`, `idTranDau`) VALUES
-(250, 4.4, 5, 5, 0, 0, 0, 0, 6, 0, 0, 14, 1),
-(251, 4.3, 10, 10, 0, 0, 0, 0, 6, 1, 0, 2, 1),
-(252, 5.6, 16, 15, 0, 1, 0, 0, 5, 0, 0, 3, 1),
-(253, 6.5, 21, 20, 1, 1, 0, 0, 9, 0, 0, 4, 1),
-(254, 5.6, 25, 25, 0, 0, 0, 0, 2, 0, 0, 6, 1),
-(255, 6.8, 35, 35, 2, 1, 0, 0, 1, 0, 0, 5, 1),
-(256, 7.4, 24, 20, 0, 2, 2, 0, 7, 0, 0, 7, 1),
-(257, 6.3, 35, 35, 0, 2, 0, 0, 2, 0, 0, 8, 1),
-(258, 6.3, 25, 25, 0, 8, 0, 0, 1, 0, 0, 9, 1),
-(259, 5.2, 15, 15, 0, 2, 0, 0, 1, 0, 0, 10, 1),
-(260, 6.6, 15, 15, 0, 6, 1, 0, 1, 0, 0, 11, 1),
-(272, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 2),
-(273, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2),
-(274, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2),
-(275, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 2),
-(276, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2),
-(277, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 2),
-(278, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 2),
-(279, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 2),
-(280, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 2),
-(281, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 2),
-(282, 2.8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 2);
+(1, 8, 134, 130, 0, 2, 1, 0, 0, 0, 0, 1, 1),
+(2, 7.3, 127, 121, 20, 14, 5, 0, 0, 1, 0, 2, 1),
+(3, 8.8, 151, 151, 1, 0, 0, 0, 0, 0, 0, 1, 2),
+(4, 8, 59, 59, 2, 1, 2, 0, 0, 0, 0, 2, 2),
+(5, 10, 250, 250, 0, 10, 0, 0, 0, 0, 0, 4, 1),
+(6, 9, 50, 0, 11, 24, 10, 0, 0, 0, 0, 4, 2),
+(7, 8, 154, 154, 10, 40, 14, 0, 0, 0, 0, 5, 2),
+(8, 8.5, 120, 120, 10, 11, 5, 0, 0, 0, 0, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -756,8 +736,8 @@ INSERT INTO `tiso` (`id`, `idCauLacBo`, `idTranDau`, `idGiaiDau`, `TiSo`, `Trang
 (2, 1, 1, 1, 1, -1),
 (3, 2, 2, 1, 4, 1),
 (4, 4, 2, 1, 1, -1),
-(7, 3, 4, 1, 2, 0),
-(8, 2, 4, 1, 2, 0),
+(7, 3, 4, 1, NULL, NULL),
+(8, 2, 4, 1, NULL, NULL),
 (9, 1, 5, 1, NULL, NULL),
 (10, 2, 5, 1, NULL, NULL),
 (11, 4, 6, 1, NULL, NULL),
@@ -844,7 +824,7 @@ CREATE TABLE `trandau` (
 INSERT INTO `trandau` (`id`, `VongDau`, `NgayThiDau`, `GioThiDau`, `DiaDiem`, `idDoiHinh`, `idChienThuat`, `TranDauCuaCLB`) VALUES
 (1, 1, '2018-06-01', '10:00:00', 'Sân nhà Anfield', 1, 1, 1),
 (2, 2, '2018-06-05', '17:00:00', 'Anfield', 2, 3, 1),
-(4, 4, '2018-06-15', '07:00:00', 'Old Stranford', 2, NULL, 1),
+(4, 4, '2018-06-15', '07:00:00', 'Old Stranford', NULL, NULL, 1),
 (5, 5, '2018-06-19', '10:00:00', 'Mỹ Đình Stadium', NULL, NULL, 1),
 (6, 5, '2018-06-19', '17:00:00', 'Sân Anfiekd', NULL, NULL, 0),
 (7, 5, '2018-07-05', '17:00:00', 'Anfield', NULL, NULL, 1);
@@ -997,8 +977,7 @@ INSERT INTO `vitri_cauthu` (`id`, `idCauThu`, `idViTri`) VALUES
 (14, 12, 16),
 (15, 13, 13),
 (16, 12, 15),
-(17, 13, 15),
-(18, 14, 1);
+(17, 13, 15);
 
 -- --------------------------------------------------------
 
@@ -1242,7 +1221,7 @@ ALTER TABLE `phongdo`
 -- Chỉ mục cho bảng `phongdo_cauthu`
 --
 ALTER TABLE `phongdo_cauthu`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`idCauThu`),
   ADD KEY `idCauThu` (`idCauThu`),
   ADD KEY `idPhongDo` (`idPhongDo`);
 
@@ -1393,7 +1372,7 @@ ALTER TABLE `caulacbo_giaidau`
 -- AUTO_INCREMENT cho bảng `cauthu`
 --
 ALTER TABLE `cauthu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `chanthuong`
@@ -1465,7 +1444,7 @@ ALTER TABLE `lichluyentap`
 -- AUTO_INCREMENT cho bảng `nguoidung`
 --
 ALTER TABLE `nguoidung`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT cho bảng `phacdodieutri`
@@ -1480,16 +1459,10 @@ ALTER TABLE `phongdo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT cho bảng `phongdo_cauthu`
---
-ALTER TABLE `phongdo_cauthu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
 -- AUTO_INCREMENT cho bảng `thanhtichcauthu`
 --
 ALTER TABLE `thanhtichcauthu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=283;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `thongtinchanthuong_cauthu`
@@ -1555,7 +1528,7 @@ ALTER TABLE `vitri`
 -- AUTO_INCREMENT cho bảng `vitri_cauthu`
 --
 ALTER TABLE `vitri_cauthu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `vitri_cauthu_trandau`

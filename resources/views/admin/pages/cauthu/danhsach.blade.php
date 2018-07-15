@@ -26,7 +26,8 @@
 								<tr> 
 									<th>#</th>
 									<th class="text-center">Họ tên</th>
-									<th class="text-center">Email</th>
+									<th class="text-center">Chiều cao</th>
+									<th class="text-center">Cân nặng</th>
 									<th class="text-center">Vị trí sở trường</th>
 									<th class="text-center">Số áo</th>
 									<th class="text-center">Hình ảnh</th>
@@ -40,11 +41,12 @@
 								<tr class="odd gradeX"> 
 									<td class="text-center">{{ $stt }}</td>
 									<td>{{ $ct->NguoiDung->HoTen }}</td>
-									<td>{{ $ct->NguoiDung->Email }}</td>
+									<td>{{ $ct->ChieuCao }}</td>
+									<td>{{ $ct->CanNang }}</td>
 									<td class="text-center">{{ $ct->ViTriSoTruong }}</td>
 									<td class="text-center">{{ $ct->SoAo }}</td>
 									<td><img height="70px" src="./Client/images/players/{{ $ct->NguoiDung->HinhDaiDien }}" alt=""></td>
-									<td class="text-center" style="width: 135px">
+									<td class="text-center" style="width: 145px">
 										<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="admin/cau-thu/xoa/{{ $ct->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
 
 										<a href="admin/cau-thu/sua/{{$ct->id}}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>

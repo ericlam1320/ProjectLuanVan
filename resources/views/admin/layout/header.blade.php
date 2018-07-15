@@ -19,7 +19,7 @@
 				</div>
 				<!--//logo-->
 				<!--search-box-->
-				<div class="search-box">
+				<!-- <div class="search-box">
 					<form class="input">
 						<input class="sb-search-input input__field--madoka" placeholder="Tìm kiếm..." type="search" id="input-31" />
 						<label class="input__label" for="input-31">
@@ -28,7 +28,7 @@
 							</svg>
 						</label>
 					</form>
-				</div><!--//end-search-box-->
+				</div> --><!--//end-search-box-->
 				<div class="clearfix"> </div>
 			</div>
 			<div class="header-right">
@@ -56,7 +56,7 @@
 								</div>	
 							</a>
 							<ul class="dropdown-menu drp-mnu">
-								<li> <a href="#"><i class="fa fa-user"></i> Trang cá nhân</a> </li> 
+								<li> <a href="{{ route('TrangChu_Admin') }}"><i class="fa fa-user"></i> Trang cá nhân</a> </li> 
 								<li> <a href="{{ route('Logout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a> </li>
 							</ul>
 						</li>

@@ -22,10 +22,10 @@
 							<a href="#"><i class="fa fa-calendar nav_icon"></i> Lịch khám <span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
 								<li>
-									<a href="{{route('DanhSachLichKham')}}">Danh sách lịch khám</a>
+									<a href="{{route('DanhSachCauThu')}}">Danh sách cầu thủ</a>
 								</li>
 								<li>
-									<a href="{{route('ThemLichKham')}}">Thêm lịch khám</a>
+									<a href="{{route('DanhSachLichKham')}}">Danh sách lịch khám</a>
 								</li>
 							</ul>
 						</li>
@@ -62,15 +62,6 @@
 								</li>
 								<li>
 									<a href="{{route('ThemToaThuoc')}}">Thêm toa thuốc</a>
-								</li>
-							</ul>
-						</li>
-
-						<li>
-							<a href="#"><i class="fa fa-user nav_icon"></i> Người dùng <span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level collapse">
-								<li>
-									<a href="{{route('DanhSachNguoiDung')}}">Sửa thông tin người dùng</a>
 								</li>
 							</ul>
 						</li>

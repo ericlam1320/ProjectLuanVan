@@ -4,10 +4,10 @@
 	<div id="page-wrapper">
 				
 			<div class="main-page">
-				<h3 class="title1">Danh sách Lịch khám</h3>
+				<h3 class="title1">Danh sách Cầu thủ</h3>
 				<div class="tables">
 					<div class="bs-example widget-shadow" data-example-id="contextual-table"> 
-						<h4>Giải đấu</h4>
+						<h4>Lịch khám</h4>
 
 						@if(session('success'))
 						<div class="alert alert-success">
@@ -27,8 +27,9 @@
 									<th>#</th> 
 									<th class="text-center">Ngày khám</th> 
 									<th class="text-center">Ca khám</th> 
-									<th class="text-center">Địa điểm</th>
-									<th class="text-center">Nội dung điều trị</th>
+									<th class="text-center">Tên cầu thủ</th> 
+									<th class="text-center">Tên chấn thương</th>
+									<th class="text-center">Nội dung điều trị</th> 
 									<th class="text-center">Hành động</th>
 								</tr> 
 							</thead> 
@@ -38,11 +39,12 @@
 								@foreach ($lichkham as $lk)
 								<tr class="odd gradeX">
 										<td>{{ 	$stt }}</td>
-										<td class="text-center">{{  $lk->NgayKham}}</td> 
-										<td class="text-center">{{ 	$lk->CaKham  }}</td> 
-										<td>{{ 	$lk->DiaDiem  }}</td> 
-										<td>{{ 	$lk->NoiDungDieuTri  }}</td> 
-										<td class="text-center" style="width: 135px">
+										<td>{{  date('d-m-Y',strtotime($lk->NgayKham))}}</td> 
+										<td>{{ 	$lk->CaKham  }}</td> 
+										<td>{{ 	$lk->HoTen  }}</td>
+										<td>{{ 	$lk->TenChanThuong  }}</td>
+										<td>{{ 	$lk->NoiDungDieuTri  }}</td>
+										<td class="text-center" style="width: 155px">
 											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="nhan-vien-y-te/lich-kham/xoa/{{ $lk->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
 
 											<a href="nhan-vien-y-te/lich-kham/sua/{{ $lk->id }}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>

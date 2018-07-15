@@ -117,12 +117,7 @@
 										</div>
 
 										<div class="col-md-4">
-											<div class="form-group">
-												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Điểm số:</label>
-												<div class="col-md-5">
-													<input style="width: 50px; height: 25px" type="number" min="0" max="10" name="diemso[]" value="0">
-												</div>
-											</div>
+											
 										</div>
 
 									</div>
@@ -137,7 +132,7 @@
 											<div class="form-group">
 												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Số đường chuyền:</label>
 												<div class="col-md-5">
-													<input style="width: 50px; height: 25px" type="number" min="0" max="300" name="soduongchuyen[]" value="0">
+													<input style="width: 50px; height: 25px" type="number" min="0" max="100" name="soduongchuyen[]" value="0">
 												</div>
 											</div>
 										</div>
@@ -146,7 +141,7 @@
 											<div class="form-group">
 												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Chuyền thành công:</label>
 												<div class="col-md-5">
-													<input style="width: 50px; height: 25px" type="number" min="0" max="300" name="chuyenthanhcong[]" value="0">
+													<input style="width: 50px; height: 25px" type="number" min="0" max="100" name="chuyenthanhcong[]" value="0">
 												</div>
 											</div>
 										</div>
@@ -155,7 +150,7 @@
 											<div class="form-group">
 												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Số kiến tạo:</label>
 												<div class="col-md-5">
-													<input style="width: 50px; height: 25px" type="number" min="0" max="90" name="sokientao[]" value="0">
+													<input style="width: 50px; height: 25px" type="number" min="0" max="10" name="sokientao[]" value="0">
 												</div>
 											</div>
 										</div>
@@ -172,7 +167,7 @@
 											<div class="form-group">
 												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Số lần sút:</label>
 												<div class="col-md-5">
-													<input style="width: 50px; height: 25px" type="number" min="0" max="300" name="solansut[]" value="0">
+													<input style="width: 50px; height: 25px" type="number" min="0" max="100" name="solansut[]" value="0">
 												</div>
 											</div>
 										</div>
@@ -188,9 +183,9 @@
 
 										<div class="col-md-4">
 											<div class="form-group">
-												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Số trận giữ sạch lưới:</label>
+												<label style="line-height:10px" for="selector1" class="col-md-7 control-label">Trận giữ sạch lưới:</label>
 												<div class="col-md-5">
-													<input style="width: 50px; height: 25px" type="number" min="0" max="300" name="sotrangiusachluoi[]" value="0">
+													<input style="width: 50px; height: 25px" type="number" min="0" max="1" name="sotrangiusachluoi[]" value="0">
 												</div>
 											</div>
 										</div>

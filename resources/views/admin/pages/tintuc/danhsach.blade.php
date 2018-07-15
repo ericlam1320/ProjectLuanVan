@@ -44,9 +44,9 @@
 										<td><img height="70px" src="adminAssets/img/photos/{{ $tintuc->Hinh }}" alt=""></td>
 										<td style="width: 80px">{{ $tintuc->NgayDang }}</td>
 										<td style="width: 155px">
-											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="admin/tin-tuc/xoa/{{ $tintuc->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
+											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="admin/tin-tuc/xoa/{{$tintuc->id}}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
 
-											<a href="admin/tin-tuc/sua/{{ $tintuc->id }}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
+											<a href="admin/tin-tuc/sua/{{$tintuc->id}}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>
 										</td>
 								</tr>
 								<?php $stt++; ?>

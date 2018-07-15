@@ -23,12 +23,11 @@
 
 
             <div class="form-three widget-shadow">
-              <form method="POST" class="form-horizontal" action="nhan-vien-y-te/lich-kham/them" enctype="multipart/form-data">
+              <form method="POST" class="form-horizontal" action="nhan-vien-y-te/lich-kham/them/{{$nguoidung->id}}" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                   <div class="col-md-12">
                     <div class="form-group {{ $errors->has('phacdodieutri') ? 'has-error' : '' }}">
-
                       <label for="txtarea1" class="col-md-4 control-label">Chọn phác đồ điều trị:</label>
                       <div class="col-md-3">
                          <select style="width: 400px; height: 40px" class="control-label " name="phacdodieutri" >
@@ -37,7 +36,6 @@
                               @endforeach
                         </select>
                       </div>
-
                       <div class="col-md-5">
                         @if ($errors->has('phacdodieutri'))
                           <span class="help-block">
@@ -47,18 +45,49 @@
                           </span>
                         @endif
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="form-group {{ $errors->has('chanthuong') ? 'has-error' : '' }}">
+                      <label for="txtarea1" class="col-md-4 control-label">Chọn chấn thương:</label>
+                      <div class="col-md-3">
+                         <select style="width: 400px; height: 40px" class="control-label " name="chanthuong" >
+                              @foreach($chanthuong as $ct)
+                              <option value="{{$ct->id}}">{{$ct->TenChanThuong}}</option>
+                              @endforeach
+                        </select>
+                      </div>
+                      <div class="col-md-5">
+                        @if ($errors->has('chanthuong'))
+                          <span class="help-block">
+                            <strong style="color:#E01A22">
+                              {{ $errors->first('chanthuong') }}
+                            </strong>
+                          </span>
+                        @endif
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="form-group {{ $errors->has('cauthuchanthuong') ? 'has-error' : '' }}">
+                      <label for="txtarea1" class="col-md-4 control-label">Cầu thủ chấn thương:</label>
+                      <div class="col-md-3">
+                         <input style="width: 400px" type="text" class="form-control" disabled value="{{$nguoidung->HoTen}}" name="cauthuchanthuong">
+                      </div>
+                      <div class="col-md-5">
+                      </div>
 
                     </div>
                   </div>
 
                   <div class="col-md-12">
                     <div class="form-group {{ $errors->has('ngaykham') ? 'has-error' : '' }}">
-
                       <label for="txtarea1" class="col-md-4 control-label">Ngày khám:</label>
                       <div class="col-md-3">
-                         <input style="width: 400px; text-align: center;" type="date" class="form-control date" placeholder="Ngày sinh"  name="ngaykham" value="<?= date('Y-m-d') ?>">
+                         <input style="width: 400px; text-align: center;" type="date" class="form-control date"   name="ngaykham" value="<?= date('Y-m-d') ?>">
                       </div>
-
                       <div class="col-md-5">
                         @if ($errors->has('ngaykham'))
                           <span class="help-block">
@@ -68,13 +97,11 @@
                           </span>
                         @endif
                       </div>
-
                     </div>
                   </div>
 
                   <div class="col-md-12">
                     <div class="form-group {{ $errors->has('cakham') ? 'has-error' : '' }}">
-
                       <label for="txtarea1" class="col-md-4 control-label">Ca khám:</label>
                       <div class="col-md-3">
                         <select style="width: 400px;" class="control-label " name="cakham" >
@@ -83,7 +110,6 @@
                               <option value="chieu">Ca chiều</option>
                         </select>
                       </div>
-
                       <div class="col-md-5">
                         @if ($errors->has('cakham'))
                           <span class="help-block">
@@ -93,19 +119,16 @@
                           </span>
                         @endif
                       </div>
-
                     </div>
                   </div>
 
 
                   <div class="col-md-12">
                     <div class="form-group {{ $errors->has('diadiem') ? 'has-error' : '' }}">
-
                       <label for="txtarea1" class="col-md-4 control-label">Địa điểm:</label>
                       <div class="col-md-3">
                         <input style="width: 400px" type="text" class="form-control" placeholder="Nhập địa điểm" name="diadiem">
                       </div>
-
                       <div class="col-md-5">
                         @if ($errors->has('diadiem'))
                           <span class="help-block">
@@ -115,7 +138,6 @@
                           </span>
                         @endif
                       </div>
-
                     </div>
                   </div>
 
@@ -140,15 +162,55 @@
                     </div>
                   </div>
 
-                <div class="row">
-                  <div class="col-md-9">
+                  <div class="col-md-12">
                     <div class="form-group">
-                      <div  style="margin-bottom: -50px !important" class="col-md-8 ">
-                        <button type="submit" class="btn btn-danger pull-right">Thêm</button>
+                      <label for="txtarea1" class="col-md-4 control-label">Ngày chấn thương:</label>
+                      <div class="col-md-3">
+                        <input style="margin-top: 13px" name="ngaychanthuong" type="checkbox"/>
+                      </div>
+                      <div class="col-md-5">
                       </div>
                     </div>
                   </div>
-                </div>
+
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="txtarea1" class="col-md-4 control-label">Ngày hồi phục:</label>
+                      <div class="col-md-3">
+                        <input style="margin-top: 13px" name="ngayhoiphuc" type="checkbox"/>
+                      </div>
+                      <div class="col-md-5">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div class="col-md-12">
+                    <div class="form-group {{ $errors->has('tinhtrangchanthuong') ? 'has-error' : '' }}">
+                      <label for="txtarea1" class="col-md-4 control-label">Tình trạng chấn thương:</label>
+                      <div class="col-md-3">
+                        <input style="width: 400px" type="number" class="form-control" value="0" min="0" max="1" name="tinhtrangchanthuong">
+                      </div>
+                      <div class="col-md-5">
+                        @if ($errors->has('tinhtrangchanthuong'))
+                          <span class="help-block">
+                            <strong style="color:#E01A22">
+                              {{ $errors->first('tinhtrangchanthuong') }}
+                            </strong>
+                          </span>
+                        @endif
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <div class="row">
+                    <div class="col-md-9">
+                      <div class="form-group">
+                        <div  style="margin-bottom: -50px !important" class="col-md-8 ">
+                          <button type="submit" class="btn btn-danger pull-right">Thêm</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
               </form>
             </div>

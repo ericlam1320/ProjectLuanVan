@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Hash;
+use Auth;
 use App\NguoiDung;
 use App\CauThu;
 
@@ -214,5 +215,157 @@ class NguoiDungController extends Controller
 
     	$nguoidung->save();
     	return redirect()->route('DanhSachNguoiDung')->with('success','Cập nhật người dùng thành công');
+    }
+
+
+    public function getCapNhatAdmin(){
+        return view('admin.pages.capnhatthongtin');
+    }
+
+    public function postCapNhatAdmin(Request $request){
+
+        $idNguoiDung =  Auth::user()->id;
+        $emailNguoiDung = Auth::user()->Email;
+
+        $this->validate($request, [
+            'hoten'             =>      'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+            'tendangnhap'       =>      'required|
+                                         unique:nguoidung,username,'.$idNguoiDung.',id|
+                                         regex:/^[a-zA-Z0-9]+$/',
+
+            'email'             =>      'required|
+                                         email|
+                                         unique:nguoidung,Email,'.$emailNguoiDung.',id',
+
+            'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
+
+            'quoctich'          =>      'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+        ],
+        [
+            'hoten.required'                =>      'Không được để trống họ tên',
+            'hoten.regex'                   =>      'Vui lòng nhập chữ cái',
+
+            'tendangnhap.required'          =>      'Không được để trống tên đăng nhập',
+            'tendangnhap.unique'            =>      'Tên đăng nhập đã tồn tại',
+            'tendangnhap.regex'             =>      'Vui lòng nhập chữ thường và số',
+
+            'email.required'                =>      'Không được để trống email',
+            'email.email'                   =>      'Email không hợp lệ',
+            'email.regex'                   =>      'Email không hợp lệ',
+            'email.unique'                  =>      'Email đã tồn tại',
+
+            'quoctich.required'             =>      'Không được để trống quốc tịch',
+            'quoctich.regex'                =>      'Vui lòng nhập chữ cái',
+        ]);
+
+        $nguoidung              =       NguoiDung::find(Auth::user()->id);
+        $nguoidung->HoTen       =       $request->hoten;
+        $nguoidung->username    =       $request->tendangnhap;
+        $nguoidung->Email       =       $request->email;
+        $nguoidung->NgaySinh    =       $request->ngaysinh;
+        $nguoidung->QuocTich    =       $request->quoctich;
+
+        if($request->DoiMatKhau === 'on'){
+            $this->validate($request, [
+                'matkhauhientai'            =>      'required',
+                'matkhau'                   =>      'required',
+                'nhaplaimatkhau'            =>      'required|same:matkhau'
+            ], 
+            [
+                'matkhauhientai.required'   =>      'Bạn cần nhập mật khẩu.',
+                'matkhau.required'          =>      'Bạn cần nhập mật khẩu mới.',
+                'nhaplaimatkhau.required'   =>      'Bạn cần nhập lại mật khẩu.',
+                'nhaplaimatkhau.same'       =>      'Mật khẩu nhập lại không đúng.'
+            ]);
+
+            if(!Hash::check($request->matkhauhientai, $nguoidung->password)){
+                return back()->with('error','Mật khẩu cũ bạn nhập vào chưa đúng.');
+            }else{
+                $nguoidung->password = Hash::make($request->matkhau);
+            }
+
+        }
+
+        $nguoidung->save();
+        return redirect()->route('TrangChu_Admin')->with('success','Cập nhật thông tin cá nhân thành công');
+    }
+
+    public function getCapNhatNhanVienYTe(){
+        return view('nhanvienyte.pages.capnhatthongtin');
+    }
+
+    public function postCapNhatNhanVienYTe(Request $request){
+        $idNguoiDung =  Auth::user()->id;
+        $emailNguoiDung = Auth::user()->Email;
+
+        $this->validate($request, [
+            'hoten'             =>      'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+            'tendangnhap'       =>      'required|
+                                         unique:nguoidung,username,'.$idNguoiDung.',id|
+                                         regex:/^[a-zA-Z0-9]+$/',
+
+            'email'             =>      'required|
+                                         email|
+                                         unique:nguoidung,Email,'.$emailNguoiDung.',id',
+
+            'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
+
+            'quoctich'          =>      'required|
+                                         regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
+
+        ],
+        [
+            'hoten.required'                =>      'Không được để trống họ tên',
+            'hoten.regex'                   =>      'Vui lòng nhập chữ cái',
+
+            'tendangnhap.required'          =>      'Không được để trống tên đăng nhập',
+            'tendangnhap.unique'            =>      'Tên đăng nhập đã tồn tại',
+            'tendangnhap.regex'             =>      'Vui lòng nhập chữ thường và số',
+
+            'email.required'                =>      'Không được để trống email',
+            'email.email'                   =>      'Email không hợp lệ',
+            'email.regex'                   =>      'Email không hợp lệ',
+            'email.unique'                  =>      'Email đã tồn tại',
+
+            'quoctich.required'             =>      'Không được để trống quốc tịch',
+            'quoctich.regex'                =>      'Vui lòng nhập chữ cái',
+        ]);
+
+        $nguoidung              =       NguoiDung::find(Auth::user()->id);
+        $nguoidung->HoTen       =       $request->hoten;
+        $nguoidung->username    =       $request->tendangnhap;
+        $nguoidung->Email       =       $request->email;
+        $nguoidung->NgaySinh    =       $request->ngaysinh;
+        $nguoidung->QuocTich    =       $request->quoctich;
+
+        if($request->DoiMatKhau === 'on'){
+            $this->validate($request, [
+                'matkhauhientai'            =>      'required',
+                'matkhau'                   =>      'required',
+                'nhaplaimatkhau'            =>      'required|same:matkhau'
+            ], 
+            [
+                'matkhauhientai.required'   =>      'Bạn cần nhập mật khẩu.',
+                'matkhau.required'          =>      'Bạn cần nhập mật khẩu mới.',
+                'nhaplaimatkhau.required'   =>      'Bạn cần nhập lại mật khẩu.',
+                'nhaplaimatkhau.same'       =>      'Mật khẩu nhập lại không đúng.'
+            ]);
+
+            if(!Hash::check($request->matkhauhientai, $nguoidung->password)){
+                return back()->with('error','Mật khẩu cũ bạn nhập vào chưa đúng.');
+            }else{
+                $nguoidung->password = Hash::make($request->matkhau);
+            }
+
+        }
+
+        $nguoidung->save();
+        return redirect()->route('TrangChu_NhanVienYTe')->with('success','Cập nhật thông tin cá nhân thành công');
     }
 }
