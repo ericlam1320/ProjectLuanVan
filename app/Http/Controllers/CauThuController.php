@@ -17,6 +17,8 @@ use App\ToaThuoc;
 use App\Thuoc_ToaThuoc;
 use App\Thuoc;
 use App\TinTuc;
+use App\ThongBao;
+use App\GiaoTrinhTap;
 
 class CauThuController extends Controller
 {
@@ -184,6 +186,7 @@ class CauThuController extends Controller
     #------------------------------------------------------------------------------------------------------------#
 
     public function getLichLuyenTap($tenCauThu){
+        $GiaoTrinhTap = GiaoTrinhTap::all();
         $idNguoiDung = NguoiDung::select('id')->where('username', $tenCauThu)->first();
         $KiemTraCauThu = CauThu::select('id')->where('idNguoiDung', $idNguoiDung->id)->first();
         $idCauThu = $KiemTraCauThu->id;
@@ -247,7 +250,7 @@ class CauThuController extends Controller
                                 WHERE cauthu.id = '$idCauThu' AND lichluyentap.NgayLuyenTap = '$ngay'
                             ");
         }
-    	return view('cauthu.pages.lichluyentap', compact('tenCauThu', 'NoiDungLuyenTap', 'LichLuyenTap', 'NgayCauThuTap'));
+    	return view('cauthu.pages.lichluyentap', compact('GiaoTrinhTap', 'tenCauThu', 'NoiDungLuyenTap', 'LichLuyenTap', 'NgayCauThuTap'));
     }
 
 
@@ -286,7 +289,7 @@ class CauThuController extends Controller
             $idTranDau = $TranDauTiepTheo[0]->id;
             $DoiHinhChienThuat = DB::SELECT("
                                                 SELECT
-                                                doihinh.TenDoiHinh,
+                                                doihinh.*,
                                                 chienthuat.TenChienThuat,
                                                 chienthuat.NoiDungChienThuat,
                                                 trandau.VongDau
@@ -302,7 +305,8 @@ class CauThuController extends Controller
                                         cauthu.SoAo,
                                         cauthu.id,
                                         vitri.TenViTri,
-                                        doihinh.TenDoiHinh
+                                        doihinh.TenDoiHinh,
+                                        vitri_cauthu_trandau.NhiemVuCauThu
                                         FROM
                                         nguoidung
                                         LEFT JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
@@ -311,6 +315,7 @@ class CauThuController extends Controller
                                         INNER JOIN trandau ON vitri_cauthu_trandau.idTranDau = trandau.id
                                         INNER JOIN doihinh ON trandau.idDoiHinh = doihinh.id
                                         WHERE trandau.id = '$idTranDau'
+                                        ORDER BY vitri_cauthu_trandau.id
                                     ");
             $VaiTroCauThu = DB::SELECT("
                                         SELECT
@@ -412,7 +417,8 @@ class CauThuController extends Controller
     #------------------------------------------------------------------------------------------------------------#
 
     public function getThongBao($tenCauThu){
-        return view('cauthu.pages.thongbao', compact('tenCauThu'));
+        $ThongBao = ThongBao::with('NguoiDung')->orderBy('NgayThongBao', 'DESC')->get();
+        return view('cauthu.pages.thongbao', compact('tenCauThu', 'ThongBao'));
     }
 
     public function getYeuCau($tenCauThu){

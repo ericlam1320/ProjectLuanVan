@@ -38,7 +38,7 @@
 									</figure>
 									</div> 
 									
-									<p>{{ $CauLacBo->LichSu }}</p>
+									<p>{!! $CauLacBo->LichSu !!}</p>
 									<ul>
 										<li><a href="#"><b>Năm thành lập: </b>	{{ date('Y', strtotime($CauLacBo->NamThanhLap)) }}  </a></li>
 										<li><a href="#"><b>Biệt danh: </b>	{{ $CauLacBo->BietDanh }} </a></li>

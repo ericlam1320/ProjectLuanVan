@@ -196,66 +196,59 @@ body{
 
 <div class="kode-content">
 	<div class="ft-match-slider">
-
 		<div class="kode_player_wraper">
-			
 			<div id="page-wrapper">
 				<div class="main-page">
+
 					<div class="inbox-page">
-						<h4>Hôm nay</h4>
+
+						@if (session('thongbao'))
+						<div class="alert alert-success">{{ session('thongbao') }}</div>
+						@endif
+						@if (session('loi'))
+						<div class="alert alert-danger">{{ session('loi') }}</div>
+						@endif
+
+						<h4 class="text-right"><a class="btn btn-success" href="huan-luyen-vien/thong-bao/them">Thêm thông báo</a></h4>
 						
-						@for ($i=1;$i<=4;$i++)
+						@foreach ($ThongBao as $thongbao)
 						<div class="inbox-row widget-shadow" id="accordion" role="tablist" aria-multiselectable="true">
-							<div class="mail"><img src="./Client/images/user.png" alt=""/></div>
-							<div class="mail mail-name"> <h6>Huấn luyện viên J.Klopp</h6> </div>
-							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $i }}" aria-expanded="true" aria-controls="collapse{{ $i }}">
-								<div class="mail"><p>Thông báo</p></div>
+							<div class="mail"><img style="height:30px; width:30px" src="./../Client/images/players/{{$thongbao->NguoiDung->HinhDaiDien}}" alt=""/></div>
+							<div class="mail mail-name"> <h6>{{ $thongbao->NguoiDung->HoTen }}</h6> </div>
+							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $thongbao->id }}" aria-expanded="true" aria-controls="collapse{{ $thongbao->id }}">
+								<div class="mail"><p>{{ $thongbao->TieuDe }}</p></div>
 							</a>
-							<div class="mail-right"><p><a href=""><i class="fa fa-trash-o"></i></a></p></div>
-							<div class="mail-right"><p><a href=""><i class="fa fa-edit"></i></a></p></div>
-							<div class="mail-right"><p>01/06/2018</p></div>
+							<div class="mail-right"><p><a href="huan-luyen-vien/thong-bao/xoa/{{$thongbao->id}}" onClick="return XacNhanXoa('Bạn có chắc muốn xóa thông báo này?')"><i class="fa fa-trash-o"></i></a></p></div>
+							<div class="mail-right"><p><a href="huan-luyen-vien/thong-bao/sua/{{$thongbao->id}}"><i class="fa fa-edit"></i></a></p></div>
+							<div class="mail-right"><p>{{date('d/m/Y', strtotime($thongbao->NgayThongBao))}}</p></div>
 							<div class="clearfix"> </div>
-							<div id="collapse{{ $i }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+							<div id="collapse{{ $thongbao->id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 								<div class="mail-body">
-									<p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor.</p>
+									<p>{{ $thongbao->NoiDung }}</p>
 								</div>
 							</div>
 						</div>
-						@endfor
-
-					</div>
-
-					<div class="inbox-page row">
-						<h4>Các thông báo cũ</h4>
-						
-						@for ($i=1;$i<=5;$i++)
-						<div class="inbox-row widget-shadow">
-							<div class="mail"><img src="./Client/images/user.png" alt=""/></div>
-							<div class="mail mail-name"><h6> Huấn luyện viên J.Klopp</h6></div>
-							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $i+20 }}" aria-expanded="true" aria-controls="collapse{{ $i+20 }}">
-								<div class="mail"><p>Mollis nullam quis risus ornare vel leo</p></div>
-							</a>
-							<div class="mail-right"><p><a href=""><i class="fa fa-trash-o"></i></a></p></div>
-							<div class="mail-right"><p><a href=""><i class="fa fa-edit"></i></a></p></div>
-							<div class="mail-right"><p>30/05/2018</p></div>
-
-							<div class="clearfix"> </div>
-							<div id="collapse{{ $i+20 }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingnine">
-								<div class="mail-body">
-									<p>Skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.</p>
-								</div>
-							</div>
-						</div>
-						@endfor
+						@endforeach
 
 					</div>
 				</div>
-
 			</div>
-
 		</div>
-
 	</div>
 </div>
 
+@section('script')
+	<script type="text/javascript">
+		function XacNhanXoa(message){
+			if(window.confirm(message)){
+				return true;
+			}
+			return false;
+		}
+		$(document).ready(function() {
+
+			$('div.alert').delay(5000).slideUp();
+			
+		})
+	</script>
 @stop

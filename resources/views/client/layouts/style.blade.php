@@ -39,6 +39,7 @@
 			<link type='image/x-icon' href='Client/images/favicon.ico' rel='shortcut icon' />
 			<!--RESPONCIVE CSS-->
 			<link rel="stylesheet" href="Client/css/responsive.css">
+			<script src="Client/js/jquery.js"></script>
 			@yield ('style')
 
 	</head>

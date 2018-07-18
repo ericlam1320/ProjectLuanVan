@@ -360,7 +360,7 @@
                           @endif
                       </label>
                       <textarea class="form-control " rows="8" name="luocsucauthu" id="luocsucauthu">
-                        {{$cauthu->LuocSuCauThu}}"
+                        {{$cauthu->LuocSuCauThu}}
                       </textarea>
                       <script type="text/javascript">CKEDITOR.replace( 'luocsucauthu' );</script>
                     </div>

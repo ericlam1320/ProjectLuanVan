@@ -81,7 +81,7 @@
 				</li>
 				<li><a href="#">Quản lý cầu thủ</a>
 					<ul>
-						<li><a href="huan-luyen-vien/suc-khoe-cau-thu">Sức khỏe cầu thủ</a></li>
+						<li><a href="huan-luyen-vien/suc-khoe-cau-thu">Tình hình cầu thủ</a></li>
 						<li><a href="huan-luyen-vien/vai-tro-cau-thu">Vai trò cầu thủ</a></li>
 						<li><a href="huan-luyen-vien/vi-tri-cau-thu">Vị trí cầu thủ</a></li>
 						<li><a href="huan-luyen-vien/ky-nang-cau-thu">Kỹ năng cầu thủ</a></li>
@@ -117,7 +117,7 @@
 					</li>
 					<li class="menu-item kode-parent-menu"><a href="#">Quản lý cầu thủ</a>
 						<ul class="dl-submenu">
-							<li><a href="huan-luyen-vien/suc-khoe-cau-thu">Sức khỏe cầu thủ</a></li>
+							<li><a href="huan-luyen-vien/suc-khoe-cau-thu">Tình hình cầu thủ</a></li>
 							<li><a href="huan-luyen-vien/vai-tro-cau-thu">Vai trò cầu thủ</a></li>
 							<li><a href="huan-luyen-vien/vi-tri-cau-thu">Vị trí cầu thủ</a></li>
 							<li><a href="huan-luyen-vien/ky-nang-cau-thu">Kỹ năng cầu thủ</a></li>

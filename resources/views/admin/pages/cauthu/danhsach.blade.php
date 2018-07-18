@@ -43,7 +43,17 @@
 									<td>{{ $ct->NguoiDung->HoTen }}</td>
 									<td>{{ $ct->ChieuCao }}</td>
 									<td>{{ $ct->CanNang }}</td>
-									<td class="text-center">{{ $ct->ViTriSoTruong }}</td>
+									<td class="text-center">
+											@if 		($ct->ViTriSoTruong == 'hauve')
+																{{ 'Hậu vệ' }}
+											@elseif 	($ct->ViTriSoTruong == 'thumon')
+																{{ 'Thủ môn' }}
+											@elseif 	($ct->ViTriSoTruong == 'tienve')
+																{{ 'Tiền vệ' }}
+											@elseif 	($ct->ViTriSoTruong == 'tiendao')
+																{{ 'Tiền đạo' }}
+											@endif 
+									</td>
 									<td class="text-center">{{ $ct->SoAo }}</td>
 									<td><img height="70px" src="./Client/images/players/{{ $ct->NguoiDung->HinhDaiDien }}" alt=""></td>
 									<td class="text-center" style="width: 145px">

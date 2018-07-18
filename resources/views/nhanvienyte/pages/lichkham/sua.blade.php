@@ -28,22 +28,18 @@
 
                   <div class="col-md-12">
                     <div class="form-group {{ $errors->has('phacdodieutri') ? 'has-error' : '' }}">
-
                       <label for="txtarea1" class="col-md-4 control-label">Chọn phác đồ điều trị:</label>
                       <div class="col-md-3">
                          <select style="width: 400px; height: 40px" class="control-label " name="phacdodieutri" >
                               @foreach($phacdodieutri as $pddt)
-
                               <option value="{{$pddt->id}}"
                                     @if($lichkham->idPhacDoDieuTri === $pddt->id)
                                         {{'Selected'}}
                                     @endif
                                 >{{$pddt->TrinhTuThucHien}}</option>
-
                               @endforeach
                         </select>
                       </div>
-
                       <div class="col-md-5">
                         @if ($errors->has('phacdodieutri'))
                           <span class="help-block">
@@ -53,7 +49,6 @@
                           </span>
                         @endif
                       </div>
-
                     </div>
                   </div>
 

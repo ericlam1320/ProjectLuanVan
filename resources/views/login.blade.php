@@ -36,7 +36,7 @@
 
     <div class="background"></div>
 
-    <div class="crest"></div>
+    <div class="crest"  onclick="history.back(-1)"></div>
 
     <div class="boxContainer cms">
 
@@ -56,10 +56,10 @@
             <div class="inputFields">
 
 
-                {{ csrf_field() }}
+                @csrf
 
                 <label for="username">Tên đăng nhập</label>
-                <input type="text" id="username" name="username" value=""  style="margin-bottom:4px"/>
+                <input type="text" id="username" name="username" value="{{old('username')}}"  style="margin-bottom:4px"/>
                 @if ($errors->has('username'))
                 <span class="help-block" style="margin-bottom: 10px; margin-left: 170px"><strong style="font-size:14px; color:#E01A22">{{ $errors->first('username') }}</strong></span>
                 @endif
@@ -67,7 +67,7 @@
                 <br>
 
                 <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password" style="margin-bottom:4px" />
+            <input type="password" id="password" name="password" style="margin-bottom:4px" value="{{old('password')}}"/>
                 @if ($errors->has('password'))
                 <span class="help-block" style="margin-bottom: 10px; margin-left: 170px"><strong style="font-size:14px; color:#E01A22">{{ $errors->first('password') }}</strong></span>
                 @endif

@@ -1,6 +1,5 @@
 			<!-- jQuery (necessary for JavaScript plugins) -->
 			<!--JavaScript-->
-			<script src="Client/js/jquery.js"></script>
 			<!--BOOTSTRAP JavaScript-->
 			<script src="Client/js/bootstrap.min.js"></script>
 			<!--BOOTSTRAP PROGRESS BAR JavaScript-->

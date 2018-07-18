@@ -53,6 +53,8 @@ td.disabled a {
 
 			<a href="huan-luyen-vien/lich-luyen-tap/them-cau-thu-tap" class="btn btn-success"><i class="fa fa-plus"></i> Thêm cầu thủ luyện tập</a>
 
+			<a href="huan-luyen-vien/luyen-tap/danh-sach" class="btn btn-danger"><i class="fa fa-check"></i> Đánh giá quá trình tập</a>
+
 			<div class="ftb-tabs-wrap">
 				<div class="tab-content">
 

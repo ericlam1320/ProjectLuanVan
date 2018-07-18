@@ -5,12 +5,107 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\GiaiDau;
+use App\CauLacBo;
 use App\BangXepHang;
 use App\TiSo;
 use App\CauLacBo_GiaiDau;
 
 class GiaiDauController extends Controller
 {
+
+
+
+
+    #======================================================================================
+    #     Thêm các Clb của 1 giải đấu -> để khi thêm giải đấu thì bxh sẽ được tạo mới
+    #======================================================================================
+
+    public function getThem_CauLacBo_GiaiDau($idGiaiDau){
+
+        $CauLacBo   = CauLacBo::all() ;
+        $GiaiDau    = GiaiDau::findOrFail($idGiaiDau);
+
+        return view('admin.pages.them_caulacbo_giaidau', compact('idGiaiDau', 'GiaiDau', 'CauLacBo'));
+
+    }
+
+    public function postThem_CauLacBo_GiaiDau($idGiaiDau, Request $request){
+
+        if($request->clb[0] !== 'ChonTatCa'){
+
+            if(count($request->clb) < 20){
+                return back()->with('error', 'Một giải đấu cần có ít nhất 20 câu lac bộ.');
+            }
+
+        }
+
+        $KiemTraTonTaiGiaiDau = CauLacBo_GiaiDau::where('idGiaiDau', $idGiaiDau)->first();
+        if(isset($KiemTraTonTaiGiaiDau)){
+            return back()->with('error', 'Bạn đã thêm các câu lạc bộ cho giải này.');
+        }
+
+        $CauLacBo   = CauLacBo::all() ;
+        if($request->clb[0] === 'ChonTatCa'){
+            foreach($CauLacBo as $clb){
+
+                $clb_giaidau                    = new CauLacBo_GiaiDau;
+                $clb_giaidau->idGiaiDau         = $idGiaiDau;
+                $clb_giaidau->idCauLacBo        = $clb->id; 
+                $clb_giaidau->save();
+
+                $bxh_clb_giaidau                = new BangXepHang;
+                $bxh_clb_giaidau->SoTran        = 0;
+                $bxh_clb_giaidau->SoTranThang   = 0;
+                $bxh_clb_giaidau->SoTranHoa     = 0;
+                $bxh_clb_giaidau->SoTranThua    = 0;
+                $bxh_clb_giaidau->BanThang      = 0;
+                $bxh_clb_giaidau->BanThua       = 0;
+                $bxh_clb_giaidau->HieuSo        = 0;
+                $bxh_clb_giaidau->TheVang       = 0;
+                $bxh_clb_giaidau->TheDo         = 0;
+                $bxh_clb_giaidau->ChiSoFairplay = 0;
+                $bxh_clb_giaidau->Diem          = 0;
+                $bxh_clb_giaidau->idGiaiDau     = $idGiaiDau;
+                $bxh_clb_giaidau->idCauLacBo    = $clb->id;
+                $bxh_clb_giaidau->save();
+
+            }
+        }
+        else{
+            foreach($request->clb as $clb){
+
+                $clb_giaidau                    = new CauLacBo_GiaiDau;
+                $clb_giaidau->idGiaiDau         = $idGiaiDau;
+                $clb_giaidau->idCauLacBo        = $clb; 
+                $clb_giaidau->save();
+
+                $bxh_clb_giaidau                = new BangXepHang;
+                $bxh_clb_giaidau->SoTran        = 0;
+                $bxh_clb_giaidau->SoTranThang   = 0;
+                $bxh_clb_giaidau->SoTranHoa     = 0;
+                $bxh_clb_giaidau->SoTranThua    = 0;
+                $bxh_clb_giaidau->BanThang      = 0;
+                $bxh_clb_giaidau->BanThua       = 0;
+                $bxh_clb_giaidau->HieuSo        = 0;
+                $bxh_clb_giaidau->TheVang       = 0;
+                $bxh_clb_giaidau->TheDo         = 0;
+                $bxh_clb_giaidau->ChiSoFairplay = 0;
+                $bxh_clb_giaidau->Diem          = 0;
+                $bxh_clb_giaidau->idGiaiDau     = $idGiaiDau;
+                $bxh_clb_giaidau->idCauLacBo    = $clb;
+                $bxh_clb_giaidau->save();
+
+            }
+        }
+
+        return redirect('admin/giai-dau/danh-sach')->with('success', 'Thêm danh sách câu lạc bộ vào giải đấu thành công.');
+    }
+
+
+
+
+
+
     public function getDanhSach(){
     	$giaidau = GiaiDau::all();
     	return view('admin.pages.giaidau.danhsach', compact('giaidau'));

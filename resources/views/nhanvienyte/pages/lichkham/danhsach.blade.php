@@ -40,7 +40,15 @@
 								<tr class="odd gradeX">
 										<td>{{ 	$stt }}</td>
 										<td>{{  date('d-m-Y',strtotime($lk->NgayKham))}}</td> 
-										<td>{{ 	$lk->CaKham  }}</td> 
+										<td>
+											@if($lk->CaKham == 'sang')
+												{{'Ca Sáng'}}
+											@elseif($lk->CaKham == 'trua')
+												{{'Ca Trưa'}}
+											@elseif($lk->CaKham == 'chieu')
+												{{'Ca Chiều'}}
+											@endif
+										</td> 
 										<td>{{ 	$lk->HoTen  }}</td>
 										<td>{{ 	$lk->TenChanThuong  }}</td>
 										<td>{{ 	$lk->NoiDungDieuTri  }}</td>

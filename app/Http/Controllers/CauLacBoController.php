@@ -112,13 +112,13 @@ class CauLacBoController extends Controller
 
 
     	if($request->hasFile('hinhanhcaulacbo', 'hinhanhcaulacbo_lon')){
+
     		$img = $request->file('hinhanhcaulacbo');
+            $img->move('Client/images/logos/', time().$img->getClientOriginalName());
+            $caulacbo->HinhAnhCauLacBo =  time().$img->getClientOriginalName();
+    		
     		$img2 = $request->file('hinhanhcaulacbo_lon');
-
-    		$img->move('Client/images/logos/', time().$img->getClientOriginalName());
     		$img2->move('Client/images/logos/', time().$img2->getClientOriginalName());
-
-    		$caulacbo->HinhAnhCauLacBo =  time().$img->getClientOriginalName();
     		$caulacbo->HinhAnhCauLacBo_Lon =  time().$img2->getClientOriginalName();
     	}
     	else{

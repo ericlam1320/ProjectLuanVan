@@ -7,6 +7,8 @@ Liverpool FC - Sắp xếp đội hình chiến thuật
 @section ("style")
 <script src="Client/js/Chart.bundle.min.js"></script>
 <script src="Client/js/Chart.min.js"></script>
+<script src="js/jquery.dd.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="dd.css" />
 <style type="text/css" media="screen">
 .kode_ply_table .kode_ply_two > td {
 	padding: 5px;
@@ -118,7 +120,7 @@ table.kode_ply_table .kode_ThongKe:hover td{
 
 							<div class="ftb-result1 ftb-result2">
 								<div class="ftb-result-logo">
-									<a><img src="./Client/images/logos/{{ $TranDauMuonSapXep[1]->HinhAnhCauLacBo_lon }}" alt="""></a>
+									<a><img src="./Client/images/logos/{{ $TranDauMuonSapXep[1]->HinhAnhCauLacBo_lon }}" alt=""></a>
 								</div>
 								<div class="text">
 									<h6><a>{{ $TranDauMuonSapXep[1]->TenDayDu }}</a></h6>
@@ -434,9 +436,8 @@ table.kode_ply_table .kode_ThongKe:hover td{
 								<div class="form-group {{ $errors->has('DoiHinh') ? 'has-error' : '' }}">
 									<div class="col-sm-12">
 										<select name="DoiHinh" class="form-control" id="DoiHinh">
-											<option value="ChuaChon">Chọn đội hình</option>
 											@foreach ($DoiHinh as $doihinh)
-											<option value="{{$doihinh->id}}">
+											<option value="{{$doihinh->id}}" {{old('DoiHinh') == $doihinh->id ? "selected" : ""}}>
 												{{ $doihinh->TenDoiHinh }}
 											</option>
 											@endforeach
@@ -479,12 +480,67 @@ table.kode_ply_table .kode_ThongKe:hover td{
 													<td>
 														@for ($i=0; $i<11; $i++)
 														@if ($dong===$ViTriDoiHinh[$i]->ChiSoDong && $cot===$ViTriDoiHinh[$i]->ChiSoCot)
-															<select name="CauThu[]"  class="form-control">
-																<option value="ChonCauThu">Chọn cầu thủ</option>
+															<select name="CauThu[]"  class="form-control" id="CauThu{{$i}}">															
+																
 																@foreach ($CauThuDuocRaSan as $cauthu)
-																<option value="{{ $cauthu->id }}">{{ $cauthu->HoTen }} - {{ $cauthu->ViTriSoTruong }}</option>
+																@if($ViTriDoiHinh[$i]->id===$cauthu->ViTriID)
+																@if(isset($cauthu->ViTriID))
+																<option 
+																	value="{{ $cauthu->id }}"
+																	data="{{ $cauthu->id }}"
+																	title="Client/images/arrows/{{$cauthu->ChiSoPhongDo}}_.png"
+																>
+
+																	{{ $cauthu->HoTen }} 
+
+																	{{-- Kiểm tra chấn thương --}}
+																	@if(!empty($CauThuBiChanThuong))
+																	@foreach($CauThuBiChanThuong as $chanthuong)
+																		@if($chanthuong->id === $cauthu->id)
+																			{{ ' ( chấn thương)' }}
+																		@endif
+																	@endforeach
+																	@endif
+																	
+																	{{-- Kiểm tra Trận đấu trước --}}
+																	@if(!empty($ThePhatCauThu))
+																	@foreach($ThePhatCauThu as $thephat)
+																		@if($thephat->idCauThu === $cauthu->id && $thephat->TongTheDo != 0)
+																			{{ ' ( thẻ đỏ)' }}
+																		@endif
+																	@endforeach
+																	@endif
+
+																	@if(!empty($ThePhatCauThu))
+																	@foreach($ThePhatCauThu as $thephat)
+																		@if($thephat->idCauThu === $cauthu->id && $thephat->TongTheVang == 2)
+																			{{ ' ( 2 thẻ vàng)' }}
+																		@endif
+																	@endforeach
+																	@endif
+																	
+																	{{-- Kiểm tra tổng thẻ phạt tất cả Trận đấu clb đá --}}
+																	
+																	<!-- @if(!empty($TongThePhatCauThu))
+																	@foreach($TongThePhatCauThu as $thephat)
+																		@if($thephat->idCauThu === $cauthu->id && $thephat->TongTheVang != 0)
+																			{{ '( '. $thephat->TongTheVang.' thẻ vàng)' }}
+																		@endif
+																	@endforeach
+																	@endif -->
+																	
+															
+																	
+
+																</option>
+																@else
+																<option value="ChonCauThu">Chọn cầu thủ</option>
+																@endif
+																@endif
 																@endforeach
+																
 															</select>
+															<input class="form-control" type="text" name="NhiemVuCauThu[]" value="Đá tổng lực" placeholder="Nhiệm vụ">
 															{{ $ViTriDoiHinh[$i]->TenViTri }}
 														@endif
 														@endfor
@@ -499,7 +555,7 @@ table.kode_ply_table .kode_ThongKe:hover td{
 								</table>
 							</div>
 
-							<div class="col-md-6" style="margin-top:20px">
+							<div class="col-md-6" style="margin-top:40px">
 
 								<div class="ftb-tabs-wrap wrap_3">
 									<div class="ftb_tabs_drop">
@@ -509,12 +565,25 @@ table.kode_ply_table .kode_ThongKe:hover td{
 										@for ($i=11;$i<18;$i++)
 										<tr class="kode_ply_two kode_ThongKe">
 											<td>
-												<select name="CauThu[]" class="form-control">
-													<option value="ChonCauThu">Chọn cầu thủ dự bị</option>
-													@foreach ($CauThuDuocRaSan as $cauthu)
-													<option value="{{ $cauthu->id }}">{{ $cauthu->HoTen }}</option>
-													@endforeach
-												</select>
+											<select name="CauThu[]" class="form-control">
+												<option value="ChonCauThu">Chọn cầu thủ dự bị</option>
+												@foreach ($CauThuDuBiDanhSach as $cauthu)
+													@if(!empty($CauThuDuBi[$i]))
+													<option 
+														value="{{ $cauthu->id }}"
+														{{  $cauthu->id === $CauThuDuBi[$i]->idCauThu ? 'selected' : '' }}
+													>
+														{{ $cauthu->HoTen }}
+													</option>
+													@else
+													<option 
+														value="{{ $cauthu->id }}"
+													>
+														{{ $cauthu->HoTen }}
+													</option>
+													@endif
+												@endforeach
+											</select>
 											</td>
 										</tr>
 										@endfor
@@ -523,7 +592,7 @@ table.kode_ply_table .kode_ThongKe:hover td{
 
 							</div>
 
-							<div class="col-md-6" style="margin-top:20px">
+							<div class="col-md-6" style="margin-top:40px">
 
 								<div class="ftb-tabs-wrap wrap_3">
 									<div class="ftb_tabs_drop">
@@ -542,8 +611,13 @@ table.kode_ply_table .kode_ThongKe:hover td{
 												@if($VaiTroCauThu[$i]->TenVaiTro != 'Dự bị')
 												<select name="CauThuNhanVaiTro[]" class="form-control">
 													<option value="ChonCauThuNhanVaiTro">Chọn cầu thủ</option>
-													@foreach ($CauThuDuocRaSan as $cauthu)
-													<option value="{{ $cauthu->id }}">{{ $cauthu->HoTen }}</option>
+													@foreach ($CauThuDuBiDanhSach as $cauthu)
+													<option 
+														value="{{ $cauthu->id }}"
+														{{ $VaiTroCauThuDB[$i]->idCauThu === $cauthu->id ? 'selected' : '' }}
+													>
+														{{ $cauthu->HoTen }}
+													</option>
 													@endforeach
 												</select>
 												@endif
@@ -578,22 +652,58 @@ table.kode_ply_table .kode_ThongKe:hover td{
 
 		$(document).ready(function() {
 			$('div.alert').delay(10000).slideUp();
+			for(var i=0; i<11; i++){
+				$("body select#CauThu"+i).on('change', function(){ console.log(i); });
+				try {
+					$("body select#CauThu"+i).msDropDown();
+				} catch(e) {
+					alert(e.message);
+				}
+			}
 		});
 
 		$('#DoiHinh').on('change', function(e){
 	        var doihinhID = e.target.value;
 	        var trandauID = {{ $idTranDau }};
 	        $.ajax({
-	            url: 'http://localhost/LuanVan/public/huan-luyen-vien/doi-hinh-chien-thuat/ajax/sap-xep/'+doihinhID+'/'+trandauID,
+	            url: 'http://localhost:8080/LuanVan/public/huan-luyen-vien/doi-hinh-chien-thuat/ajax/sap-xep/'+doihinhID+'/'+trandauID,
 	            type: 'get',
 	            dataType: 'json',
 	            data: {idDoiHinh: doihinhID, idTranDau: trandauID},
 	            success: function(data){
 	                $('#formSapXepDoiHinhChienThuat').html(data.DoiHinh);
+					for(var i=0; i<11; i++){
+						$("body select#CauThu"+i).on('change', function(){ console.log(i); });
+						try {
+							$("body select#CauThu"+i).msDropDown();
+						} catch(e) {
+							alert(e.message);
+						}
+					}
 	            }
 	        });
-	    })
-	    
+	    });
+
+
+
+		// for(var i=0; i<11; i++){
+		// 	$("#CauThu"+i).on("change", function(e) {
+				
+		// 		$("#CauThu"+i+ " option").show(); 
+		// 		$("#CauThu"+i+ " option:selected").each(function() {
+		// 			console.log(this);
+		// 			var optionSelected = this;
+		// 			var playerID = $(this).attr("data");
+		// 			$("option." + playerID).each(function() {
+		// 				if(this != optionSelected) {
+		// 					$(this).hide();
+		// 				}
+		// 			});
+		// 		});
+
+		// 	});
+		// }
+	
 	</script>
 
 @stop

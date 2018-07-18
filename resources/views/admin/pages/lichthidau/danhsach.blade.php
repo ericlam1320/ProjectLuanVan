@@ -25,12 +25,12 @@
 							<thead> 
 								<tr> 
 									<th>#</th> 
+									<th class="text-center">Mùa giải</th>
 									<th class="text-center">Vòng</th> 
 									<th class="text-center">Đội A</th> 
 									<th class="text-center">Đội B</th>
 									<th class="text-center">Ngày thi đấu</th>
 									<th class="text-center">Sân vận động</th>
-									
 									<th class="text-center">Thuộc tính</th>
 								</tr> 
 							</thead> 
@@ -41,6 +41,11 @@
 		
 								<tr class="odd gradeX">
 										<td>{{ $stt }}</td>
+										<td>
+											{{ $lichthidau[$i]->TenGiaiDau  }} 
+											{{ date('Y',strtotime($lichthidau[$i]->NamBatDauMuaGiai )) }} - 
+											{{ date('Y',strtotime($lichthidau[$i]->NamKetThucMuaGiai )) }} 
+										</td>
 										<td style="width: 35px" class="text-center">{{ $lichthidau[$i]->VongDau }}</td>
 										<td ><img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $lichthidau[$i]->HinhAnhCauLacBo }}" alt=""> &nbsp;{{ $lichthidau[$i]->TenDayDu }}</td>
 										<td ><img height="25" style="margin:0px 5px 0px 15px" src="Client/images/logos/{{ $lichthidau[$i+1]->HinhAnhCauLacBo }}" alt=""> &nbsp;{{ $lichthidau[$i+1]->TenDayDu }}</td>
@@ -62,12 +67,14 @@
 											@endif
 
 											
-											
+											@if(date(strtotime($lichthidau[$i]->NgayThiDau)) < strtotime($date))
 											@if (!isset($lichthidau[$i]->TiSo))
 											<a class="btn btn-success " href="admin/lich-thi-dau/cap-nhat-ti-so/{{$lichthidau[$i]->id}} " title="Cập nhật tỉ số" ><i class="fa fa-edit" ></i> Cập nhật tỉ số</a>
 											@else
 											<a class="btn btn-success disabled" onclick="return false;" title="Cập nhật tỉ số" ><i class="fa fa-edit" ></i> Cập nhật tỉ số</a>
 											@endif
+											@endif
+
 										</td>
 								</tr>
 						

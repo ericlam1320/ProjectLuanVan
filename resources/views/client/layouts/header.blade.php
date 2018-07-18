@@ -29,41 +29,27 @@
 							<ul class="login-meta">
 
 								<li>
-									<!-- Large modal -->
 									<a type="button" class="btn btn-primary" href="dang-nhap">Đăng nhập</a>
-
-									<!-- <div class="modal fade bs-example-modal-lg media01" tabindex="-1" role="login" aria-labelledby="login">
-									  <div class="modal-dialog modal-lg" role="document">
-										<div class="modal-content">
-											<div class="kode_modal_body">
-												<a href="#"><i class="fa fa-user"></i></a>
-												<h2>Đăng nhập</h2>
-												<form>
-													<div class="kode_modal_field">
-														<input type="text" name="username" placeholder="Tên đăng nhập" required>
-													</div>
-													<div class="kode_modal_field">
-														<input type="text" name="password" placeholder="Mật khẩu" required>
-													</div>
-													<div class="kode_model_btn">
-														<button>Đăng nhập</button>
-													</div>
-												</form>
-											</div>
-										</div>
-									  </div>
-									</div> -->
-
 								</li>
 
 							</ul>
 
-						  <div id="show-class"><form><input type="text" placeholder="Tìm kiếm"></form></div>
+							{{-- Tìm kiếm --}}
+						  <div id="show-class">
+								<form action="./tim-kiem" method="GET">
+									<input type="text" placeholder="Tìm kiếm" name="key">
+								</form>
+							</div>
+
 						  <ul class="social-style3">
 							  <li><a href="https://www.facebook.com/LiverpoolFC"><i class="fa fa-facebook"></i></a></li>
 							  <li><a href="https://twitter.com/lfc"><i class="fa fa-twitter"></i></a></li>
 							  <li><a href="https://www.linkedin.com/company/liverpool-football-club"> <i class="fa fa-linkedin"></i></a></li>
-							  <li><a id="ftb_btn_link" ><i class="fa fa-search"></i></a></li>
+								<li>
+									<a id="ftb_btn_link" >
+										<i class="fa fa-search"></i>
+									</a>
+								</li>
 						  </ul>
 					  </div>
 					</div>

@@ -114,6 +114,7 @@ Liverpool FC - {{  $tenCauThu  }}
 							</table>
 						</div>	
 					</div>
+
 					@else
 					<div class="alert alert-danger">Chưa có thông tin về danh sách thi đấu !</div>
 					@endif
@@ -123,7 +124,22 @@ Liverpool FC - {{  $tenCauThu  }}
 							<div class="ftb_tabs_drop">
 								<h5 >Đội hình ( {{ $DoiHinhChienThuat[0]->TenDoiHinh }})</h5>
 							</div>
-							<img src="./Client/images/formations/{{ $DoiHinhChienThuat[0]->TenDoiHinh }}.png" alt=""  width="570" style="max-height:620px">
+							<img src="./Client/images/formations/{{ $DoiHinhChienThuat[0]->HinhAnhDoiHinh }}" alt=""  width="570" style="max-height:620px">
+						</div>	
+					</div>
+
+					<div class="col-md-6">
+						<div class="ftb-tabs-wrap wrap_3">
+							<div class="ftb_tabs_drop">
+								<h5 >Nhiệm vụ trong trận ( {{ Auth::user()->HoTen }})</h5>
+							</div>
+							<div style="padding: 20px; margin-top: 50px">
+								@foreach ($CauThuRaSan as $cauthu)
+								@if ($cauthu->id === $idCauThu)
+								<h2 style="font-family: arial;">{{ $cauthu->NhiemVuCauThu }}</h2>
+								@endif
+								@endforeach
+							</div>
 						</div>	
 					</div>
 

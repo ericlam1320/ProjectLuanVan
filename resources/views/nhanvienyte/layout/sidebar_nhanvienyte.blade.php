@@ -25,6 +25,9 @@
 									<a href="{{route('DanhSachCauThu')}}">Danh sách cầu thủ</a>
 								</li>
 								<li>
+									<a href="{{route('DanhSachCauThuChanThuong')}}">Danh sách cầu thủ chấn thương</a>
+								</li>
+								<li>
 									<a href="{{route('DanhSachLichKham')}}">Danh sách lịch khám</a>
 								</li>
 							</ul>

@@ -6,7 +6,7 @@
 				<div style="margin-left: 400px " class="col-md-4 profile widget-shadow">
 						<h4 class="title3">Thông tin cá nhân</h4>
 						<div class="profile-top">
-							<img src="Client/images/players/{{Auth::user()->HinhDaiDien}}" alt="">
+							<img style="height: 100px"  src="Client/images/players/{{Auth::user()->HinhDaiDien}}" alt="">
 							<h4>{{ Auth::user()->HoTen }}</h4>
 							<h5>{{ Auth::user()->ChucVu }}</h5>
 						</div>

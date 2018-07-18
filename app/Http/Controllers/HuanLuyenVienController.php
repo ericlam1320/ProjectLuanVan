@@ -18,17 +18,65 @@ use App\ViTri;
 use App\DoiHinh;
 use App\ChienThuat;
 use App\TranDau;
+use App\ThongBao;
 use App\ThongTinCauThuChanThuong;
 use App\ViTriDoiHinh;
+use App\ViTriCauThu;
 use App\ViTriCauThuTranDau;
 use App\VaiTroCauThuTranDau;
+use App\VaiTro_CauThu;
+use App\TinTuc;
+use App\KyNang;
+use App\KyNang_CauThu;
 
 class HuanLuyenVienController extends Controller
 {
 
 
 	public function getHuanLuyenVien(){
-		return view('huanluyenvien.pages.trangchu');
+
+		$TinTucMoiNhat = TinTuc::orderBy('id', 'DESC')->first();
+        $CacTinTucKhac = TinTuc::orderBy('id', 'DESC')->skip(1)->take(4)->get();
+
+        $KetQuaTranDauGanDay = DB::SELECT("
+                                            SELECT
+                                            caulacbo.TenDayDu,
+                                            caulacbo.HinhAnhCauLacBo_lon,
+                                            tiso.TiSo,
+                                            trandau.VongDau,
+                                            trandau.NgayThiDau,
+                                            trandau.GioThiDau,
+                                            trandau.DiaDiem,
+                                            trandau.id
+                                            FROM
+                                            caulacbo
+                                            INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
+                                            INNER JOIN trandau ON tiso.idTranDau = trandau.id
+                                            WHERE tiso.TiSo IS NOT Null AND  trandau.TranDauCuaCLB='1'
+                                            ORDER BY trandau.NgayThiDau DESC, tiso.id ASC
+                                            LIMIT 2
+                                        ");
+
+        $CacTranDauTiepTheo = DB::SELECT("
+                                            SELECT
+                                            caulacbo.TenDayDu,
+                                            caulacbo.HinhAnhCauLacBo,
+                                            tiso.TiSo,
+                                            trandau.VongDau,
+                                            trandau.NgayThiDau,
+                                            trandau.GioThiDau,
+                                            trandau.DiaDiem,
+                                            trandau.id
+                                            FROM
+                                            caulacbo
+                                            INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
+                                            INNER JOIN trandau ON tiso.idTranDau = trandau.id
+                                            WHERE tiso.TiSo IS Null AND  trandau.TranDauCuaCLB='1'
+                                            ORDER BY trandau.NgayThiDau ASC, tiso.id ASC
+                                            LIMIT 6 
+										");
+										
+		return view('huanluyenvien.pages.trangchu', compact('TinTucMoiNhat', 'CacTinTucKhac', 'KetQuaTranDauGanDay', 'CacTranDauTiepTheo'));
 	}
 
 
@@ -106,8 +154,48 @@ class HuanLuyenVienController extends Controller
     #------------------------------------------------------------------------------------------------------------#
 
 	public function getThongBao(){
-		return view('huanluyenvien.pages.thongbao');
+		$ThongBao = ThongBao::with('NguoiDung')->orderBy('NgayThongBao', 'DESC')->get();
+        return view('huanluyenvien.pages.thongbao', compact('tenCauThu', 'ThongBao'));
 	}
+
+	public function getThemThongBao(){
+		return view('huanluyenvien.pages.thongbaothem');
+	}
+	public function postThemThongBao(Request $request){
+		$thongbao = new ThongBao;
+		$thongbao->TieuDe	  	= $request->TieuDe;
+		$thongbao->NoiDung	  	= $request->NoiDung;
+		$thongbao->NgayThongBao	= date('Y-m-d');
+		$thongbao->idNguoiGui 	= Auth::user()->id; 
+		$thongbao->save();
+		return redirect('huan-luyen-vien/thong-bao')->with('thongbao', 'Thêm thông báo thành công.');
+	}
+
+	public function getXoaThongBao($idThongBao){
+		$thongbao = ThongBao::findOrFail($idThongBao);
+		$thongbao->delete();
+		return redirect('huan-luyen-vien/thong-bao')->with('thongbao', 'Xóa thông báo thành công.');
+	}
+
+	public function getSuaThongBao($idThongBao){
+		$thongbao = ThongBao::findOrFail($idThongBao);
+		return view('huanluyenvien.pages.thongbaosua', compact('thongbao'));
+	}
+	public function postSuaThongBao($idThongBao, Request $request){
+		$thongbao = ThongBao::findOrFail($idThongBao);
+		$thongbao->TieuDe	  	= $request->TieuDe;
+		$thongbao->NoiDung	  	= $request->NoiDung;
+		$thongbao->NgayThongBao	= date('Y-m-d');
+		$thongbao->idNguoiGui 	= Auth::user()->id; 
+		$thongbao->save();
+		return redirect('huan-luyen-vien/thong-bao')->with('thongbao', 'Cập nhật thông báo thành công.');
+	}
+
+
+
+
+
+
 
 	public function getLichThiDau(){
 		$TranDauTiepTheo = DB::SELECT("
@@ -189,13 +277,20 @@ class HuanLuyenVienController extends Controller
 
 
 
+
+
+
 	#------------------------------------------------------------------------------------------------------------#
 	#---------------------------------------------- Lịch luyện tập ----------------------------------------------#
 	#------------------------------------------------------------------------------------------------------------#
 
 
 	public function getLichLuyenTap(){
-		
+
+		$NguoiDangNhap 	= Auth::user()->id;
+		$HuanLuyenVien 	= DB::TABLE('huanluyenvien')->where('idNguoiDung', $NguoiDangNhap)->first();
+		$idHuanLuyenVien= $HuanLuyenVien->id;
+
 		$CauThuTapNgayHomAy = DB::SELECT("
 										SELECT cauthu.id as idCauThu, nguoidung.HoTen, lichluyentap.NgayLuyenTap, cauthu.ViTriSoTruong, lichluyentap.CaLuyenTap
 										FROM nguoidung
@@ -203,6 +298,7 @@ class HuanLuyenVienController extends Controller
 										INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
 										INNER JOIN lichluyentap ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
 										WHERE lichluyentap.NgayLuyenTap >= CAST(NOW() as DATE)
+										AND lichluyentap.idHuanLuyenVien = '$idHuanLuyenVien'
 										GROUP BY nguoidung.HoTen, lichluyentap.NgayLuyenTap, cauthu.id, cauthu.ViTriSoTruong, lichluyentap.CaLuyenTap
 										ORDER BY lichluyentap.NgayLuyenTap
 									");
@@ -222,7 +318,8 @@ class HuanLuyenVienController extends Controller
 		 										INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
 		 										INNER JOIN lichluyentap ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
 		 										INNER JOIN giaotrinhtap ON giaotrinh_luyentap_cauthu.idGiaoTrinhTap = giaotrinhtap.id
-		 										WHERE lichluyentap.NgayLuyenTap >= CAST(NOW() as DATE) AND lichluyentap.NgayLuyenTap='$ngayluyentap' AND cauthu.id='$cauthu'
+												 WHERE lichluyentap.NgayLuyenTap >= CAST(NOW() as DATE) AND lichluyentap.NgayLuyenTap='$ngayluyentap' AND cauthu.id='$cauthu'
+												 AND lichluyentap.idHuanLuyenVien = '$idHuanLuyenVien'
 		 										ORDER BY lichluyentap.NgayLuyenTap ASC"
 		 									);
 		}
@@ -261,6 +358,7 @@ class HuanLuyenVienController extends Controller
 												INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
 												INNER JOIN lichluyentap ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
 												WHERE lichluyentap.NgayLuyenTap = '$ngay'
+												AND lichluyentap.idHuanLuyenVien = '$idHuanLuyenVien'
 												GROUP BY nguoidung.HoTen, lichluyentap.NgayLuyenTap, cauthu.ViTriSoTruong, lichluyentap.CaLuyenTap
 								        	");
         }
@@ -300,12 +398,16 @@ class HuanLuyenVienController extends Controller
 			}
 		}
 
+		$NguoiDangNhap = Auth::user()->id;
+		$HuanLuyenVien = DB::TABLE('huanluyenvien')->where('idNguoiDung', $NguoiDangNhap)->first();
+
 		if($request->CaLuyenTap == 'Ca sáng') {
 			$lichLuyenTap = new LichLuyenTap;
 			$lichLuyenTap->NgayLuyenTap = $request->NgayLuyenTap;
 			$lichLuyenTap->CaLuyenTap = $request->CaLuyenTap;
 			$lichLuyenTap->GioLuyenTap = '08:00:00';
 			$lichLuyenTap->DiaDiem = $request->DiaDiem;
+			$lichLuyenTap->idHuanLuyenVien = $HuanLuyenVien->id;
 			$lichLuyenTap->save();
 		}
 		elseif($request->CaLuyenTap == 'Ca trưa') {
@@ -314,6 +416,7 @@ class HuanLuyenVienController extends Controller
 			$lichLuyenTap->CaLuyenTap = $request->CaLuyenTap;
 			$lichLuyenTap->GioLuyenTap = '13:30:00';
 			$lichLuyenTap->DiaDiem = $request->DiaDiem;
+			$lichLuyenTap->idHuanLuyenVien = $HuanLuyenVien->id;
 			$lichLuyenTap->save();
 		}
 		
@@ -365,12 +468,16 @@ class HuanLuyenVienController extends Controller
 			}
 		}
 
+		$NguoiDangNhap = Auth::user()->id;
+		$HuanLuyenVien = DB::TABLE('huanluyenvien')->where('idNguoiDung', $NguoiDangNhap)->first();
+
 		if($request->CaLuyenTap == 'Ca sáng') {
 			$lichLuyenTap = LichLuyenTap::findOrFail($idLichTap);
 			$lichLuyenTap->NgayLuyenTap = $request->NgayLuyenTap;
 			$lichLuyenTap->CaLuyenTap = $request->CaLuyenTap;
 			$lichLuyenTap->GioLuyenTap = '08:00:00';
 			$lichLuyenTap->DiaDiem = $request->DiaDiem;
+			$lichLuyenTap->idHuanLuyenVien = $HuanLuyenVien->id;
 			$lichLuyenTap->save();
 		}
 		elseif($request->CaLuyenTap == 'Ca trưa') {
@@ -379,6 +486,7 @@ class HuanLuyenVienController extends Controller
 			$lichLuyenTap->CaLuyenTap = $request->CaLuyenTap;
 			$lichLuyenTap->GioLuyenTap = '13:30:00';
 			$lichLuyenTap->DiaDiem = $request->DiaDiem;
+			$lichLuyenTap->idHuanLuyenVien = $HuanLuyenVien->id;
 			$lichLuyenTap->save();
 		}
 		return redirect('huan-luyen-vien/lich-luyen-tap/them-lich-tap')->with('thongbao', 'Cập nhật lịch luyện tập thành công.');
@@ -432,10 +540,11 @@ class HuanLuyenVienController extends Controller
 						return redirect('huan-luyen-vien/lich-luyen-tap/them-cau-thu-tap')->with('loi', 'Thêm lịch luyện tập cho cầu thủ không thành công. Cầu thủ này đã có bài tập này vào lịch tập đó.');
 					}
 
-					$giaotrinh_luyentap_cauthu = new GiaoTrinh_LuyenTap_CauThu;
+					$giaotrinh_luyentap_cauthu                 = new GiaoTrinh_LuyenTap_CauThu;
 					$giaotrinh_luyentap_cauthu->idLichLuyenTap = $request->NgayLuyenTap;
-					$giaotrinh_luyentap_cauthu->idCauThu = $cauthu->id;
+					$giaotrinh_luyentap_cauthu->idCauThu       = $cauthu->id;
 					$giaotrinh_luyentap_cauthu->idGiaoTrinhTap = $giaotrinh;
+                    $giaotrinh_luyentap_cauthu->KetQuaLuyenTap = 'Hoàn thành';
 					$giaotrinh_luyentap_cauthu->save();
 				}
 			}
@@ -452,6 +561,7 @@ class HuanLuyenVienController extends Controller
 					$giaotrinh_luyentap_cauthu->idLichLuyenTap = $request->NgayLuyenTap;
 					$giaotrinh_luyentap_cauthu->idCauThu = $cauthu;
 					$giaotrinh_luyentap_cauthu->idGiaoTrinhTap = $giaotrinh;
+                    $giaotrinh_luyentap_cauthu->KetQuaLuyenTap = 'Hoàn thành';
 					$giaotrinh_luyentap_cauthu->save();
 				}
 			}
@@ -530,6 +640,7 @@ class HuanLuyenVienController extends Controller
 				$giaotrinh_luyentap_cauthu->idLichLuyenTap = $request->NgayLuyenTap;
 				$giaotrinh_luyentap_cauthu->idCauThu = $request->CauThuTap;
 				$giaotrinh_luyentap_cauthu->idGiaoTrinhTap = $request->GiaoTrinhTap[$i];
+                $giaotrinh_luyentap_cauthu->KetQuaLuyenTap = 'Hoàn thành';
 				$giaotrinh_luyentap_cauthu->save();
 				++$i;
 			}
@@ -539,6 +650,7 @@ class HuanLuyenVienController extends Controller
 					$giaotrinh_luyentap_cauthu->idLichLuyenTap = $request->NgayLuyenTap;
 					$giaotrinh_luyentap_cauthu->idCauThu = $request->CauThuTap;
 					$giaotrinh_luyentap_cauthu->idGiaoTrinhTap = $request->GiaoTrinhTap[$j];
+                    $giaotrinh_luyentap_cauthu->KetQuaLuyenTap = 'Hoàn thành';
 					$giaotrinh_luyentap_cauthu->save();
 				}
 			}
@@ -562,6 +674,122 @@ class HuanLuyenVienController extends Controller
 
 		return redirect('huan-luyen-vien/lich-luyen-tap')->with('thongbao', 'Cập nhật lịch luyện tập cho cầu thủ thành công.');
 	}
+
+
+
+
+
+
+
+
+
+
+    public function getDanhSachLuyenTapDanhGia(){
+        $NguoiDangNhap  = Auth::user()->id;
+        $HuanLuyenVien  = DB::TABLE('huanluyenvien')->where('idNguoiDung', $NguoiDangNhap)->first();
+        $idHuanLuyenVien= $HuanLuyenVien->id;
+
+        $CauThuTapNgayHomAy = DB::SELECT("
+                                        SELECT cauthu.id as idCauThu, nguoidung.HoTen, lichluyentap.NgayLuyenTap, cauthu.ViTriSoTruong, lichluyentap.CaLuyenTap
+                                        FROM nguoidung
+                                        INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+                                        INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
+                                        INNER JOIN lichluyentap ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
+                                        WHERE lichluyentap.NgayLuyenTap < CAST(NOW() as DATE)
+                                        AND lichluyentap.idHuanLuyenVien = '$idHuanLuyenVien'
+                                        GROUP BY nguoidung.HoTen, lichluyentap.NgayLuyenTap, cauthu.id, cauthu.ViTriSoTruong, lichluyentap.CaLuyenTap
+                                        ORDER BY lichluyentap.NgayLuyenTap
+                                    ");
+        foreach($CauThuTapNgayHomAy as $data) {
+            $cauthu = $data->idCauThu;
+            $ngayluyentap = $data->NgayLuyenTap;
+            $GiaoTrinhLuyenTapMoiCauThu[] = DB::SELECT("
+                                                SELECT
+                                                nguoidung.HoTen,
+                                                giaotrinhtap.TenBaiTap,
+                                                lichluyentap.NgayLuyenTap,
+                                                cauthu.ViTriSoTruong,
+                                                giaotrinh_luyentap_cauthu.id,
+                                                lichluyentap.CaLuyenTap,
+                                                giaotrinh_luyentap_cauthu.KetQuaLuyenTap
+                                                FROM nguoidung
+                                                INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+                                                INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
+                                                INNER JOIN lichluyentap ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
+                                                INNER JOIN giaotrinhtap ON giaotrinh_luyentap_cauthu.idGiaoTrinhTap = giaotrinhtap.id
+                                                 WHERE lichluyentap.NgayLuyenTap < CAST(NOW() as DATE) AND lichluyentap.NgayLuyenTap='$ngayluyentap' AND cauthu.id='$cauthu'
+                                                 AND lichluyentap.idHuanLuyenVien = '$idHuanLuyenVien'
+                                                ORDER BY lichluyentap.NgayLuyenTap ASC"
+                                            );
+        }
+
+        return view('huanluyenvien.pages.lichluyentap.danhsachluyentapdanhgia', compact( 'GiaoTrinhLuyenTapMoiCauThu', 'CauThuTapNgayHomAy'));
+    }
+
+    public function getDanhGia($idCauThu, $idNgay){
+
+        $NguoiDangNhap  = Auth::user()->id;
+        $HuanLuyenVien  = DB::TABLE('huanluyenvien')->where('idNguoiDung', $NguoiDangNhap)->first();
+        $idHuanLuyenVien= $HuanLuyenVien->id;
+
+        $CauThuTapNgayHomAy = DB::SELECT("
+                                        SELECT cauthu.id as idCauThu, nguoidung.HoTen, lichluyentap.NgayLuyenTap, cauthu.ViTriSoTruong, lichluyentap.CaLuyenTap, lichluyentap.id as idLichLuyenTap
+                                        FROM nguoidung
+                                        INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+                                        INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
+                                        INNER JOIN lichluyentap ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
+                                        WHERE lichluyentap.NgayLuyenTap = '$idNgay' AND cauthu.id = '$idCauThu'
+                                        AND lichluyentap.idHuanLuyenVien = '$idHuanLuyenVien'
+                                        GROUP BY nguoidung.HoTen, lichluyentap.NgayLuyenTap, cauthu.id, cauthu.ViTriSoTruong, lichluyentap.CaLuyenTap
+                                        ORDER BY lichluyentap.NgayLuyenTap
+                                    ");
+        foreach($CauThuTapNgayHomAy as $data) {
+
+            $GiaoTrinhLuyenTapMoiCauThu[] = DB::SELECT("
+                                                SELECT
+                                                nguoidung.HoTen,
+                                                giaotrinhtap.TenBaiTap,
+                                                lichluyentap.NgayLuyenTap,
+                                                cauthu.ViTriSoTruong,
+                                                giaotrinh_luyentap_cauthu.id,
+                                                lichluyentap.CaLuyenTap,
+                                                giaotrinh_luyentap_cauthu.KetQuaLuyenTap
+                                                FROM nguoidung
+                                                INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+                                                INNER JOIN giaotrinh_luyentap_cauthu ON giaotrinh_luyentap_cauthu.idCauThu = cauthu.id
+                                                INNER JOIN lichluyentap ON giaotrinh_luyentap_cauthu.idLichLuyenTap = lichluyentap.id
+                                                INNER JOIN giaotrinhtap ON giaotrinh_luyentap_cauthu.idGiaoTrinhTap = giaotrinhtap.id
+                                                WHERE lichluyentap.NgayLuyenTap = '$idNgay' AND cauthu.id = '$idCauThu'
+                                                 AND lichluyentap.idHuanLuyenVien = '$idHuanLuyenVien'
+                                                ORDER BY lichluyentap.NgayLuyenTap ASC"
+                                            );
+        }
+
+        return view('huanluyenvien.pages.lichluyentap.danhgialuyentap', compact( 'GiaoTrinhLuyenTapMoiCauThu', 'CauThuTapNgayHomAy', 'idCauThu', 'idNgay'));
+        
+    }
+
+    public function postDanhGia($idCauThu, $idLich, Request $request){
+
+        $i = 0;
+        $CacBaiTap = GiaoTrinh_LuyenTap_CauThu::where('idCauThu',$idCauThu)->where('idLichLuyenTap', $idLich)->get() ;
+
+        foreach($CacBaiTap as $baitap_can_danhgia){
+ 
+                $giaotrinh_luyentap_cauthu                 = GiaoTrinh_LuyenTap_CauThu::findOrFail($baitap_can_danhgia->id);
+                $giaotrinh_luyentap_cauthu->KetQuaLuyenTap = $request->DanhGia[$i];
+                $giaotrinh_luyentap_cauthu->save();
+                $i++;
+            
+        }
+
+        return redirect('huan-luyen-vien/luyen-tap/danh-sach')->with('thongbao', 'Đánh giá quá trình tập luyện cầu thủ thành công.');
+        
+    }
+
+
+
+
 
 
 
@@ -714,7 +942,9 @@ class HuanLuyenVienController extends Controller
                                                 trandau
                                                 INNER JOIN doihinh ON trandau.idDoiHinh = doihinh.id
                                                 INNER JOIN chienthuat ON trandau.idChienThuat = chienthuat.id
-                                                WHERE trandau.id = '$idTranDau'
+												WHERE trandau.id = '$idTranDau'
+												
+												
                                             ");
             $CauThuRaSan = DB::SELECT("
                                         SELECT
@@ -722,7 +952,8 @@ class HuanLuyenVienController extends Controller
                                         cauthu.SoAo,
                                         cauthu.id,
                                         vitri.TenViTri,
-                                        doihinh.TenDoiHinh
+                                        doihinh.TenDoiHinh,
+                                        vitri_cauthu_trandau.NhiemVuCauThu
                                         FROM
                                         nguoidung
                                         LEFT JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
@@ -730,7 +961,8 @@ class HuanLuyenVienController extends Controller
                                         LEFT JOIN vitri ON vitri_cauthu_trandau.idViTri = vitri.id
                                         INNER JOIN trandau ON vitri_cauthu_trandau.idTranDau = trandau.id
                                         INNER JOIN doihinh ON trandau.idDoiHinh = doihinh.id
-                                        WHERE trandau.id = '$idTranDau'
+										WHERE trandau.id = '$idTranDau'
+										ORDER BY vitri_cauthu_trandau.id ASC
                                     ");
             $VaiTroCauThu = DB::SELECT("
                                         SELECT
@@ -747,6 +979,29 @@ class HuanLuyenVienController extends Controller
         }
         return view('huanluyenvien.pages.doihinhchienthuat.xem', compact('TranDauMuonXem'));
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	public function getSapXepDoiHinhChienThuat( $idTranDau){
@@ -769,12 +1024,53 @@ class HuanLuyenVienController extends Controller
                                         ");
 
 		$CauThuDuocRaSan = DB::SELECT("
-										SELECT nguoidung.HoTen, cauthu.*
+										SELECT
+										nguoidung.HoTen,
+										cauthu.id,
+										cauthu.ChieuCao,
+										cauthu.CanNang,
+										cauthu.ViTriSoTruong,
+										cauthu.SoAo,
+										cauthu.ChanThuan,
+										cauthu.LuocSuCauThu,
+										cauthu.idNguoiDung,
+										vitri.TenViTri,
+										vitri.id AS ViTriID,
+										phongdo.ChiSoPhongDo
+										FROM
+										nguoidung
+										INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+										INNER JOIN vitri_cauthu ON vitri_cauthu.idCauThu = cauthu.id
+										INNER JOIN vitri ON vitri_cauthu.idViTri = vitri.id
+										INNER JOIN phongdo_cauthu ON phongdo_cauthu.idCauThu = cauthu.id
+										INNER JOIN phongdo ON phongdo_cauthu.idPhongDo = phongdo.id
+										WHERE
+										cauthu.id NOT IN ((SELECT idCauThu FROM thongtinchanthuong_cauthu WHERE TinhTrangChanThuong='1'  AND TinhTrangRaSan='0'))
+										ORDER BY phongdo.ChiSoPhongDo DESC
+									");
+
+        $CauThuBiChanThuong = DB::SELECT("
+                                        SELECT
+                                        cauthu.id
+                                        FROM
+                                        cauthu
+                                        WHERE
+                                        cauthu.id IN ((SELECT idCauThu FROM thongtinchanthuong_cauthu WHERE TinhTrangChanThuong='1' AND TinhTrangRaSan='1'))
+                                    ");
+
+		$CauThuPhongDoCao = DB::SELECT("
+										SELECT
+										nguoidung.HoTen,
+										cauthu.*,
+										phongdo.ChiSoPhongDo
 										FROM nguoidung
 										INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
-										WHERE cauthu.id NOT IN (SELECT idCauThu FROM thongtinchanthuong_cauthu WHERE TinhTrangChanThuong='1')
+										INNER JOIN phongdo_cauthu ON phongdo_cauthu.idCauThu = cauthu.id
+										INNER JOIN phongdo ON phongdo_cauthu.idPhongDo = phongdo.id
+										WHERE cauthu.id NOT IN ((SELECT idCauThu FROM thongtinchanthuong_cauthu WHERE TinhTrangChanThuong='1'  AND TinhTrangRaSan='0'))
+										ORDER BY phongdo.ChiSoPhongDo DESC		
+								");
 
-									");
 		$ViTriDoiHinh = DB::SELECT("
 										SELECT vitri.*
 										FROM doihinh
@@ -782,11 +1078,77 @@ class HuanLuyenVienController extends Controller
 										INNER JOIN vitri ON vitri_doihinh.idViTri = vitri.id
 										WHERE doihinh.id='1'
 									");
+
+		$TranDauGanDay 	= DB::SELECT("
+										SELECT
+										caulacbo.TenDayDu,
+										tiso.TiSo,
+										trandau.id
+										FROM caulacbo
+										INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
+										INNER JOIN trandau ON tiso.idTranDau = trandau.id
+										WHERE tiso.TiSo IS NOT Null AND  trandau.TranDauCuaCLB='1'
+										ORDER BY trandau.NgayThiDau DESC, tiso.id ASC
+										LIMIT 2"
+									);
+		if(!empty($TranDauGanDay)){
+			$idTranDauGanDay= $TranDauGanDay[0]->id;
+		}
+		else{
+			$idTranDauGanDay= '1';
+		}
+
+		$ThePhatCauThu = DB::SELECT("
+										SELECT
+										nguoidung.HoTen,
+										cauthu.id as idCauThu,
+										SUM(thanhtichcauthu.TheVang) as TongTheVang,
+										SUM(thanhtichcauthu.TheDo) as TongTheDo
+										FROM nguoidung
+										INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+										INNER JOIN thanhtichcauthu ON thanhtichcauthu.idCauThu = cauthu.id
+										WHERE thanhtichcauthu.idTranDau='$idTranDauGanDay'
+										GROUP BY cauthu.id, nguoidung.HoTen		
+									");
+
+		$TongThePhatCauThu = DB::SELECT("
+									SELECT
+									nguoidung.HoTen,
+									cauthu.id as idCauThu,
+									SUM(thanhtichcauthu.TheVang) as TongTheVang,
+									SUM(thanhtichcauthu.TheDo) as TongTheDo
+									FROM nguoidung
+									INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+									INNER JOIN thanhtichcauthu ON thanhtichcauthu.idCauThu = cauthu.id
+									GROUP BY cauthu.id, nguoidung.HoTen		
+								");
+								
+		$CauThuDuBi 	= DB::SELECT("
+									SELECT
+									vitri_cauthu_trandau.idCauThu,
+									vitri_cauthu_trandau.idViTri,
+									vitri_cauthu_trandau.idTranDau
+									FROM trandau
+									INNER JOIN vitri_cauthu_trandau ON vitri_cauthu_trandau.idTranDau = trandau.id
+									WHERE trandau.id='$idTranDauGanDay'
+								");
+
+		$CauThuDuBiDanhSach = DB::SELECT("
+								SELECT
+								nguoidung.HoTen,
+								cauthu.*
+								FROM
+								nguoidung
+								INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+								WHERE cauthu.id NOT IN (SELECT idCauThu FROM thongtinchanthuong_cauthu WHERE TinhTrangChanThuong='1'  AND TinhTrangRaSan='0')	
+
+						");
+
 		$VaiTroCauThu = VaiTro::all();
 		$DoiHinh      = DoiHinh::all();
 		$ChienThuat   = ChienThuat::all();
 
-
+		$VaiTroCauThuDB = VaiTro_CauThu::all();
 
         $ThongKeCauThuGhiBanChart = DB::SELECT("
                                         SELECT
@@ -799,7 +1161,14 @@ class HuanLuyenVienController extends Controller
                                         GROUP BY nguoidung.HoTen
                                         ORDER BY SoBanThang DESC, SoKienTao DESC
                                         LIMIT 6
-                                    ");
+									");
+		if(empty( $ThongKeCauThuGhiBanChart)){
+			$ThongKeCauThuGhiBanChart[] = (object)[
+													'HoTen'=>'Chưa xác định',
+													'SoBanThang'=>0,
+													'SoKienTao'=>0
+												];
+		}
         foreach ($ThongKeCauThuGhiBanChart as $ThongKe){
             $CauThuGhiBanChart[] = $ThongKe->HoTen;
             $SoBanThangChart[] = $ThongKe->SoBanThang;
@@ -821,7 +1190,13 @@ class HuanLuyenVienController extends Controller
                                         GROUP BY nguoidung.HoTen
                                         ORDER BY DiemSo DESC
                                         LIMIT 6
-                                    ");
+									");
+		if(empty( $ThongKeCauThuCoDiemSoCao)){
+			$ThongKeCauThuCoDiemSoCao[] = (object)[
+													'HoTen'=>'Chưa xác định',
+													'DiemSo'=>0,
+												];
+		}							
         foreach ($ThongKeCauThuCoDiemSoCao as $ThongKe){
             $CauThuDiemChart[] = $ThongKe->HoTen;
             $DiemTrungBinhChart[] = $ThongKe->DiemSo;
@@ -837,8 +1212,12 @@ class HuanLuyenVienController extends Controller
 
 
 		
-		return view('huanluyenvien.pages.doihinhchienthuat.sapxep', compact('idTranDau', 'TranDauMuonSapXep', 'DoiHinh', 'ChienThuat', 'CauThuDuocRaSan', 'ViTriDoiHinh', 'VaiTroCauThu', 'CauThuGhiBanChart', 'SoBanThangChart', 'CauThuDiemChart', 'DiemTrungBinhChart', 'DoiHinhThuNhatChart', 'DoiHinhThuHaiChart', 'DoiHinhThuBaChart', 'SoKienTaoChart'));
+		return view('huanluyenvien.pages.doihinhchienthuat.sapxep', compact('ThePhatCauThu', 'TongThePhatCauThu', 'CauThuDuBi', 'CauThuDuBiDanhSach', 'CauThuPhongDoCao', 'VaiTroCauThuDB', 'idTranDau', 'TranDauMuonSapXep', 'DoiHinh', 'ChienThuat', 'CauThuDuocRaSan', 'ViTriDoiHinh', 'VaiTroCauThu', 'CauThuGhiBanChart', 'SoBanThangChart', 'CauThuDiemChart', 'DiemTrungBinhChart', 'DoiHinhThuNhatChart', 'DoiHinhThuHaiChart', 'DoiHinhThuBaChart', 'SoKienTaoChart', 'CauThuBiChanThuong'));
 	}
+
+
+
+
 	public function postSapXepDoiHinhChienThuat( $idTranDau, Request $request){
 
 		if($request->DoiHinh === 'ChuaChon'){
@@ -862,6 +1241,46 @@ class HuanLuyenVienController extends Controller
 				}
 			}
 		}
+		$TranDauGanDay 	= DB::SELECT("
+										SELECT
+										caulacbo.TenDayDu,
+										tiso.TiSo,
+										trandau.id
+										FROM caulacbo
+										INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
+										INNER JOIN trandau ON tiso.idTranDau = trandau.id
+										WHERE tiso.TiSo IS NOT Null AND  trandau.TranDauCuaCLB='1'
+										ORDER BY trandau.NgayThiDau DESC, tiso.id ASC
+										LIMIT 2"
+									);
+		if(!empty($TranDauGanDay)){
+			$idTranDauGanDay= $TranDauGanDay[0]->id;
+		}
+		else{
+			$idTranDauGanDay= '1';
+		}
+		$ThePhatCauThu = DB::SELECT("
+										SELECT
+										nguoidung.HoTen,
+										cauthu.id as idCauThu,
+										SUM(thanhtichcauthu.TheVang) as TongTheVang,
+										SUM(thanhtichcauthu.TheDo) as TongTheDo
+										FROM nguoidung
+										INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+										INNER JOIN thanhtichcauthu ON thanhtichcauthu.idCauThu = cauthu.id
+										WHERE thanhtichcauthu.idTranDau='$idTranDauGanDay'
+										GROUP BY cauthu.id, nguoidung.HoTen		
+									");
+		foreach($request->CauThu as $cauthu){
+			foreach($ThePhatCauThu as $thephat){
+				if($cauthu == $thephat->idCauThu && $thephat->TongTheDo!=0){
+					return redirect()->back()->with('loi', 'Không thể chọn cầu thủ đã bị thẻ đỏ ở trận trước.');
+				}
+				if($cauthu == $thephat->idCauThu && $thephat->TongTheVang==2){
+					return redirect()->back()->with('loi', 'Không thể chọn cầu thủ đã bị 2 thẻ vàng ở trận trước.');
+				}
+			}
+		}
 		
 		$TranDau 				= TranDau::findOrFail($idTranDau);
 		$TranDau->idDoiHinh 	= $request->DoiHinh;
@@ -881,17 +1300,18 @@ class HuanLuyenVienController extends Controller
 		$ViTriDoiHinh = ViTriDoiHinh::where('idDoiHinh', $TranDau->idDoiHinh)->get();$i=0;
 		foreach($request->CauThu as $cauthu){
 			if($i<11){
-				$ViTriCauThuTranDau = new ViTriCauThuTranDau;
-				$ViTriCauThuTranDau->idCauThu 	= $request->CauThu[10-$i];
-				$ViTriCauThuTranDau->idViTri 	= $ViTriDoiHinh[$i]->idViTri;
-				$ViTriCauThuTranDau->idTranDau = $idTranDau;
+				$ViTriCauThuTranDau                     = new ViTriCauThuTranDau;
+				$ViTriCauThuTranDau->idCauThu 	        = $request->CauThu[10-$i];
+				$ViTriCauThuTranDau->idViTri 	        = $ViTriDoiHinh[$i]->idViTri;
+				$ViTriCauThuTranDau->idTranDau          = $request->NhiemVuCauThu[10-$i];
+                $ViTriCauThuTranDau->NhiemVuCauThu      = $idTranDau;
 				$ViTriCauThuTranDau->save();
 				++$i;	
 			}
 			else{
-				$ViTriCauThuTranDau = new ViTriCauThuTranDau;
+				$ViTriCauThuTranDau             = new ViTriCauThuTranDau;
 				$ViTriCauThuTranDau->idCauThu 	= $cauthu;
-				$ViTriCauThuTranDau->idTranDau = $idTranDau;
+				$ViTriCauThuTranDau->idTranDau  = $idTranDau;
 				$ViTriCauThuTranDau->save();
 				++$i;		
 			}
@@ -901,7 +1321,20 @@ class HuanLuyenVienController extends Controller
 
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
 	public function getSuaDoiHinhChienThuat( $idTranDau){
+		
 		$TranDauMuonSapXep = DB::SELECT("
                                             SELECT
                                             caulacbo.TenDayDu,
@@ -920,12 +1353,51 @@ class HuanLuyenVienController extends Controller
                                         ");
 
 		$CauThuDuocRaSan = DB::SELECT("
-										SELECT nguoidung.HoTen, cauthu.*
-										FROM nguoidung
+										SELECT
+										nguoidung.HoTen,
+										cauthu.id,
+										cauthu.ChieuCao,
+										cauthu.CanNang,
+										cauthu.ViTriSoTruong,
+										cauthu.SoAo,
+										cauthu.ChanThuan,
+										cauthu.LuocSuCauThu,
+										cauthu.idNguoiDung,
+										vitri.TenViTri,
+										vitri.id AS ViTriID,
+										phongdo.ChiSoPhongDo
+										FROM
+										nguoidung
 										INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
-										WHERE cauthu.id NOT IN (SELECT idCauThu FROM thongtinchanthuong_cauthu WHERE TinhTrangChanThuong='1')
-
+										INNER JOIN vitri_cauthu ON vitri_cauthu.idCauThu = cauthu.id
+										INNER JOIN vitri ON vitri_cauthu.idViTri = vitri.id
+										INNER JOIN phongdo_cauthu ON phongdo_cauthu.idCauThu = cauthu.id
+										INNER JOIN phongdo ON phongdo_cauthu.idPhongDo = phongdo.id
+										WHERE
+										cauthu.id NOT IN ((SELECT idCauThu FROM thongtinchanthuong_cauthu WHERE TinhTrangChanThuong='1'  AND TinhTrangRaSan='0'))
+										ORDER BY phongdo.ChiSoPhongDo DESC
 									");
+
+        $CauThuBiChanThuong = DB::SELECT("
+                                        SELECT
+                                        cauthu.id
+                                        FROM
+                                        cauthu
+                                        WHERE
+                                        cauthu.id IN ((SELECT idCauThu FROM thongtinchanthuong_cauthu WHERE TinhTrangChanThuong='1'  AND TinhTrangRaSan='1'))
+                                    ");
+		
+		$CauThuDuBiDanhSach = DB::SELECT("
+									SELECT
+									nguoidung.HoTen,
+									cauthu.*
+									FROM
+									nguoidung
+									INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+									WHERE cauthu.id NOT IN (SELECT idCauThu FROM thongtinchanthuong_cauthu WHERE TinhTrangChanThuong='1'  AND TinhTrangRaSan='0')	
+
+							");
+
 		$ViTriDoiHinh = DB::SELECT("
 										SELECT vitri.*
 										FROM doihinh
@@ -940,7 +1412,7 @@ class HuanLuyenVienController extends Controller
 		$DoiHinh      = DoiHinh::all();
 		$ChienThuat   = ChienThuat::all();
 
-
+		
 
         $ThongKeCauThuGhiBanChart = DB::SELECT("
                                         SELECT
@@ -953,7 +1425,14 @@ class HuanLuyenVienController extends Controller
                                         GROUP BY nguoidung.HoTen
                                         ORDER BY SoBanThang DESC, SoKienTao DESC
                                         LIMIT 6
-                                    ");
+									");
+		if(empty( $ThongKeCauThuGhiBanChart)){
+			$ThongKeCauThuGhiBanChart[] = (object)[
+													'HoTen'=>'Chưa xác định',
+													'SoBanThang'=>0,
+													'SoKienTao'=>0
+												];
+		}
         foreach ($ThongKeCauThuGhiBanChart as $ThongKe){
             $CauThuGhiBanChart[] = $ThongKe->HoTen;
             $SoBanThangChart[] = $ThongKe->SoBanThang;
@@ -975,7 +1454,13 @@ class HuanLuyenVienController extends Controller
                                         GROUP BY nguoidung.HoTen
                                         ORDER BY DiemSo DESC
                                         LIMIT 6
-                                    ");
+									");
+		if(empty( $ThongKeCauThuCoDiemSoCao)){
+			$ThongKeCauThuCoDiemSoCao[] = (object)[
+													'HoTen'=>'Chưa xác định',
+													'DiemSo'=>0,
+												];
+		}
         foreach ($ThongKeCauThuCoDiemSoCao as $ThongKe){
             $CauThuDiemChart[] = $ThongKe->HoTen;
             $DiemTrungBinhChart[] = $ThongKe->DiemSo;
@@ -995,6 +1480,49 @@ class HuanLuyenVienController extends Controller
 															WHERE trandau.id='$idTranDau'
 														");
 
+		$TranDauGanDay 	= DB::SELECT("
+			SELECT
+			caulacbo.TenDayDu,
+			tiso.TiSo,
+			trandau.id
+			FROM caulacbo
+			INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
+			INNER JOIN trandau ON tiso.idTranDau = trandau.id
+			WHERE tiso.TiSo IS NOT Null AND  trandau.TranDauCuaCLB='1'
+			ORDER BY trandau.NgayThiDau DESC, tiso.id ASC
+			LIMIT 2"
+		);
+		if(!empty($TranDauGanDay)){
+			$idTranDauGanDay= $TranDauGanDay[0]->id;
+		}
+		else{
+			$idTranDauGanDay= '1';
+		}
+		$ThePhatCauThu = DB::SELECT("
+										SELECT
+										nguoidung.HoTen,
+										cauthu.id as idCauThu,
+										SUM(thanhtichcauthu.TheVang) as TongTheVang,
+										SUM(thanhtichcauthu.TheDo) as TongTheDo
+										FROM nguoidung
+										INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+										INNER JOIN thanhtichcauthu ON thanhtichcauthu.idCauThu = cauthu.id
+										WHERE thanhtichcauthu.idTranDau='$idTranDauGanDay'
+										GROUP BY cauthu.id, nguoidung.HoTen		
+									");
+
+		$TongThePhatCauThu = DB::SELECT("
+									SELECT
+									nguoidung.HoTen,
+									cauthu.id as idCauThu,
+									SUM(thanhtichcauthu.TheVang) as TongTheVang,
+									SUM(thanhtichcauthu.TheDo) as TongTheDo
+									FROM nguoidung
+									INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+									INNER JOIN thanhtichcauthu ON thanhtichcauthu.idCauThu = cauthu.id
+									GROUP BY cauthu.id, nguoidung.HoTen		
+								");
+		
 
 		if(!empty($TranDauMuonSuaDoiHinhChienThuat[0])){
 
@@ -1022,9 +1550,7 @@ class HuanLuyenVienController extends Controller
 
 		$CauThu = DB::SELECT("
 								SELECT
-								vitri_cauthu_trandau.idCauThu,
-								vitri_cauthu_trandau.idViTri,
-								vitri_cauthu_trandau.idTranDau
+								vitri_cauthu_trandau.*
 								FROM trandau
 								INNER JOIN vitri_cauthu_trandau ON vitri_cauthu_trandau.idTranDau = trandau.id
 								WHERE trandau.id='$idTranDau'
@@ -1034,8 +1560,16 @@ class HuanLuyenVienController extends Controller
         $DoiHinhThuHaiChart = DoiHinh::orderBy('SoTranThang', 'DESC')->skip(1)->take(1)->first();
         $DoiHinhThuBaChart = DoiHinh::orderBy('SoTranThang', 'DESC')->skip(2)->take(1)->first();
 		
-		return view('huanluyenvien.pages.doihinhchienthuat.sua', compact('idTranDau', 'TranDauMuonSapXep', 'DoiHinh', 'ChienThuat', 'CauThuDuocRaSan', 'ViTriDoiHinh', 'VaiTroCauThu', 'TranDauMuonSuaDoiHinhChienThuat', 'VaiTro', 'CauThu', 'CauThuGhiBanChart', 'SoBanThangChart', 'SoKienTaoChart', 'CauThuDiemChart', 'DiemTrungBinhChart', 'DoiHinhThuNhatChart', 'DoiHinhThuHaiChart', 'DoiHinhThuBaChart'));
+		return view('huanluyenvien.pages.doihinhchienthuat.sua', compact('ThePhatCauThu', 'TongThePhatCauThu', 'idTranDau', 'CauThuDuBiDanhSach', 'TranDauMuonSapXep', 'DoiHinh', 'ChienThuat', 'CauThuDuocRaSan', 'ViTriDoiHinh', 'VaiTroCauThu', 'TranDauMuonSuaDoiHinhChienThuat', 'VaiTro', 'CauThu', 'CauThuGhiBanChart', 'SoBanThangChart', 'SoKienTaoChart', 'CauThuDiemChart', 'DiemTrungBinhChart', 'DoiHinhThuNhatChart', 'DoiHinhThuHaiChart', 'DoiHinhThuBaChart', 'CauThuBiChanThuong'));
 	}
+
+
+
+
+
+
+
+
 	public function postSuaDoiHinhChienThuat( $idTranDau, Request $request) {
 
 		if($request->DoiHinh === 'ChuaChon'){
@@ -1056,6 +1590,47 @@ class HuanLuyenVienController extends Controller
 			for($j=$i+1; $j<count($request->CauThu); $j++){
 				if($request->CauThu[$j] == $request->CauThu[$i]){
 					return redirect()->back()->with('loi', 'Sắp xếp đội hình chiến thuật không thành công. Không thể có cầu thủ trùng nhau.');
+				}
+			}
+		}
+
+		$TranDauGanDay 	= DB::SELECT("
+										SELECT
+										caulacbo.TenDayDu,
+										tiso.TiSo,
+										trandau.id
+										FROM caulacbo
+										INNER JOIN tiso ON tiso.idCauLacBo = caulacbo.id
+										INNER JOIN trandau ON tiso.idTranDau = trandau.id
+										WHERE tiso.TiSo IS NOT Null AND  trandau.TranDauCuaCLB='1'
+										ORDER BY trandau.NgayThiDau DESC, tiso.id ASC
+										LIMIT 2"
+									);
+		if(!empty($TranDauGanDay)){
+			$idTranDauGanDay= $TranDauGanDay[0]->id;
+		}
+		else{
+			$idTranDauGanDay= '1';
+		}
+		$ThePhatCauThu = DB::SELECT("
+										SELECT
+										nguoidung.HoTen,
+										cauthu.id as idCauThu,
+										SUM(thanhtichcauthu.TheVang) as TongTheVang,
+										SUM(thanhtichcauthu.TheDo) as TongTheDo
+										FROM nguoidung
+										INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+										INNER JOIN thanhtichcauthu ON thanhtichcauthu.idCauThu = cauthu.id
+										WHERE thanhtichcauthu.idTranDau='$idTranDauGanDay'
+										GROUP BY cauthu.id, nguoidung.HoTen		
+									");
+		foreach($request->CauThu as $cauthu){
+			foreach($ThePhatCauThu as $thephat){
+				if($cauthu == $thephat->idCauThu && $thephat->TongTheDo!=0){
+					return redirect()->back()->with('loi', 'Không thể chọn cầu thủ đã bị thẻ đỏ ở trận trước.');
+				}
+				if($cauthu == $thephat->idCauThu && $thephat->TongTheVang==2){
+					return redirect()->back()->with('loi', 'Không thể chọn cầu thủ đã bị 2 thẻ vàng ở trận trước.');
 				}
 			}
 		}
@@ -1081,9 +1656,10 @@ class HuanLuyenVienController extends Controller
 		foreach($request->CauThu as $cauthu){
 			if($i<11){
 				$ViTriCauThuTranDau = ViTriCauThuTranDau::findOrFail($ViTriCauThuTranDau_DB[$i]->id);
-				$ViTriCauThuTranDau->idCauThu 	= $request->CauThu[10-$i];
-				$ViTriCauThuTranDau->idViTri 	= $ViTriDoiHinh[$i]->idViTri;
-				$ViTriCauThuTranDau->idTranDau  = $idTranDau;
+				$ViTriCauThuTranDau->idCauThu   	= $request->CauThu[10-$i];
+				$ViTriCauThuTranDau->idViTri 	    = $ViTriDoiHinh[$i]->idViTri;
+				$ViTriCauThuTranDau->idTranDau      = $idTranDau;
+                $ViTriCauThuTranDau->NhiemVuCauThu  = $request->NhiemVuCauThu[10-$i];
 				$ViTriCauThuTranDau->save();
 				++$i;
 			}
@@ -1107,6 +1683,19 @@ class HuanLuyenVienController extends Controller
 
 		return redirect('huan-luyen-vien/doi-hinh-chien-thuat')->with('thongbao', 'Cập nhật đội hình chiến thuật trận đấu thành công.');
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1185,6 +1774,12 @@ class HuanLuyenVienController extends Controller
 	}
 
 	public function getXoaDoiHinh( $idDoiHinh){
+		
+		$KiemTraDoiHinhTrongTranDau = TranDau::where('idDoiHinh', $idDoiHinh)->count();
+		if($KiemTraDoiHinhTrongTranDau > 0){
+			return back()->with('loi', 'Xóa đội hình không thành công. Đội hình này đã được sử dụng.');
+		}
+
 		$doihinh = DoiHinh::findOrFail($idDoiHinh);
 		$doihinh->delete();
 		return redirect('huan-luyen-vien/doi-hinh')->with('thongbao', 'Xóa đội hình thành công.');
@@ -1237,9 +1832,6 @@ class HuanLuyenVienController extends Controller
 		
 		$doihinh = DoiHinh::findOrFail($idDoiHinh);
 		$doihinh->TenDoiHinh = $request->TenDoiHinh;
-		$doihinh->SoTranThang = 0;
-		$doihinh->SoTranHoa = 0;
-		$doihinh->SoTranThua = 0;
 		if($request->hasFile('HinhAnhDoiHinh')){
     		$image = $request->file('HinhAnhDoiHinh');
     		$duoi = $image->getClientOriginalExtension();
@@ -1297,6 +1889,12 @@ class HuanLuyenVienController extends Controller
 	}
 
 	public function getXoaChienThuat( $idChienThuat){
+
+		$KiemTraChienThuatTrongTranDau = TranDau::where('idChienThuat', $idChienThuat)->count();
+		if($KiemTraChienThuatTrongTranDau > 0){
+			return back()->with('loi', 'Xóa chiến thuật không thành công. Chiến thuật này đã được sử dụng.');
+		}
+
 		$chienthuat = ChienThuat::findOrFail($idChienThuat);
 		$chienthuat->delete();
 		return redirect('huan-luyen-vien/chien-thuat')->with('thongbao', 'Xóa chiến thuật thành công.');
@@ -1335,6 +1933,281 @@ class HuanLuyenVienController extends Controller
     #--------------------------------------------------------------------------------------------------------------#
 
 	public function getSucKhoeCauThu(){
-		return view('huanluyenvien.pages.suckhoecauthu');
+
+		$CauThuDangChanThuong = DB::SELECT("
+											SELECT
+											nguoidung.HoTen,
+											cauthu.ViTriSoTruong,
+											thongtinchanthuong_cauthu.ngaychanthuong,
+											chanthuong.TenChanThuong,
+											chanthuong.PhanLoaiChanThuong,
+											chanthuong.ThoiGianHoiPhuc
+											FROM
+											nguoidung
+											INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+											INNER JOIN thongtinchanthuong_cauthu ON thongtinchanthuong_cauthu.idCauThu = cauthu.id
+											INNER JOIN chanthuong ON thongtinchanthuong_cauthu.idChanThuong = chanthuong.id
+											WHERE thongtinchanthuong_cauthu.TinhTrangChanThuong='1'
+											ORDER BY thongtinchanthuong_cauthu.ngaychanthuong ASC
+										");
+
+		$ThanhTichCacCauThuHienTai = DB::SELECT("
+												SELECT
+												nguoidung.HoTen,
+												cauthu.ViTriSoTruong,
+												nguoidung.HinhDaiDien,
+												phongdo.ChiSoPhongDo,
+												AVG(thanhtichcauthu.DiemSo) as Diem,
+												SUM(thanhtichcauthu.SoKienTao) as KienTao,
+												SUM(thanhtichcauthu.SoBanThang) as BanThang
+												FROM
+												nguoidung
+												INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+												INNER JOIN phongdo_cauthu ON phongdo_cauthu.idCauThu = cauthu.id
+												INNER JOIN phongdo ON phongdo_cauthu.idPhongDo = phongdo.id
+												INNER JOIN thanhtichcauthu ON thanhtichcauthu.idCauThu = cauthu.id	
+												GROUP BY nguoidung.HoTen, nguoidung.HinhDaiDien, cauthu.ViTriSoTruong, phongdo.ChiSoPhongDo
+												ORDER BY ChiSoPhongDo DESC, Diem DESC, BanThang DESC, KienTao DESC
+										");							
+		return view('huanluyenvien.pages.suckhoecauthu', compact('CauThuDangChanThuong', 'ThanhTichCacCauThuHienTai'));
 	}
+
+
+
+	
+	#--------------------------------------------------------------------------------------------------------------#
+	#---------------------------------------------- Vai trò cầu thủ -----------------------------------------------#
+	#--------------------------------------------------------------------------------------------------------------#
+
+	public function getVaiTroCauThu(){
+		$DanhSachCauThu = CauThu::with('NguoiDung')->get();
+		$VaiTroCauThu 	= DB::SELECT("
+										SELECT
+										vaitro.TenVaiTro,
+										vaitro.id,
+										vaitro_cauthu.idCauThu as idCauThu,
+										nguoidung.HoTen,
+										cauthu.ViTriSoTruong
+										FROM
+										vaitro
+										INNER JOIN vaitro_cauthu ON vaitro_cauthu.idVaiTro = vaitro.id
+										INNER JOIN cauthu ON vaitro_cauthu.idCauThu = cauthu.id
+										INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id		
+									");
+		return view('huanluyenvien.pages.vaitrocauthu.danhsach', compact('DanhSachCauThu', 'VaiTroCauThu'));
+	}
+	public function postDieuChinhVaiTroCauThu(Request $request){
+		$i = 0;
+		$VaiTro 		= VaiTro::where('TenVaiTro', '<>', 'Dự bị')->orWhere('TenVaiTro', '<>', 'Dự Bị')->get();
+		$VaiTroCauThuDB = VaiTro_CauThu::all();
+		foreach($request->VaiTroCauThu as $cauthu){
+			$VaiTroDieuChinh 			= VaiTro_CauThu::findOrFail($VaiTroCauThuDB[$i]->id);
+			$VaiTroDieuChinh->idVaiTro 	= $VaiTro[$i]->id;
+			$VaiTroDieuChinh->idCauThu 	= $cauthu;
+			$VaiTroDieuChinh->save();
+			++$i;
+		}
+		return redirect('huan-luyen-vien/vai-tro-cau-thu')->with('thongbao', 'Chỉnh sửa vai trò thành công.');
+	}
+
+
+
+	#--------------------------------------------------------------------------------------------------------------#
+	#---------------------------------------------- Vị trí cầu thủ ------------------------------------------------#
+	#--------------------------------------------------------------------------------------------------------------#
+
+	public function getViTriCauThu(){
+		$DanhSachCauThu = CauThu::with('NguoiDung')->get();
+		$ViTriCuaCauThu = DB::SELECT("
+										SELECT
+										vitri.TenViTri,
+										cauthu.ViTriSoTruong,
+										cauthu.id as idCauThu,
+										nguoidung.HoTen
+										FROM
+										cauthu
+										INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id
+										INNER JOIN vitri_cauthu ON vitri_cauthu.idCauThu = cauthu.id
+										INNER JOIN vitri ON vitri_cauthu.idViTri = vitri.id
+									");
+		return view('huanluyenvien.pages.vitri.danhsach', compact('ViTriCuaCauThu', 'DanhSachCauThu'));
+	}
+
+	public function getDieuChinhViTriCauThu($idCauThu){
+		$CauThuCanDieuChinh = CauThu::with('NguoiDung')->where('id', $idCauThu)->first();
+		$ViTriCuaCauThu = DB::SELECT("
+										SELECT
+										vitri.TenViTri,
+										vitri.id as idViTri,
+										cauthu.ViTriSoTruong,
+										cauthu.id as idCauThu,
+										nguoidung.HoTen,
+										nguoidung.NgaySinh
+										FROM
+										cauthu
+										INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id
+										INNER JOIN vitri_cauthu ON vitri_cauthu.idCauThu = cauthu.id
+										INNER JOIN vitri ON vitri_cauthu.idViTri = vitri.id
+										WHERE cauthu.id = '$idCauThu'
+									");
+		$ViTri = ViTri::where('TenViTri', '<>', 'Dự bị')->orWhere('TenViTri', '<>', 'Dự Bị')->get();
+		return view('huanluyenvien.pages.vitri.dieuchinh', compact('ViTriCuaCauThu', 'CauThuCanDieuChinh', 'ViTri'));
+	}
+
+	public function postDieuChinhViTriCauThu($idCauThu, Request $request){
+
+		if(empty($request->ViTriThiDau)) {
+			return redirect()->back()->with('loi', 'Một cầu thủ phải có ít nhất một vị trí thi đấu.');
+		}
+
+		$ViTriCauThuDB 	= ViTriCauThu::where('idCauThu', $idCauThu)->get();
+		$SoViTriCu 		= count($ViTriCauThuDB);
+		$SoViTriMoi 	= count($request->ViTriThiDau);
+
+		if($SoViTriMoi >= $SoViTriCu){
+			$SoViTri=0;
+			foreach($ViTriCauThuDB as $ViTri){
+				$ViTriCauThuDieuChinh 			= ViTriCauThu::findOrFail($ViTri->id);
+				$ViTriCauThuDieuChinh->idCauThu = $idCauThu;
+				$ViTriCauThuDieuChinh->idViTri  = $request->ViTriThiDau[$SoViTri];
+				$ViTriCauThuDieuChinh->save();
+				$SoViTri++;
+			}
+			if($SoViTri < $SoViTriMoi){
+				for($j=$SoViTri; $j<$SoViTriMoi; $j++){
+					$ViTriCauThuDieuChinh 			= new ViTriCauThu;
+					$ViTriCauThuDieuChinh->idCauThu = $idCauThu;
+					$ViTriCauThuDieuChinh->idViTri  = $request->ViTriThiDau[$j];
+					$ViTriCauThuDieuChinh->save();
+					$SoViTri++;
+				}
+			}
+		}
+		else{
+			foreach($ViTriCauThuDB as $ViTri){
+				$ViTriCauThuDieuChinh = ViTriCauThu::findOrFail($ViTri->id);
+				$ViTriCauThuDieuChinh->delete();
+			}
+			foreach($request->ViTriThiDau as $ViTri){
+				$ViTriCauThuDieuChinh 			= new ViTriCauThu;
+				$ViTriCauThuDieuChinh->idCauThu = $idCauThu;
+				$ViTriCauThuDieuChinh->idViTri  = $ViTri;
+				$ViTriCauThuDieuChinh->save();
+			}
+		}
+
+		return redirect('huan-luyen-vien/vi-tri-cau-thu')->with('thongbao', 'Điều chỉnh vị trí cầu thủ thành công.');
+
+	}
+
+
+
+
+
+	#--------------------------------------------------------------------------------------------------------------#
+	#---------------------------------------------- Ky Năng cầu thủ -----------------------------------------------#
+	#--------------------------------------------------------------------------------------------------------------#
+
+	public function getKyNangCauThu(){
+
+		$DanhSachCauThu = CauThu::with('NguoiDung')->get();
+		$KyNangCauThu 	= DB::SELECT("
+										SELECT
+										cauthu.id as idCauThu,
+										kynang.TenKyNang,
+										cauthu.ViTriSoTruong,
+										nguoidung.HoTen
+										FROM
+										nguoidung
+										INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+										INNER JOIN kynang_cauthu ON kynang_cauthu.idCauThu = cauthu.id
+										INNER JOIN kynang ON kynang_cauthu.idKyNang = kynang.id				
+									");
+
+		return view('huanluyenvien.pages.kynang.danhsach', compact('DanhSachCauThu', 'KyNangCauThu'));
+	}
+
+	public function getDieuChinhKyNangCauThu($idCauThu){
+
+		$CauThuCanDieuChinh = CauThu::with('NguoiDung')->where('id', $idCauThu)->first();
+		$KyNangCauThu 	= DB::SELECT("
+										SELECT
+										kynang.id as idKyNang,
+										kynang.TenKyNang,
+										cauthu.ViTriSoTruong,
+										cauthu.id as idCauThu,
+										nguoidung.HoTen
+										FROM
+										nguoidung
+										INNER JOIN cauthu ON cauthu.idNguoiDung = nguoidung.id
+										INNER JOIN kynang_cauthu ON kynang_cauthu.idCauThu = cauthu.id
+										INNER JOIN kynang ON kynang_cauthu.idKyNang = kynang.id		
+										WHERE cauthu.id = '$idCauThu'		
+									");
+		$DanhSachKyNang = KyNang::all();
+
+		return view('huanluyenvien.pages.kynang.dieuchinh', compact('CauThuCanDieuChinh', 'KyNangCauThu', 'DanhSachKyNang'));
+
+	}
+
+	public function postDieuChinhKyNangCauThu($idCauThu, Request $request){
+
+		
+		$KyNangCauThuDB 	= KyNang_CauThu::where('idCauThu', $idCauThu)->get();
+
+		if(empty($KyNangCauThuDB) && empty($request->KyNangDieuChinh)){
+			return redirect('huan-luyen-vien/ky-nang-cau-thu');
+		}
+		elseif(isset($request->KyNangDieuChinh)){	
+			$SoKyNangCu 		= count($KyNangCauThuDB);
+			$SoKyNangMoi 		= count($request->KyNangDieuChinh);
+
+			if($SoKyNangMoi >= $SoKyNangCu){
+				$SoKyNang=0;
+				foreach($KyNangCauThuDB as $KyNang){
+					$KyNangCauThuDieuChinh 		     = KyNang_CauThu::findOrFail($KyNang->id);
+					$KyNangCauThuDieuChinh->idCauThu = $idCauThu;
+					$KyNangCauThuDieuChinh->idKyNang = $request->KyNangDieuChinh[$SoKyNang];
+					$KyNangCauThuDieuChinh->save();
+					$SoKyNang++;
+				}
+				if($SoKyNang < $SoKyNangMoi){
+					for($j=$SoKyNang; $j<$SoKyNangMoi; $j++){
+						$KyNangCauThuDieuChinh 		     = new KyNang_CauThu;
+						$KyNangCauThuDieuChinh->idCauThu = $idCauThu;
+						$KyNangCauThuDieuChinh->idKyNang = $request->KyNangDieuChinh[$j];
+						$KyNangCauThuDieuChinh->save();
+						$SoKyNang++;
+					}
+				}
+			}
+			else{
+				foreach($KyNangCauThuDB as $KyNang){
+					$KyNangCauThuDieuChinh = KyNang_CauThu::findOrFail($KyNang->id);
+					$KyNangCauThuDieuChinh->delete();
+				}
+				if($SoKyNangCu > 0){
+					foreach($request->KyNangDieuChinh as $KyNang){
+						$KyNangCauThuDieuChinh 		     = new KyNang_CauThu;
+						$KyNangCauThuDieuChinh->idCauThu = $idCauThu;
+						$KyNangCauThuDieuChinh->idKyNang = $KyNang;
+						$KyNangCauThuDieuChinh->save();
+					}
+				}
+			}
+
+			return redirect('huan-luyen-vien/ky-nang-cau-thu')->with('thongbao', 'Điều chỉnh kỹ năng cầu thủ thành công.');
+
+		}
+		else{
+			foreach($KyNangCauThuDB as $KyNang){
+				$KyNangCauThuDieuChinh = KyNang_CauThu::findOrFail($KyNang->id);
+				$KyNangCauThuDieuChinh->delete();
+			}
+			return redirect('huan-luyen-vien/ky-nang-cau-thu')->with('thongbao', 'Điều chỉnh kỹ năng cầu thủ thành công.');
+		}
+	}
+
 }
+
+

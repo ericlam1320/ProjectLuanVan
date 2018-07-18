@@ -101,7 +101,15 @@
                       <div class="col-md-3">
                          <select style="width: 400px" class="control-label " name="lichkham" >
                               @foreach($lichkham as $lk)
-                              <option value="{{$lk->id}}">{{$lk->NgayKham}}</option>
+                              <option value="{{$lk->id}}">{{$lk->HoTen}} | {{date('d-m-Y',strtotime($lk->NgayKham))}} | 
+                                @if($lk->CaKham == 'sang')
+                                    {{'Sáng'}}
+                                @elseif($lk->CaKham == 'trua')
+                                    {{'Trưa'}}
+                                @elseif($lk->CaKham == 'chieu')
+                                    {{'Chiều'}}
+                                @endif
+                              </option>
                               @endforeach
                         </select>
                       </div>
@@ -111,27 +119,6 @@
                           <span class="help-block">
                             <strong style="color:#E01A22">
                               {{ $errors->first('lichkham') }}
-                            </strong>
-                          </span>
-                        @endif
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <div class="col-md-12">
-                    <div class="form-group {{ $errors->has('ngaykham') ? 'has-error' : '' }}">
-
-                      <label for="txtarea1" class="col-md-4 control-label">Ngày khám:</label>
-                      <div class="col-md-3">
-                         <input style="width: 400px; text-align: center;" type="date" class="form-control date" placeholder="Ngày sinh"  name="ngaykham" value="<?= date('Y-m-d') ?>">
-                      </div>
-
-                      <div class="col-md-5">
-                        @if ($errors->has('ngaykham'))
-                          <span class="help-block">
-                            <strong style="color:#E01A22">
-                              {{ $errors->first('ngaykham') }}
                             </strong>
                           </span>
                         @endif

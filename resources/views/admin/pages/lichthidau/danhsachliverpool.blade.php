@@ -1,6 +1,7 @@
 @extends ('admin.layout.master_admin')
 @section ('title', 'Quản lý Lịch thi đấu')
-@section('content')
+
+@section ('content')
 	<div id="page-wrapper">
 				
 			<div class="main-page">
@@ -48,9 +49,37 @@
 										<td class="text-center">{{ $lichthidau_liverpool[$i]->DiaDiem }}</td>
 										<td class="text-center" style="width: 200px">
 											
-											<a href="admin/lich-thi-dau/them-thanh-tich/{{$lichthidau_liverpool[$i]->id}}" title="Thêm" class="btn btn-success"><i class="fa fa-edit" ></i> Thêm</a>
+											<a 												
+												title="Thêm" 
+												class="btn btn-success 
 
-											<a href="admin/lich-thi-dau/cap-nhat-thanh-tich/{{$lichthidau_liverpool[$i]->id}}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Cập nhật</a>
+												@if(!empty($thanhtich_trandau[$i][0]->DiemSo)) 
+													disabled 
+												@endif"
+												@if(empty($thanhtich_trandau[$i][0]->DiemSo))
+													href="admin/lich-thi-dau/them-thanh-tich/{{$lichthidau_liverpool[$i]->id}}" 
+												@else
+												href="javascript:void(0)"
+												@endif
+											>
+												<i class="fa fa-edit" ></i> Thêm
+											</a>
+
+											<a 
+												title="Sửa" 
+												class="btn btn-info 
+												@if(empty($thanhtich_trandau[$i][0]->DiemSo)) 
+													disabled 
+												@endif"
+												@if(!empty($thanhtich_trandau[$i][0]->DiemSo))
+													href="admin/lich-thi-dau/cap-nhat-thanh-tich/{{$lichthidau_liverpool[$i]->id}}" 
+												@else
+												href="javascript:void(0)"
+												@endif
+											>
+												<i class="fa fa-edit" ></i> Cập nhật
+											</a>
+
 										</td>
 								</tr>
 						
@@ -86,11 +115,11 @@
             responsive: true,
             "language": {
 					"sProcessing":   "Đang xử lý...",
-					"sLengthMenu":   "Xem _MENU_ mục",
+					"sLengthMenu":   "Xem MENU mục",
 					"sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
-					"sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+					"sInfo":         "Đang xem START đến END trong tổng số TOTAL mục",
 					"sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
-					"sInfoFiltered": "(được lọc từ _MAX_ mục)",
+					"sInfoFiltered": "(được lọc từ MAX mục)",
 					"sInfoPostFix":  "",
 					"sSearch":       "Tìm kiếm ",
 					"sUrl":          "",

@@ -13,6 +13,25 @@ use App\ThongTinCauThuChanThuong;
 
 class LichKhamController extends Controller
 {
+    public function getDanhSachCauThuChanThuong(){
+        $nguoidung = DB::SELECT('
+                        SELECT
+                        nguoidung.id,
+                        nguoidung.HoTen,
+                        nguoidung.NgaySinh,
+                        chanthuong.TenChanThuong,
+                        phacdodieutri.TrinhTuThucHien
+                        FROM
+                        phacdodieutri
+                        INNER JOIN thongtinchanthuong_cauthu ON thongtinchanthuong_cauthu.idPhacDoDieuTri = phacdodieutri.id
+                        INNER JOIN chanthuong ON thongtinchanthuong_cauthu.idChanThuong = chanthuong.id
+                        INNER JOIN cauthu ON thongtinchanthuong_cauthu.idCauThu = cauthu.id
+                        INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id
+
+            ');
+        return view('nhanvienyte.pages.lichkham.danhsach_cauthu_chanthuong', compact('nguoidung'));
+    }
+
     public function getDanhSachCauThu(){
         $nguoidung = NguoiDung::where('ChucVu', 'cauthu')->get();
     	return view('nhanvienyte.pages.lichkham.danhsachlichkham', compact('nguoidung'));
@@ -20,21 +39,24 @@ class LichKhamController extends Controller
 
     public function getDanhSachLichKham(){
         $lichkham = DB::SELECT('
-                        SELECT
-                        lichkham.NgayKham,
-                        lichkham.CaKham,
-                        nguoidung.HoTen,
-                        chanthuong.TenChanThuong,
-                        lichkham.NoiDungDieuTri,
-                        lichkham.id
-                        FROM
-                        lichkham ,
-                        thongtinchanthuong_cauthu
-                        INNER JOIN cauthu ON thongtinchanthuong_cauthu.idCauThu = cauthu.id
-                        INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id
-                        INNER JOIN chanthuong ON thongtinchanthuong_cauthu.idChanThuong = chanthuong.id
-                        ORDER BY
-                        lichkham.NgayKham ASC
+                          SELECT
+                            lichkham.NgayKham,
+                            lichkham.CaKham,
+                            lichkham.NoiDungDieuTri,
+                            lichkham.id,
+                            phacdodieutri.TrinhTuThucHien,
+                            chanthuong.TenChanThuong,
+                            nguoidung.HoTen
+                            FROM
+                            lichkham
+                            INNER JOIN phacdodieutri ON lichkham.idPhacDoDieuTri = phacdodieutri.id
+                            INNER JOIN thongtinchanthuong_cauthu ON thongtinchanthuong_cauthu.idPhacDoDieuTri = phacdodieutri.id
+                            INNER JOIN chanthuong ON thongtinchanthuong_cauthu.idChanThuong = chanthuong.id
+                            INNER JOIN cauthu ON thongtinchanthuong_cauthu.idCauThu = cauthu.id
+                            INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id
+                            ORDER BY
+                            lichkham.NgayKham DESC
+
             ');
         return view('nhanvienyte.pages.lichkham.danhsach', compact('lichkham'));
     }
@@ -96,12 +118,11 @@ class LichKhamController extends Controller
             $thongtinchanthuong->ngaychanthuong             =       $request->ngaykham;
             $thongtinchanthuong->NgayHoiPhuc                =       null;
             $thongtinchanthuong->TinhTrangChanThuong        =       1;
+            $thongtinchanthuong->TinhTrangRaSan             =       $request->tinhtrangrasan;
             $thongtinchanthuong->idCauThu                   =       $cauthu->id;
             $thongtinchanthuong->idChanThuong               =       $request->chanthuong;
             $thongtinchanthuong->idPhacDoDieuTri            =       $request->phacdodieutri;
             $thongtinchanthuong->save();
-            
-
         }
 
         else if($request->ngayhoiphuc === 'on'){
@@ -112,6 +133,7 @@ class LichKhamController extends Controller
             // dd($thongtinchanthuong);
             $thongtinchanthuong->NgayHoiPhuc                =       $request->ngaykham;
             $thongtinchanthuong->TinhTrangChanThuong        =       0;
+            $thongtinchanthuong->TinhTrangRaSan             =       $request->tinhtrangrasan;
             $thongtinchanthuong->save();
         }
 
@@ -126,7 +148,27 @@ class LichKhamController extends Controller
 
 	public function getSua($id){
 		$lichkham = LichKham::find($id);
+        // $chanthuong = ChanThuong::all();
 		$phacdodieutri = PhacDoDieuTri::all();
+        // $thongso_lichkham = DB::SELECT('
+        //                         SELECT
+        //                         thongtinchanthuong_cauthu.idCauThu,
+        //                         lichkham.id,
+        //                         lichkham.NgayKham,
+        //                         lichkham.CaKham,
+        //                         lichkham.DiaDiem,
+        //                         lichkham.NoiDungDieuTri,
+        //                         chanthuong.TenChanThuong,
+        //                         thongtinchanthuong_cauthu.TinhTrangRaSan,
+        //                         phacdodieutri.TrinhTuThucHien,
+        //                         lichkham.idPhacDoDieuTri,
+        //                         thongtinchanthuong_cauthu.idChanThuong
+        //                         FROM
+        //                         lichkham
+        //                         INNER JOIN phacdodieutri ON lichkham.idPhacDoDieuTri = phacdodieutri.id
+        //                         INNER JOIN thongtinchanthuong_cauthu ON thongtinchanthuong_cauthu.idPhacDoDieuTri = phacdodieutri.id
+        //                         INNER JOIN chanthuong ON thongtinchanthuong_cauthu.idChanThuong = chanthuong.id
+        //     ');
 	    return view('nhanvienyte.pages.lichkham.sua', compact('lichkham','phacdodieutri'));
 	}
 

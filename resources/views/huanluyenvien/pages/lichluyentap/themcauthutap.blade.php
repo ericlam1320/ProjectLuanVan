@@ -103,7 +103,7 @@ Liverpool FC - Thêm cầu thủ luyện tập
 							<div class="col-md-8 col-sm-8">
 								<div class="panel-group">
 									<div class="panel panel-default">
-										<div class="panel-heading">Chọn giáo trình tập ( Thời lượng tối đa cho 1 ngày tập là 180 phút)<span id="KetQuaChonGiaoTrinhTap" style="float:right; color:#05c605;  font-weight:bold">0 phút</span></div>
+										<div class="panel-heading">Chọn giáo trình tập ( Thời lượng tối đa cho 1 ca tập là 180 phút)<span id="KetQuaChonGiaoTrinhTap" style="float:right; color:#05c605;  font-weight:bold">0 phút</span></div>
 										<div class="panel-body">
 											<div class="form-group {{ $errors->has('GiaoTrinhTap') ? 'has-error' : '' }}">
 												@foreach ($GiaoTrinhTap as $giaotrinh)

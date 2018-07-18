@@ -40,7 +40,10 @@
 										<td>{{ 	$giaidau->TenGiaiDau  }}</td> 
 										<td class="text-center">{{  date('Y',strtotime($giaidau->NamBatDauMuaGiai)) }}</td> 
 										<td class="text-center">{{  date('Y',strtotime($giaidau->NamKetThucMuaGiai)) }}</td> 
-										<td class="text-center" style="width: 135px">
+										<td class="text-center" style="width: 280px">
+
+											<a href="admin/giai-dau/them-clb-giai-dau/{{ $giaidau->id }}" title="thêm" class="btn btn-success"><i class="fa fa-plus" ></i> CLB</a>
+
 											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="admin/giai-dau/xoa/{{ $giaidau->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>
 
 											<a href="admin/giai-dau/sua/{{ $giaidau->id }}" title="Sửa" class="btn btn-info"><i class="fa fa-edit" ></i> Sửa</a>

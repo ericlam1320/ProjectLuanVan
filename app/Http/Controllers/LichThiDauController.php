@@ -29,14 +29,24 @@ class LichThiDauController extends Controller
                                     trandau.id,
                                     tiso.idCauLacBo,
                                     tiso.TiSo,
-                                    caulacbo.HinhAnhCauLacBo
+                                    caulacbo.HinhAnhCauLacBo,
+                                    giaidau.TenGiaiDau,
+                                    giaidau.NamBatDauMuaGiai,
+                                    giaidau.NamKetThucMuaGiai
                                     FROM
                                     trandau
                                     INNER JOIN tiso ON tiso.idTranDau = trandau.id
                                     INNER JOIN caulacbo ON tiso.idCauLacBo = caulacbo.id
-                                    ORDER BY tiso.id ASC
+                                    INNER JOIN giaidau ON tiso.idGiaiDau = giaidau.id
+                                    ORDER BY
+                                    tiso.id ASC
     							");
-    	return view('admin.pages.lichthidau.danhsach', compact('lichthidau'));
+
+        $date = date('Y-m-d');
+        
+        $giaidau = GiaiDau::all();
+
+    	return view('admin.pages.lichthidau.danhsach', compact('lichthidau','giaidau','date'));
     }
 
     public function getThem(){
@@ -429,7 +439,7 @@ class LichThiDauController extends Controller
         }
         
 
-        return view('admin.pages.lichthidau.danhsachliverpool', compact('lichthidau_liverpool','$thanhtich_trandau'));
+        return view('admin.pages.lichthidau.danhsachliverpool', compact('lichthidau_liverpool','thanhtich_trandau'));
     }
 
     public function getThemThanhTich($id){

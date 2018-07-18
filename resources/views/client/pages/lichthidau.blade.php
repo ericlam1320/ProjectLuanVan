@@ -102,8 +102,8 @@
 							<div class="col-md-3">
 								<div class="kode_detail_side_bar">
 
-									<form class="kode_detail_side_field">
-										<input type="text" placeholder="Tìm kiếm" required>
+									<form class="kode_detail_side_field" action="tim-kiem" method="GET">
+										<input name="key" type="text" placeholder="Tìm kiếm" required>
 										<button><i class="fa fa-search"></i></button>
 									</form>
 

@@ -1,4 +1,4 @@
-@extends ('cauthu.layouts.master')
+@extends ('huanluyenvien.layouts.master')
 
 @section ("title")
 Liverpool FC - Xem đội hình chiến thuật
@@ -130,7 +130,31 @@ Liverpool FC - Xem đội hình chiến thuật
 						</div>	
 					</div>
 
+
 					<div class="col-md-12">
+					<div class="col-md-6">
+						<div class="ftb-tabs-wrap wrap_3">
+							<div class="ftb_tabs_drop">
+								<h5 >Nhiệm vụ mỗi cầu thủ trong trận </h5>
+							</div>
+							<div style="padding: 20px; margin-top: 50px">
+								<table>
+										<th>Họ tên cầu thủ</th>
+										<th>Vị trí</th>
+										<th>Nhiệm vụ</th>
+									@for ($stt=0; $stt<11; $stt++)
+									<tr>
+										<td>{{ $CauThuRaSan[$stt]->HoTen }}</td>
+										<td>{{ $CauThuRaSan[$stt]->TenViTri }}</td>
+										<td>{{ $CauThuRaSan[$stt]->NhiemVuCauThu }}</td>
+									</tr>
+									@endfor
+								</table>
+							</div>
+						</div>	
+					</div>
+
+					<div class="col-md-6">
 						<div class="ftb-tabs-wrap wrap_3">
 							<div class="ftb_tabs_drop">
 								<h5 >Chiến thuật ( {{ $DoiHinhChienThuat[0]->TenChienThuat }})</h5>
@@ -139,6 +163,7 @@ Liverpool FC - Xem đội hình chiến thuật
 								{!! $DoiHinhChienThuat[0]->NoiDungChienThuat !!}
 							</div>
 						</div>	
+					</div>
 					</div>
 
 				</div>

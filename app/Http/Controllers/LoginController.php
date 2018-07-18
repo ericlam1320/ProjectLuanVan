@@ -15,14 +15,14 @@ class LoginController extends Controller
 	public function postDangNhap(Request $request){
 
 		$this->validate($request, [
-            'username' => 'required|max:255|min:4',
-            'password' => 'required|min:5'
+            'username' => 'required|max:255|min:3',
+            'password' => 'required|min:3'
         ], [
             'username.required' => 'Bạn chưa nhập tên đăng nhập.',
             'username.max' 		=> 'Tên không quá 255 kí tự.',
             'username.min' 		=> 'Tên đăng nhập quá ngắn.',
             'password.required' => 'Bạn cần nhập mật khẩu.',
-            'password.min' 		=> 'Mật khẩu phải trên 5 kí tự',
+            'password.min' 		=> 'Mật khẩu phải trên 3 kí tự',
         ]);
 
 		$loginCauThu = array(

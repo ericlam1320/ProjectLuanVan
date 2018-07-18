@@ -69,7 +69,7 @@
                     <div class="form-group {{ $errors->has('chucvu') ? 'has-error' : '' }}">
                       <label for="txtarea1" class="col-md-4 control-label">Chức vụ:</label>
                       <div class="col-md-3">
-                          <select class="control-label " name="chucvu" >
+                          <select class="control-label form-control" name="chucvu" >
                             <option value="huanluyenvien">Huấn luyện viên</option>
                             <option value="nhanvienyte">Nhân viên y tế</option>
                             <option value="admin">Admin</option>

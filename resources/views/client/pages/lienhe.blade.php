@@ -96,29 +96,43 @@
 							<p>Nếu bạn có thắc mắc thì liên hệ với chúng tôi.</p>
 						</div>
 						<div class="row">
-							<form>
+
+
+							<form action="./lien-he" method="POST">
+								{{ csrf_field() }}
 								<div class="col-md-4">
 									<div class="kode_contant_field">
 										<input type="text" placeholder="Tên của bạn" name="HoTen" required>
+										@if ($errors->has('HoTen'))
+										<span class="help-block"><strong style="color:#E01A22">{{ $errors->first('HoTen') }}</strong></span>
+										@endif
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="kode_contant_field">
 										<input type="text" placeholder="Địa chỉ email" name="Email" required>
+										@if ($errors->has('Email'))
+										<span class="help-block"><strong style="color:#E01A22">{{ $errors->first('Email') }}</strong></span>
+										@endif
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="kode_contant_field">
 										<input type="text" placeholder="Số điện thoại" name="SoDienThoai" required>
+										@if ($errors->has('SoDienThoai'))
+										<span class="help-block"><strong style="color:#E01A22">{{ $errors->first('SoDienThoai') }}</strong></span>
+										@endif
 									</div>
 								</div>
 								<div class="col-md-12">
 									<div class="kode_contant_area">
-										<textarea name="ThongTinLienHe" placeholder="Nội dung liên hệ"></textarea>
+										<textarea name="ThongTinLienHe" placeholder="Nội dung liên hệ" required></textarea>
 										<button>Gửi </button>
 									</div>
 								</div>
 							</form>
+
+
 						</div>
 					</div>
 				</div>

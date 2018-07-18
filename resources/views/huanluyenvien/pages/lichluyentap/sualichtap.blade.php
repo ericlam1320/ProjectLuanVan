@@ -64,10 +64,14 @@ Liverpool FC - Cập nhật ngày luyện tập
 							</div>
 							<div class="col-sm-4">
 								<div class="form-group {{ $errors->has('CaLuyenTap') ? 'has-error' : '' }}">
-									<input type="text" class="form-control" placeholder="Nhập ca tập" name="CaLuyenTap" value="{{ old('CaLuyenTap', $LichTap->CaLuyenTap) }}">
+									<!-- <input type="text" class="form-control" placeholder="Nhập ca tập" name="CaLuyenTap" value="{{ old('CaLuyenTap', $LichTap->CaLuyenTap) }}">
 									@if ($errors->has('CaLuyenTap'))
 									<span class="help-block"><strong style="color:#E01A22">{{ $errors->first('CaLuyenTap') }}</strong></span>
-									@endif	
+									@endif	 -->
+									<select name="CaLuyenTap" class="form-control">
+										<option value="Ca sáng">Ca sáng</option>
+										<option value="Ca trưa">Ca trưa</option>
+									</select>
 								</div>
 							</div>
 							<div class="col-sm-4">

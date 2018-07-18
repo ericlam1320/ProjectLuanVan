@@ -1,4 +1,4 @@
-@extends ('cauthu.layouts.master')
+@extends ('huanluyenvien.layouts.master')
 
 @section ("title")
 Liverpool FC - Cập nhật thông tin
@@ -199,7 +199,7 @@ Liverpool FC - Cập nhật thông tin
 
 	$('#someSwitchOptionDanger').click(function(){
 
-		if( $(this).is(':checked') ){
+		if ( $(this).is(':checked') ){
 			$('#FormDoiMatKhau').show();
 		}else{
 			$('#FormDoiMatKhau').hide();

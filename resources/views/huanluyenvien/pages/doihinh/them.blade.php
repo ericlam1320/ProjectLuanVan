@@ -117,7 +117,6 @@ Liverpool FC - Thêm đội hình
 								<div class="col-sm-9"> 
 									<input type="file" name="HinhAnhDoiHinh" value="" class="form-control" accept="image/x-png,image/gif,image/jpeg" onchange="preview_image(event)" >
  									<img id="output_image" height="250" src="Client/images/formations/unknown.png" />
- 									
 									@if ($errors->has('HinhAnhDoiHinh'))
 									<span class="help-block"><strong style="color:#E01A22">{{ $errors->first('HinhAnhDoiHinh') }}</strong></span>
 									@endif

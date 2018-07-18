@@ -27,28 +27,6 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                   <div class="col-md-12">
-                    <div class="form-group {{ $errors->has('phacdodieutri') ? 'has-error' : '' }}">
-                      <label for="txtarea1" class="col-md-4 control-label">Chọn phác đồ điều trị:</label>
-                      <div class="col-md-3">
-                         <select style="width: 400px; height: 40px" class="control-label " name="phacdodieutri" >
-                              @foreach($phacdodieutri as $pddt)
-                              <option value="{{$pddt->id}}">{{$pddt->TrinhTuThucHien}}</option>
-                              @endforeach
-                        </select>
-                      </div>
-                      <div class="col-md-5">
-                        @if ($errors->has('phacdodieutri'))
-                          <span class="help-block">
-                            <strong style="color:#E01A22">
-                              {{ $errors->first('phacdodieutri') }}
-                            </strong>
-                          </span>
-                        @endif
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-12">
                     <div class="form-group {{ $errors->has('chanthuong') ? 'has-error' : '' }}">
                       <label for="txtarea1" class="col-md-4 control-label">Chọn chấn thương:</label>
                       <div class="col-md-3">
@@ -71,6 +49,28 @@
                   </div>
 
                   <div class="col-md-12">
+                    <div class="form-group {{ $errors->has('phacdodieutri') ? 'has-error' : '' }}">
+                      <label for="txtarea1" class="col-md-4 control-label">Chọn phác đồ điều trị:</label>
+                      <div class="col-md-3">
+                         <select style="width: 400px; height: 40px" class="control-label " name="phacdodieutri" >
+                              @foreach($phacdodieutri as $pddt)
+                              <option value="{{$pddt->id}}">{{$pddt->TrinhTuThucHien}}</option>
+                              @endforeach
+                        </select>
+                      </div>
+                      <div class="col-md-5">
+                        @if ($errors->has('phacdodieutri'))
+                          <span class="help-block">
+                            <strong style="color:#E01A22">
+                              {{ $errors->first('phacdodieutri') }}
+                            </strong>
+                          </span>
+                        @endif
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
                     <div class="form-group {{ $errors->has('cauthuchanthuong') ? 'has-error' : '' }}">
                       <label for="txtarea1" class="col-md-4 control-label">Cầu thủ chấn thương:</label>
                       <div class="col-md-3">
@@ -78,7 +78,27 @@
                       </div>
                       <div class="col-md-5">
                       </div>
+                    </div>
+                  </div>
 
+                  <div class="col-md-12">
+                    <div class="form-group {{ $errors->has('tinhtrangrasan') ? 'has-error' : '' }}">
+                      <label for="txtarea1" class="col-md-4 control-label">Tình trạng ra sân:</label>
+                      <div class="col-md-3">
+                         <select style="width: 400px; height: 40px" class="control-label " name="tinhtrangrasan" >
+                              <option value="0">Không thể ra sân</option>
+                              <option value="1">Có thể ra sân</option>
+                        </select>
+                      </div>
+                      <div class="col-md-5">
+                        @if ($errors->has('tinhtrangrasan'))
+                          <span class="help-block">
+                            <strong style="color:#E01A22">
+                              {{ $errors->first('tinhtrangrasan') }}
+                            </strong>
+                          </span>
+                        @endif
+                      </div>
                     </div>
                   </div>
 

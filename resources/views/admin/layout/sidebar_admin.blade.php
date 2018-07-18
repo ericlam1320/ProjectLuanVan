@@ -115,7 +115,7 @@
 							<a href="#"><i class="fa fa-star nav_icon"></i> Cầu thủ <span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level collapse">
 								<li>
-									<a href="{{route('DanhSachCauThu')}}">Danh sách cầu thủ</a>
+									<a href="admin/cau-thu/danh-sach">Danh sách cầu thủ</a>
 								</li>
 								<li>
 									<a href="{{route('ThemCauThu')}}">Thêm cầu thủ</a>

@@ -89,7 +89,7 @@
 												<div class="tab-content">
 													<div class="tab-pane active" id="tab3">
 														<div class="ftb_club_stats">
-															<p>{{ $CauLacBo->LichSu }}</p>
+															<p>{!! $CauLacBo->LichSu !!}</p>
 															<ul>
 																<li><a><i class="fa fa-chevron-circle-right"></i><b>Năm thành lập</b>	{{ date('Y', strtotime($CauLacBo->NgayThanhLap)) }}</a></li>
 																<li><a><i class="fa fa-chevron-circle-right"></i><b>Biệt danh</b>	{{ $CauLacBo->BietDanh }}</a></li>

@@ -33,7 +33,7 @@ class CauThuAdminController extends Controller
                                          email|
                                          unique:nguoidung,Email',
 
-            'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
+            'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{1,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
 
     		'quoctich'			=> 		'required|
                                          regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
@@ -136,7 +136,7 @@ class CauThuAdminController extends Controller
         $cauthu_phongdo->save();
 
 
-    	return redirect()->route('DanhSachCauThu')->with('success','Thêm cầu thủ thành công');
+    	return redirect('admin/cau-thu/danh-sach')->with('success','Thêm cầu thủ thành công');
 
     }
 
@@ -144,7 +144,7 @@ class CauThuAdminController extends Controller
     	$cauthu = CauThu::with('NguoiDung')->find($id);
     	$cauthu->delete();
     	$cauthu->NguoiDung->delete();
-    	return redirect()->route('DanhSachCauThu')->with('success','Xoá cầu thủ thành công');
+    	return redirect('admin/cau-thu/danh-sach')->with('success','Xoá cầu thủ thành công');
     }
 
     public function getSua($id){
@@ -166,7 +166,7 @@ class CauThuAdminController extends Controller
                                          email|
                                          unique:nguoidung,Email,'.$cauthu->idNguoiDung.',id',
 
-            'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
+            'email'             =>      ['regex:/^[a-z][a-z0-9_\.]{1,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/'],
 
             'quoctich'          =>      'required|
                                          regex:/^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀẾỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/',
@@ -262,6 +262,6 @@ class CauThuAdminController extends Controller
 
     	$cauthu->save();
 
-    	return redirect()->route('DanhSachCauThu')->with('success','Cập nhật cầu thủ thành công');
+    	return redirect('admin/cau-thu/danh-sach')->with('success','Cập nhật cầu thủ thành công');
     }
 }
