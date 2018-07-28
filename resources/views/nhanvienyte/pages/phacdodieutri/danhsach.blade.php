@@ -38,7 +38,13 @@
 								<tr class="odd gradeX">
 										<td width="20">{{ 	$stt }}</td>
 										<td width="300">{{ 	$pddt->TrinhTuThucHien }} </td>
-										<td class="text-center" width="70">{{  $pddt->TienDoHoiPhuc  }}</td> 
+										<td class="text-center" width="70">
+											@if($pddt->TienDoHoiPhuc == 0)
+												{{'Nhanh'}}
+											@elseif($pddt->TienDoHoiPhuc == 1)
+												{{'Chậm'}}
+											@endif
+										</td> 
 										<td>{{  $pddt->GhiChu  }}</td> 
 										<td class="text-center" style="width: 135px">
 											<a onclick="return XacNhanXoa('Bạn có chắc muốn xóa?')" href="nhan-vien-y-te/phac-do-dieu-tri/xoa/{{ $pddt->id }}" title="Xóa" class="btn btn-danger"><i class="fa fa-ban" ></i> Xóa</a>

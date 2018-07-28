@@ -82,6 +82,10 @@ class ToaThuocController extends Controller
 
         $lichkham = LichKham::where('id', $request->lichkham)->first();
 
+        if(strtotime($request->ngaytaikham) - strtotime($lichkham->NgayKham) < 0){
+            return redirect()->back()->with('error','Ngày tái khám không thể nhỏ hơn ngày khám');
+        }
+
     	$toathuoc = new ToaThuoc;
     	$toathuoc->NgayKham 		=		$lichkham->NgayKham;
     	$toathuoc->NgayTaiKham 		=		$request->ngaytaikham;

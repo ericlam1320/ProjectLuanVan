@@ -53,7 +53,7 @@
 
                       <label for="txtarea1" class="col-md-4 control-label">Tiến độ hồi phục:</label>
                       <div class="col-md-3">
-                       <input style="height: 30px; width: 500px" class="form-control1" placeholder="0" type="number" min="0" max="20" name="tiendohoiphuc">
+                       <input style="height: 30px; width: 500px" class="form-control1" placeholder="0" type="number" min="0" max="1" name="tiendohoiphuc">
                       </div>
 
                       <div class="col-md-5">

@@ -27,6 +27,7 @@ class LichKhamController extends Controller
                         INNER JOIN chanthuong ON thongtinchanthuong_cauthu.idChanThuong = chanthuong.id
                         INNER JOIN cauthu ON thongtinchanthuong_cauthu.idCauThu = cauthu.id
                         INNER JOIN nguoidung ON cauthu.idNguoiDung = nguoidung.id
+                        WHERE thongtinchanthuong_cauthu.TinhTrangChanThuong = 1
 
             ');
         return view('nhanvienyte.pages.lichkham.danhsach_cauthu_chanthuong', compact('nguoidung'));
@@ -133,7 +134,7 @@ class LichKhamController extends Controller
             // dd($thongtinchanthuong);
             $thongtinchanthuong->NgayHoiPhuc                =       $request->ngaykham;
             $thongtinchanthuong->TinhTrangChanThuong        =       0;
-            $thongtinchanthuong->TinhTrangRaSan             =       $request->tinhtrangrasan;
+            $thongtinchanthuong->TinhTrangRaSan             =       1;
             $thongtinchanthuong->save();
         }
 
